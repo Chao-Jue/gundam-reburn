@@ -11,6 +11,8 @@ server/cn_requests.log
 
 # Local datasets, state, binaries and research output (preserve on disk)
 GundamOnline_CHINA_已解密/
+# 第三方交付的客户端/内存转储（4.4 GB，含脱壳 exe 与 snap_11），只留本地
+client_ver9.0.0.235/
 refs/
 .workbuddy/
 *.rar
