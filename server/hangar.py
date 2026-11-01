@@ -31,6 +31,35 @@ EQUIPSET_NAME_SIZE = 43
 EQUIPSET_NAME_OFFSET = 0x4E
 EQUIPSET_SLOT_OFFSET = 0x08
 
+# 机体组（msset，「机体设置01」）线上 95 字节。
+# 发送端序列化器 0xA94770 与接收端反序列化器 0xA96600 字段宽度一一对应：
+#   u64 | u16 | u16 | char[43] | 4×u64 | 4×u16
+MSSET_WIRE_SIZE = 95
+MSSET_INDEX_OFFSET = 0x08      # u16，机体设置编号（01 => 0）
+MSSET_SLOT_OFFSET = 0x0A       # u16，组内槽位
+MSSET_NAME_OFFSET = 0x0C
+MSSET_NAME_SIZE = 43
+MSSET_MS_OFFSET = 0x37         # 4×u64 机体 uniqid
+MSSET_MS_COUNT = 4
+MSSET_FLAGS_OFFSET = 0x57      # 4×u16
+MSSET_MAX_COUNT = 20           # 0xAABFB0 `cmp ebx,0x14`
+
+
+def _clean_name(blob, offset, size):
+    """取定长名字字段：合法 UTF-8 就保留，否则当成空名字，并把该段补零。
+
+    客户端这几个缓冲区没有初始化，实测 NUL 后面跟着栈垃圾；照原样回给 UI 会显示乱码。
+    这里按 C 字符串语义处理：截到第一个 NUL，再用 0 填满整个定长字段。
+    """
+    field = bytes(blob[offset:offset + size])
+    text = field.split(b'\x00', 1)[0]
+    try:
+        name = text.decode('utf-8')
+    except UnicodeDecodeError:
+        name, text = '', b''
+    cleaned = text + bytes(size - len(text))
+    return name, bytes(blob[:offset]) + cleaned + bytes(blob[offset + size:])
+
 
 def equipset_count_limit():
     # 装备界面 4 格 × 2 页
@@ -41,8 +70,7 @@ def decode_equipset(blob):
     """把 121 字节装备组块解成可读字典（保留原始字节）。"""
     if len(blob) != EQUIPSET_WIRE_SIZE:
         raise ValueError('equipset block must be %d bytes' % EQUIPSET_WIRE_SIZE)
-    name = blob[EQUIPSET_NAME_OFFSET:EQUIPSET_NAME_OFFSET + EQUIPSET_NAME_SIZE]
-    name = name.split(b'\x00', 1)[0].decode('utf-8', 'ignore')
+    name, blob = _clean_name(blob, EQUIPSET_NAME_OFFSET, EQUIPSET_NAME_SIZE)
     return {
         'slot': struct.unpack_from('<H', blob, EQUIPSET_SLOT_OFFSET)[0],
         'name': name,
@@ -66,6 +94,41 @@ def encode_equipset(entry):
     struct.pack_into('<I', blob, 0x16, int(entry.get('shield', 0)))
     name = entry.get('name', '').encode('utf-8')[:EQUIPSET_NAME_SIZE]
     blob[EQUIPSET_NAME_OFFSET:EQUIPSET_NAME_OFFSET + len(name)] = name
+    return bytes(blob)
+
+
+def decode_msset(blob):
+    """把 95 字节机体组块解成可读字典（保留原始字节）。"""
+    if len(blob) != MSSET_WIRE_SIZE:
+        raise ValueError('msset block must be %d bytes' % MSSET_WIRE_SIZE)
+    name, blob = _clean_name(blob, MSSET_NAME_OFFSET, MSSET_NAME_SIZE)
+    return {
+        'index': struct.unpack_from('<H', blob, MSSET_INDEX_OFFSET)[0],
+        'slot': struct.unpack_from('<H', blob, MSSET_SLOT_OFFSET)[0],
+        'name': name,
+        'ms': list(struct.unpack_from('<4Q', blob, MSSET_MS_OFFSET)),
+        'flags': list(struct.unpack_from('<4H', blob, MSSET_FLAGS_OFFSET)),
+        'raw': blob.hex(),
+    }
+
+
+def encode_msset(entry):
+    """把存档里的机体组条目还原成 95 字节。优先用 raw。"""
+    raw = entry.get('raw')
+    if raw:
+        blob = bytes.fromhex(raw)
+        if len(blob) != MSSET_WIRE_SIZE:
+            raise ValueError('stored msset raw is not %d bytes' % MSSET_WIRE_SIZE)
+        return blob
+    blob = bytearray(MSSET_WIRE_SIZE)
+    struct.pack_into('<H', blob, MSSET_INDEX_OFFSET, int(entry.get('index', 0)))
+    struct.pack_into('<H', blob, MSSET_SLOT_OFFSET, int(entry.get('slot', 0)))
+    struct.pack_into('<4Q', blob, MSSET_MS_OFFSET,
+                     *[int(x) for x in entry.get('ms', [0, 0, 0, 0])][:4])
+    struct.pack_into('<4H', blob, MSSET_FLAGS_OFFSET,
+                     *[int(x) for x in entry.get('flags', [0, 0, 0, 0])][:4])
+    name = entry.get('name', '').encode('utf-8')[:MSSET_NAME_SIZE]
+    blob[MSSET_NAME_OFFSET:MSSET_NAME_OFFSET + len(name)] = name
     return bytes(blob)
 
 
@@ -151,10 +214,47 @@ class HangarStore:
         with self.lock:
             data = self._read()
             data['pilots'][self.key(account, pilot_id)] = copy.deepcopy(units)
-            self.path.parent.mkdir(parents=True, exist_ok=True)
-            temporary = self.path.with_name(self.path.name + '.tmp')
-            temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
-            temporary.replace(self.path)
+            self._write(data)
+
+    def _write(self, data):
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.path.with_name(self.path.name + '.tmp')
+        temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+        temporary.replace(self.path)
+
+    def mssets(self, account, pilot_id):
+        """机体组（机体设置）列表，按编号升序。"""
+        with self.lock:
+            bucket = self._read().get('mssets', {}).get(self.key(account, pilot_id), [])
+            return copy.deepcopy(bucket)
+
+    def store_msset(self, account, pilot_id, blob):
+        """保存一个机体组块（95B）。同一个编号覆盖写。返回 (存的字节, 可读条目)。"""
+        if len(blob) != MSSET_WIRE_SIZE:
+            raise ValueError('msset block must be %d bytes' % MSSET_WIRE_SIZE)
+        entry = decode_msset(blob)
+        index = entry['index']
+        if not 0 <= index < MSSET_MAX_COUNT:
+            raise ValueError('msset index out of range')
+        with self.lock:
+            data = self._read()
+            bucket = data.setdefault('mssets', {}).setdefault(self.key(account, pilot_id), [])
+            bucket[:] = [e for e in bucket if e.get('index') != index]
+            bucket.append(entry)
+            bucket.sort(key=lambda e: e.get('index', 0))
+            self._write(data)
+        return bytes.fromhex(entry['raw']), entry
+
+    def remove_msset(self, account, pilot_id, index):
+        with self.lock:
+            data = self._read()
+            bucket = data.get('mssets', {}).get(self.key(account, pilot_id), [])
+            kept = [e for e in bucket if e.get('index') != int(index)]
+            if len(kept) == len(bucket):
+                return False
+            data.setdefault('mssets', {})[self.key(account, pilot_id)] = kept
+            self._write(data)
+        return True
 
     def add_weapon(self, account, pilot_id, uniqid, item_id, db_index=0):
         """解锁一把武器：写进机体 weapons 列表并落盘。

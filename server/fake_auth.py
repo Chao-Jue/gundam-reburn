@@ -29,7 +29,8 @@ import threading
 import time
 import struct
 
-from hangar import HangarStore, unit_add_body, EQUIPSET_WIRE_SIZE
+from hangar import (HangarStore, unit_add_body, EQUIPSET_WIRE_SIZE, MSSET_WIRE_SIZE,
+                    MSSET_MAX_COUNT, encode_msset)
 import hangar_experiment
 import xwar_entry
 import local_battle
@@ -764,6 +765,8 @@ HALL_OPS = {
     0xBEDC,  # cancel local reservation
     0x0AA5,  # 武器槽变更；按已持有资产验证并持久化
     0x9527,  # 装备记忆（装备组保存）；正文 = uniqid u64 + 121B 装备组块
+    0x9A9D,  # 机体组列表请求（空正文）；不回的话「机体组」面板永远是空的
+    0xA76E,  # 机体组保存（把机体加进「机体设置NN」）；正文 = 95B 机体组块
     0x550A,  # 武器开发/解锁；正文 20B = uniqid u64 + item_id u32 + use_gp u32 + use_bc u32
     0xA28F,  # 武器开发 complete（三段式的第三段）；「开发」按钮不会走到，先纳入白名单免得整帧被丢
     0x34AB,  # 武器开发 estimate（三段式的第二段）；同上
@@ -1006,8 +1009,53 @@ def hall_replies(op, rest, account, pilot_id=1):
         log('  [hangar] 装备记忆 slot=%d name=%r weapons=%s shield=%d'
             % (entry['slot'], entry['name'], entry['weapons'], entry['shield']))
         return [(0x7172, equipset_store_reply_body(uniqid, stored))]
+    if op == 0x9A9D:
+        # 0x9A9D send_msma_msset_get（发送端 0xAE4D99），正文空。
+        # 回 0x356F recv_msma_msset_get_r（处理器 0xAABFB0，reserve 0x784=1924）：
+        #   u32 count（0xAAC028 `cmp ebx,0x14` ⇒ 最多 20）
+        #   count × 95B 机体组块（反序列化器 0xA96600）
+        # 4 + 20×96 = 1924 正好是那个 reserve。
+        store = HANGAR_EXPERIMENT_STORE if HANGAR_EXPERIMENT else HANGAR_STORE
+        sets = hangar_experiment.msset_list(store, account, pilot_id)
+        return [(0x356F, msset_list_body(sets))]
+    if op == 0xA76E:
+        # 0xA76E send_msma_msset_store（发送端 0xAE4ED0，`push 0x62`）：
+        # 「将吉姆加入 机体设置01 的机体组」按钮。正文 95B = 机体组块，
+        #   序列化器 0xA94770：u64 | u16 编号 | u16 槽位 | char[43] 名字 |
+        #                     4×u64 机体 uniqid | 4×u16
+        # 回 0xB8BB recv_msma_msset_store_r（处理器 0xAC3EF8，`push 0x64`）：
+        #   result i32 | 同一个 95B 块 = 99B（0xAC3F9B 校验游标==end）
+        if len(rest) < MSSET_WIRE_SIZE:
+            log('  [hangar] 0xA76E 正文只有 %d 字节（需要 %d），忽略'
+                % (len(rest), MSSET_WIRE_SIZE))
+            return []
+        blob = rest[:MSSET_WIRE_SIZE]
+        store = HANGAR_EXPERIMENT_STORE if HANGAR_EXPERIMENT else HANGAR_STORE
+        try:
+            stored, entry = hangar_experiment.store_msset(store, account, pilot_id, blob)
+        except ValueError as error:
+            log('  [hangar] 机体组保存被拒绝: %s' % error)
+            return [(0xB8BB, struct.pack('<i', -1) + blob)]
+        log('  [hangar] 机体组 保存 index=%d slot=%d name=%r ms=%s'
+            % (entry['index'], entry['slot'], entry['name'],
+               [m for m in entry['ms'] if m]))
+        return [(0xB8BB, msset_store_reply_body(stored))]
     one = hall_reply(op, rest, account)
     return [one] if one else []
+
+
+def msset_list_body(sets, limit=MSSET_MAX_COUNT):
+    """0x356F msma_msset_get_r 的正文：u32 count + count×95B。"""
+    items = list(sets)[:limit]
+    return (struct.pack('<I', len(items))
+            + b''.join(encode_msset(entry) for entry in items))
+
+
+def msset_store_reply_body(blob, result=0):
+    """0xB8BB msma_msset_store_r 的正文（99B = result i32 + 95B 块）。"""
+    if len(blob) != MSSET_WIRE_SIZE:
+        raise ValueError('msset block must be %d bytes' % MSSET_WIRE_SIZE)
+    return struct.pack('<i', result) + blob
 
 
 def equipset_store_reply_body(uniqid, blob, result=0):

@@ -73,6 +73,15 @@ def apply_equipset(store, account, pilot_id, uniqid, slot):
     return store.apply_equipset(account, pilot_id, uniqid, slot)
 
 
+def store_msset(store, account, pilot_id, blob):
+    """「机体组」保存：一个 95B 机体组块。"""
+    return store.store_msset(account, pilot_id, blob)
+
+
+def msset_list(store, account, pilot_id):
+    return store.mssets(account, pilot_id)
+
+
 def category_of(weapon):
     """线上类别枚举；原生枚举没有 BEAM_SPRAYGUN，喷枪落到 SHOTGUN。"""
     return weapon.get('category') or ('SHOTGUN' if weapon['kind'] == 'BEAM_SPRAYGUN'
@@ -234,6 +243,17 @@ def csv_table(row):
 
 def table_body(name):
     name = name.replace('\\', '/').lstrip('/')
+    if name in ('autoexec.cfg', 'autoexec_sv.cfg'):
+        # Older reference config lacks the current client's ARGB UI keys (9EF860).
+        # Explicit local experiment colors, not recovered official palette values.
+        source = Path(__file__).resolve().parents[1] / 'GundamOnline_CHINA_已解密/decrypted/settings/autoexec.cfg'
+        data = source.read_bytes()
+        keys = {line.split(b',', 1)[0].strip() for line in data.splitlines()}
+        for key, values in ((b'eff_ui_color', b'255,51,170,255'),
+                            (b'zeon_ui_color', b'255,255,68,68')):
+            if key not in keys:
+                data += b'\r\n' + key + b',' + values + b',# local battle experiment\r\n'
+        return data
     if name == 'msma/msma_settings.csv':
         # Current parser 0x54EF50: column 0 -> row+0, column 1 -> row+4.
         # 0x5DEB20 looks up msma_id, then copies row+4 to owned-unit+0xC.
