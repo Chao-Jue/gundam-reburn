@@ -564,9 +564,16 @@ def main() -> int:
     ap.add_argument("--seconds", type=float, default=45.0, help="观察时长")
     ap.add_argument("--dump-dir", default=str(ROOT / "server" / "cps_dump"))
     ap.add_argument("--arg", dest="game_args", default=DEFAULT_ARG, help="传给客户端的参数")
+    ap.add_argument("--extra-args", dest="extra_args", default="",
+                    help="额外命令行参数（空格分隔，逐个作为独立 argv 传入）。"
+                         "例：--extra-args cpsoff —— 客户端 0x5836xx 见到以 cpsoff 开头的参数"
+                         "会置 [0x117B7A0]=1 并完全不加载 ACOPCShell.dll")
     ap.add_argument("--no-elevate", action="store_true")
     ap.add_argument("--kill", action="store_true", help="超时后杀掉目标进程")
     ap.add_argument("--fresh", action="store_true", default=True, help="清空上次日志（默认开）")
+    ap.add_argument("--no-fresh", dest="fresh", action="store_false", default=argparse.SUPPRESS,
+                    help="追加写 server/hook_log.txt，不删除旧日志。"
+                         "沙箱/文件被占用时 Path.unlink() 会失败，用这个跳过清理")
     ap.add_argument("--attach", type=int, default=None, help="改为 attach 到已存在的 PID，不 spawn")
     ap.add_argument("--selftest", action="store_true",
                     help="注入 32 位 notepad.exe 验证 hook 脚本本身能否加载（不涉及游戏）")
@@ -756,8 +763,9 @@ def main() -> int:
                 if "HIGHDPIAWARE" not in layer.upper():
                     spawn_env["__COMPAT_LAYER"] = (layer + " HIGHDPIAWARE").strip()
                 print(f"[*] DPI 修复: __COMPAT_LAYER={spawn_env['__COMPAT_LAYER']!r}")
-            print(f"[*] 挂起启动: {exe}  arg={args.game_args!r}  cwd={exe.parent}")
+            print(f"[*] 挂起启动: {exe}  arg={args.game_args!r} extra={getattr(args, 'extra_args', '')!r}  cwd={exe.parent}")
             argv = [str(exe)] + ([args.game_args] if args.game_args else [])
+            argv += [s for s in (getattr(args, "extra_args", "") or "").split() if s]
             if spawn_env is not None:
                 pid = device.spawn(str(exe), argv=argv, cwd=str(exe.parent), env=spawn_env)
             else:
