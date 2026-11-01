@@ -1,0 +1,129 @@
+{
+  "snapshot_date": "2026-11-01",
+  "files": [
+    {
+      "path": "server/reference/gm_motion_inventory_20261031.json",
+      "bytes": 64602,
+      "sha256": "4e739d023d14a563b097a7f5882f337af65b399803c0a02e12b0e806c4e78e82",
+      "top_level_keys": [
+        "model_id",
+        "source",
+        "common_animation_format",
+        "motions",
+        "limitation"
+      ],
+      "top_level_count": 5,
+      "collection_counts": {
+        "motions": 311
+      }
+    },
+    {
+      "path": "server/reference/gm_starter_weapons.json",
+      "bytes": 1836,
+      "sha256": "2d9e70e3ccc081d849a55d6046d747819d324934f4097dd390baa2b1f6bae675",
+      "top_level_keys": [
+        "source_url",
+        "revision_id",
+        "balance_warning",
+        "weapons"
+      ],
+      "top_level_count": 4,
+      "collection_counts": {
+        "weapons": 3
+      }
+    },
+    {
+      "path": "server/reference/local_model_names.json",
+      "bytes": 29937,
+      "sha256": "69129a46b09ecfecb9d4f7d5d372b95ea838771ba73ef64113b4cd4232f56df0",
+      "top_level_keys": [
+        "warning",
+        "models"
+      ],
+      "top_level_count": 2,
+      "collection_counts": {
+        "models": 68
+      }
+    },
+    {
+      "path": "server/reference/model_matches.json",
+      "bytes": 121224,
+      "sha256": "a4179593c37d6d90f645e956ec9a57273be95c58c305336ba97d9ff8ce156392",
+      "top_level_keys": [
+        "schema_version",
+        "matches"
+      ],
+      "top_level_count": 2,
+      "collection_counts": {
+        "matches": 87
+      }
+    },
+    {
+      "path": "server/reference/odessa_deployment_points.json",
+      "bytes": 2509,
+      "sha256": "c7abcbeaaccc9cb8f53cb6f4392331f10faa4d001d26e3c87e8f2c2dc0583fb4",
+      "top_level_keys": [
+        "source",
+        "map_id",
+        "points"
+      ],
+      "top_level_count": 3,
+      "collection_counts": {
+        "points": 14
+      }
+    },
+    {
+      "path": "server/reference/odessa_home_bases.json",
+      "bytes": 527,
+      "sha256": "14f0e9948dd03ac2b9e7f2954b687156e18793bb2181717b32722a611ccbff4c",
+      "top_level_keys": [
+        "source",
+        "note",
+        "points"
+      ],
+      "top_level_count": 3,
+      "collection_counts": {
+        "points": 4
+      }
+    },
+    {
+      "path": "server/reference/wiki/unit_images.json",
+      "bytes": 233808,
+      "sha256": "79eb10efc7aa6495f0fdbd039dc62e0af77dd141d47b56b76a5df3f4d8418c31",
+      "top_level_keys": [
+        "source",
+        "images",
+        "missing_titles"
+      ],
+      "top_level_count": 3,
+      "collection_counts": {
+        "images": 696,
+        "missing_titles": 55
+      }
+    },
+    {
+      "path": "server/reference/wiki/units.json",
+      "bytes": 17646311,
+      "sha256": "f4447d3a416ee7b2f2eab13f49e03198ff6a1ba515a2bae0fac77afdc8baddc6",
+      "top_level_keys": [
+        "retrieved_at_utc",
+        "source_api",
+        "warning",
+        "catalog_count",
+        "pages_requested",
+        "failures",
+        "catalog",
+        "units",
+        "repaired_at_utc",
+        "coverage"
+      ],
+      "top_level_count": 10,
+      "collection_counts": {
+        "failures": 0,
+        "catalog": 701,
+        "units": 751,
+        "coverage": 3
+      }
+    }
+  ]
+}

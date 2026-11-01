@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "operation": "release",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "main",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "开发代码与完整手册快照；历史脚本编译异常及原版客户端验证仍未解决",
+  "changed_files": [
+    "README.md",
+    "AGENTS.md",
+    "docs/",
+    ".github/",
+    "schemas/"
+  ],
+  "acceptance": [
+    {
+      "criterion": "开发/使用/数据说明及Agent规范",
+      "status": "passed",
+      "evidence": "README.md链接全部手册"
+    }
+  ],
+  "verification": [
+    {
+      "level": "compile_build",
+      "status": "failed",
+      "command": "python -m compileall -q server tools exports/gundam-model-matcher start_game.py",
+      "exit_code": 1,
+      "evidence": "历史server/_unlock_launcher.py包含NUL字节，非本次文档改动引入；保留本地并排除发布"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "逐文件py_compile，排除已识别NUL历史文件",
+      "exit_code": 0,
+      "evidence": "188个其他Python文件编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server与model_matcher unittest",
+      "exit_code": 0,
+      "evidence": "53+3项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "默认Python原生解码测试",
+      "exit_code": 1,
+      "evidence": "缺unicorn，12模块导入失败"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "workbuddy Python原生解码测试",
+      "exit_code": 0,
+      "evidence": "39项通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "独立服务进程启动"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "真实加密回环TCP合成客户端流程通过"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "本次未启动原版游戏"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "历史_unlock_launcher.py包含NUL",
+    "基地模型渲染/点选与实体出击待验证",
+    "浏览器交互冒烟未执行"
+  ],
+  "next_steps": [
+    "原版客户端联调",
+    "审查历史损坏脚本用途后单独处理"
+  ]
+}
