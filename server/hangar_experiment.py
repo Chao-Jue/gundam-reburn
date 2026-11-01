@@ -53,6 +53,11 @@ def unlock_weapon(store, account, pilot_id, uniqid, item_id):
     return store.add_weapon(account, pilot_id, uniqid, item_id, index[item_id])
 
 
+def lock_weapon(store, account, pilot_id, uniqid, item_id):
+    """把武器退回未解锁状态（从持有列表移除，并清掉装备槽）。幂等。"""
+    return store.remove_weapon(account, pilot_id, uniqid, item_id)
+
+
 def category_of(weapon):
     """线上类别枚举；原生枚举没有 BEAM_SPRAYGUN，喷枪落到 SHOTGUN。"""
     return weapon.get('category') or ('SHOTGUN' if weapon['kind'] == 'BEAM_SPRAYGUN'

@@ -130,5 +130,114 @@ class WeaponUnlockTest(unittest.TestCase):
             experiment.unlock_weapon(self.store, 'test', 3, unit['uniqid'], 777105)
 
 
+class WeaponLockTest(unittest.TestCase):
+    """反向操作：把已解锁的武器退回未解锁，用于回归"新武器不该默认可用"。"""
+
+    def setUp(self):
+        self.folder = tempfile.TemporaryDirectory()
+        self.store = HangarStore(Path(self.folder.name) / 'gm.json')
+        self.unit = experiment.gm_unit()
+        self.store.replace_units('test', 3, [self.unit])
+
+    def tearDown(self):
+        self.folder.cleanup()
+
+    def test_new_test_weapons_start_locked(self):
+        unit = experiment.gm_unit()
+        owned = {w['item_id'] for w in unit['weapons']}
+        self.assertEqual(owned, set(STARTER))
+        for weapon in experiment.test_definitions():
+            self.assertNotIn(weapon['item_id'], owned)
+
+    def test_lock_removes_weapon_and_persists(self):
+        experiment.unlock_weapon(self.store, 'test', 3, self.unit['uniqid'], 777105)
+        self.assertTrue(experiment.lock_weapon(self.store, 'test', 3, self.unit['uniqid'], 777105))
+        reloaded = HangarStore(self.store.path).units('test', 3)[0]
+        self.assertEqual([w['item_id'] for w in reloaded['weapons']], STARTER)
+
+    def test_lock_clears_equipped_slot(self):
+        experiment.unlock_weapon(self.store, 'test', 3, self.unit['uniqid'], 777106)
+        with patch.object(fake_auth, 'HANGAR_EXPERIMENT_STORE', self.store), \
+             patch.object(fake_auth, 'HANGAR_EXPERIMENT', True):
+            fake_auth.hall_replies(
+                0x0AA5, struct.pack('<QHI', self.unit['uniqid'], 1, 777106), 'test', 3)
+        self.assertEqual(self.store.units('test', 3)[0]['equipped_weapons'][1], 777106)
+        experiment.lock_weapon(self.store, 'test', 3, self.unit['uniqid'], 777106)
+        equipped = self.store.units('test', 3)[0]['equipped_weapons']
+        self.assertEqual(equipped[1], 0)
+        self.assertEqual(equipped[0], 777101)
+
+    def test_lock_unowned_is_noop(self):
+        self.assertFalse(experiment.lock_weapon(self.store, 'test', 3, self.unit['uniqid'], 777105))
+        self.assertEqual([w['item_id'] for w in self.store.units('test', 3)[0]['weapons']], STARTER)
+
+    def test_lock_rejects_unknown_unit(self):
+        with self.assertRaises(ValueError):
+            experiment.lock_weapon(self.store, 'test', 3, 1, 777101)
+
+
+class WeaponUnlockProtocolTest(unittest.TestCase):
+    """0x550A msma_weapon_unlock：真实客户端「开发」按钮发出的请求。
+
+    发送端 0xAE4100 定长 0x16=22B（2B 操作码 + 20B 正文）：
+    uniqid u64 | item_id u32 | use_gp u32 | use_bc u32。
+    """
+
+    def setUp(self):
+        self.folder = tempfile.TemporaryDirectory()
+        self.store = HangarStore(Path(self.folder.name) / 'gm.json')
+        self.unit = experiment.gm_unit()
+        self.store.replace_units('test', 3, [self.unit])
+        self.body = struct.pack('<QIII', self.unit['uniqid'], 777105, 0, 0)
+        # 别把单元测试的假事件写进生产日志 server/fake_auth.log
+        quiet = patch.object(fake_auth, 'log', lambda *a, **k: None)
+        quiet.start()
+        self.addCleanup(quiet.stop)
+
+    def tearDown(self):
+        self.folder.cleanup()
+
+    def _call(self, body):
+        with patch.object(fake_auth, 'HANGAR_EXPERIMENT_STORE', self.store), \
+             patch.object(fake_auth, 'UNLOCK_REPLY_OVERRIDE', False), \
+             patch.object(fake_auth, 'HANGAR_EXPERIMENT', True):
+            return fake_auth.hall_replies(0x550A, body, 'test', 3)
+
+    def test_unlock_request_persists_and_replies_ok(self):
+        reply = self._call(self.body)
+        self.assertEqual(reply[0][0], 0x45E4)
+        payload = reply[0][1]
+        # 17B：result u32 | uniqid_ms u64 | item_id u32 | db_index s8
+        # 处理器 0xAAE1BC 会拿游标与 end 比较，长度必须精确。
+        self.assertEqual(len(payload), 17)
+        self.assertEqual(struct.unpack_from('<I', payload, 0)[0], 0)
+        self.assertEqual(struct.unpack_from('<Q', payload, 4)[0], self.unit['uniqid'])
+        self.assertEqual(struct.unpack_from('<I', payload, 12)[0], 777105)
+        self.assertEqual(struct.unpack_from('<b', payload, 16)[0], 3)  # all_definitions 下标
+        self.assertEqual([w['item_id'] for w in self.store.units('test', 3)[0]['weapons']],
+                         STARTER + [777105])
+
+    def test_unlock_request_is_idempotent(self):
+        self._call(self.body)
+        reply = self._call(self.body)
+        self.assertEqual(struct.unpack_from('<i', reply[0][1], 0)[0], 0)
+        self.assertEqual(len(self.store.units('test', 3)[0]['weapons']), 4)
+
+    def test_unknown_weapon_reports_failure_without_writing(self):
+        reply = self._call(struct.pack('<QIII', self.unit['uniqid'], 777199, 0, 0))
+        self.assertEqual(struct.unpack_from('<i', reply[0][1], 0)[0], -1)
+        self.assertEqual([w['item_id'] for w in self.store.units('test', 3)[0]['weapons']],
+                         STARTER)
+
+    def test_short_body_is_ignored(self):
+        self.assertEqual(self._call(b'\x01\x02\x03'), [])
+
+    def test_unlock_opcode_must_be_whitelisted(self):
+        """回归：0x550A 不在 HALL_OPS 时，整帧会被丢弃，handler 根本进不来。"""
+        self.assertIn(0x550A, fake_auth.HALL_OPS)
+        self.assertIn(0xA28F, fake_auth.HALL_OPS)
+        self.assertIn(0x34AB, fake_auth.HALL_OPS)
+
+
 if __name__ == '__main__':
     unittest.main()

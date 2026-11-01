@@ -763,6 +763,9 @@ HALL_OPS = {
     0x2EFF,  # local experimental reservation
     0xBEDC,  # cancel local reservation
     0x0AA5,  # 武器槽变更；按已持有资产验证并持久化
+    0x550A,  # 武器开发/解锁；正文 20B = uniqid u64 + item_id u32 + use_gp u32 + use_bc u32
+    0xA28F,  # 武器开发 complete（三段式的第三段）；「开发」按钮不会走到，先纳入白名单免得整帧被丢
+    0x34AB,  # 武器开发 estimate（三段式的第二段）；同上
     0xC475,  # 场景目的地通知；无直接应答，但触发任务信息主动推送
     0x48F2,  # 战绩
     0xE9A2,  # 常用机体
@@ -952,8 +955,75 @@ def hall_replies(op, rest, account, pilot_id=1):
             if len(rest) != 14:
                 return []
             return [(0xD9DB, struct.pack('<i', -1) + rest)]
+    if op == 0x550A:
+        # 0x550A msma_weapon_unlock：格纳库武器列表的「开发」按钮。
+        # 发送端 0xAE4100（日志串 send_msma_weapon_unlock）定长 0x16=22B：
+        #   写 0x550A 于 +0；正文 = uniqid u64 | item_id u32 | use_gp u32 | use_bc u32 = 20B。
+        # 实测报文：01 1a cf e8 b4 00 00 00 | 92 db 0b 00 | 00 00 00 00 | 00 00 00 00
+        #   → uniqid=777000000001、item_id=777106、use_gp=use_bc=0。
+        # 回复 0x45E4 msma_weapon_unlock_r：handler 在 0xAAE0B5（0xAAE0AA 处
+        # `cmp eax,0x45E4 / jne` 顺序落下，没有跳转指令指向它）。
+        # 正文必须恰好 17B，见 unlock_reply_body 的推导。
+        if len(rest) < 12:
+            log('  [hangar] 0x550A 正文只有 %d 字节，忽略' % len(rest))
+            return []
+        uniqid, item_id = struct.unpack_from('<QI', rest, 0)
+        store = HANGAR_EXPERIMENT_STORE if HANGAR_EXPERIMENT else HANGAR_STORE
+        index = {w['item_id']: i for i, w in enumerate(hangar_experiment.all_definitions())}
+        db_index = index.get(item_id, 0)
+        try:
+            added = hangar_experiment.unlock_weapon(store, account, pilot_id, uniqid, item_id)
+        except ValueError as error:
+            log('  [hangar] 武器解锁被拒绝: %s' % error)
+            return [(0x45E4, unlock_reply_body(uniqid, item_id, db_index, result=-1))]
+        log('  [hangar] 武器解锁 %s item=%d uniqid=%d db_index=%d'
+            % ('新增' if added else '已持有', item_id, uniqid, db_index))
+        return [(0x45E4, unlock_reply_body(uniqid, item_id, db_index))]
     one = hall_reply(op, rest, account)
     return [one] if one else []
+
+
+UNLOCK_REPLY_OVERRIDE = True   # 单元测试置 False，避免受调试用覆盖文件影响
+
+
+def unlock_reply_body(uniqid, item_id, db_index, result=0):
+    """0x45E4 msma_weapon_unlock_r 的正文（17B）。
+
+    处理器 = 0xAAE0B5（`cmp eax,0x45E4` 在 0xAAE0AA，日志串 0xE10738
+    "recv_msma_weapon_unlock_r"）。读取序列逐条对照原语宽度：
+
+      0xAAE0FD  0xA5A270 claim_u32 + 0xA5A310 read_u32   → result   u32   4B
+      0xAAE134  0xA94620 claim 8   + 0xA5D7C0 read_u64   → uniqid_ms u64  8B
+      0xAAE174  0xA5A270 claim_u32 + 0xA5A310 read_u32   → item_id  u32   4B
+      0xAAE198  0xA5D400 claim 1   + 0xA5A360 read_u8    → db_index s8    1B
+                                                          -------------------
+                                                                   17B
+
+    两个独立佐证：
+      ① 0xAAE0D1 `push 0x11; call session->vt[0x78]` —— 和四个 send 函数里
+         `push 0x16/0x12` 是同一方法（申请定长正文），0x11 = 17 与字段和在字节上吻合。
+      ② 0xAAE1BC `mov eax,[esp+0x14]; cmp eax,[esp+0x18]; jne error(0x110,1)`
+         拿游标和 end 比 —— **正文必须被恰好读完**，多一字节也静默走 error 分支。
+    另外 0xA63160 用 `movsx` 打印 db_index ⇒ 该字段是有符号单字节。
+
+    调试用：若存在 server/unlock_reply_override.hex，则用它替换正文
+    （支持 {uniqid}/{item_id}/{db_index8}/{db_index} 占位，各自展开成小端 hex），
+    这样可以不重启服务端就试不同布局。
+    """
+    override = os.path.join(HERE, 'unlock_reply_override.hex')
+    if UNLOCK_REPLY_OVERRIDE and os.path.exists(override):
+        try:
+            text = open(override, encoding='utf-8').read()
+            text = ''.join(line.split('#', 1)[0] for line in text.splitlines())
+            text = (text.replace('{uniqid}', struct.pack('<Q', uniqid).hex())
+                        .replace('{item_id}', struct.pack('<I', item_id).hex())
+                        .replace('{db_index8}', ('%02x' % (db_index & 0xff)))
+                        .replace('{db_index}', struct.pack('<I', db_index).hex()))
+            return bytes.fromhex(''.join(text.split()))
+        except Exception as error:  # 覆盖文件坏了就退回默认布局
+            log('  [hangar] unlock_reply_override.hex 读取失败: %s' % error)
+    return struct.pack('<IQIB', result & 0xffffffff, uniqid & 0xffffffffffffffff,
+                       item_id & 0xffffffff, db_index & 0xff)
 
 
 def channel_login_body(channel_id=1, pilot_id=1):

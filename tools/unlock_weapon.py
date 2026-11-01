@@ -59,6 +59,8 @@ def main(argv=None):
     parser.add_argument('--pilot', type=int, default=None)
     parser.add_argument('--uniqid', type=int, default=None)
     parser.add_argument('--item-id', default=None, help='逗号分隔的 item_id 列表')
+    parser.add_argument('--lock', action='store_true',
+                        help='反向操作：把武器退回未解锁（并清掉引用它的装备槽）')
     parser.add_argument('--list', action='store_true', help='只列出定义与解锁状态')
     args = parser.parse_args(argv)
 
@@ -78,13 +80,17 @@ def main(argv=None):
             continue
         item_id = int(raw, 0)
         try:
-            added = experiment.unlock_weapon(store, args.account, args.pilot,
-                                             args.uniqid, item_id)
+            if args.lock:
+                changed = experiment.lock_weapon(store, args.account, args.pilot,
+                                                 args.uniqid, item_id)
+                print('  %s %d' % ('[-] 已退回未解锁' if changed else '[=] 本来就没有', item_id))
+            else:
+                changed = experiment.unlock_weapon(store, args.account, args.pilot,
+                                                   args.uniqid, item_id)
+                print('  %s %d' % ('[+] 已解锁' if changed else '[=] 本来就有', item_id))
         except ValueError as error:
-            print('  [!] %d 解锁失败: %s' % (item_id, error))
+            print('  [!] %d 操作失败: %s' % (item_id, error))
             failed += 1
-            continue
-        print('  %s %d' % ('[+] 已解锁' if added else '[=] 本来就有', item_id))
 
     print('存档: %s' % Path(args.store))
     show(store, args.account, args.pilot)

@@ -115,6 +115,26 @@ class HangarStore:
             self.replace_units(account, pilot_id, units)
         return True
 
+    def remove_weapon(self, account, pilot_id, uniqid, item_id):
+        """退回未解锁：从机体 weapons 列表移除，并清掉引用它的装备槽。
+
+        幂等 —— 本来就没有直接返回 False。装备槽必须一起清，否则
+        replace_units 会因为 equipped 不在 owned 里而拒绝写入。
+        """
+        with self.lock:
+            units = self.units(account, pilot_id)
+            unit = next((u for u in units if u['uniqid'] == uniqid), None)
+            if unit is None:
+                raise ValueError('unit does not exist')
+            weapons = unit.get('weapons', [])
+            if not any(w['item_id'] == item_id for w in weapons):
+                return False
+            unit['weapons'] = [w for w in weapons if w['item_id'] != item_id]
+            unit['equipped_weapons'] = [0 if slot == item_id else slot
+                                        for slot in unit.get('equipped_weapons', [0, 0, 0])]
+            self.replace_units(account, pilot_id, units)
+        return True
+
     def change_weapon(self, account, pilot_id, request):
         # Current sender 0xADFC00 reserves 18 bytes incl opcode, writes:
         # uniqid u64, slot u16, item_id u32. Actual body is 14 bytes.

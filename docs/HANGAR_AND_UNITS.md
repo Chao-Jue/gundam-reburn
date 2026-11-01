@@ -212,16 +212,68 @@ starter 总重690，低于实验载重1450。参考值在 [gm_starter_weapons.js
 ```powershell
 python tools/unlock_weapon.py --list --account 123 --pilot 1
 python tools/unlock_weapon.py --account 123 --pilot 1 --uniqid 777000000001 --item-id 777105,777108
+python tools/unlock_weapon.py --account 123 --pilot 1 --uniqid 777000000001 --item-id 777105 --lock
 ```
 
-- 幂等：已持有直接跳过，不写盘；
+- **期望初始状态：starter 三把已解锁，追加的四把未解锁。** 四把一起解锁过会让它们全部可选，与"留几把做解锁实验"的意图不符，所以提供 `--lock` 回退；
+- 解锁幂等（已持有直接跳过，不写盘）；`--lock` 把武器从持有列表移除，并**清掉引用它的装备槽**（否则 `equipped ⊆ owned` 校验会拒绝写入）；
 - `db_index` 取该武器在 `all_definitions()` 里的下标，与 `msma_weapon_set` 下发顺序一致；
 - 落盘走 `replace_units` 的临时文件 + 原子替换，重启服务/重登后仍在；
 - 单机体持有上限 30 条（`unit_add_body` 的原生约束），满了会拒绝。
 
-⚠️ **未实现**：客户端点"解锁"时发的那条请求（`0x550A msma_weapon_unlock` / `0x34AB unlock_estimate`）
-服务端还没接。首次在格纳库触发会看到 `[hall] 同帧未知/未实现 0x550a`，把该帧字节抓下来即可补协议实现。
-现在的解锁是服务端资产操作，不是游戏内按钮触发的。
+**游戏内「开发」按钮已接，且能原地刷新**（2026-11-01 实测通）：
+
+```text
+客户端 → 0x550A msma_weapon_unlock        正文 20B
+         uniqid_ms u64 | item_id u32 | use_gp u32 | use_bc u32
+服务端 → 解析 → 写进 unit['weapons'] 落盘 → 回 0x45E4 msma_weapon_unlock_r
+         正文 17B（必须恰好 17，多一字节即静默丢弃）
+         result i32 | uniqid_ms u64 | item_id u32 | db_index s8
+```
+
+实测：点「开发」= 当场解锁，**不用重登**。存档同步多出该武器，重登后仍在。
+
+**0x45E4 正文布局的推导依据**（`server/fake_auth.py::unlock_reply_body`）：
+
+| 地址 | 读取原语 | 字段 | 宽度 |
+|---|---|---|---|
+| `0xAAE0FD` | `0xA5A270 claim_u32` + `0xA5A310 read_u32` | `result` | 4 |
+| `0xAAE134` | `0xA94620 claim 8` + `0xA5D7C0 read_u64` | `uniqid_ms` | 8 |
+| `0xAAE174` | `0xA5A270 claim_u32` + `0xA5A310 read_u32` | `item_id` | 4 |
+| `0xAAE198` | `0xA5D400 claim 1` + `0xA5A360 read_u8` | `db_index` | 1 |
+
+两处独立佐证都指向 17：
+
+- `0xAAE0D1` 是 `push 0x11; call session->vt[0x78]`，和四个 send 函数里的
+  `push 0x16`（0x550A/0x34AB/0xA28F 正文 20B）、`push 0x12`（0x2E33 正文 16B）
+  是同一个方法（申请定长正文），`0x11 = 17`；
+- `0xAAE1BC` 是 `mov eax,[esp+0x14]; cmp eax,[esp+0x18]; jne error(0x110,1)`
+  —— 游标必须等于 end，**正文被多读/少读都走静默 error 分支**。
+  之前回 34B（`result | id | 0 | uniqid | item_id | db_index | u8 | u8`）就是这个原因无效：
+  字段整体错位一格，客户端把 item_id 当成 uniqid、把 uniqid 低 32 位当成 item_id。
+
+拿到字段后处理器把 5 个值交给 `vt[0x2c4](result, uniqid_lo, uniqid_hi, item_id, db_index)`
+（`0xAAE336-0xAAE34B`），机库模型和列表刷新都在那个回调里完成，所以不需要额外推任何包。
+
+**关联的三段式报文（本 build 都有发送端，但「开发」按钮只走第一段）**
+
+| opcode | 发送函数 | 正文 | 说明 |
+|---|---|---|---|
+| `0x550A` | `0xAE4100` `send_msma_weapon_unlock` | 20B | 「开发」实际发的就是它，`use_gp/use_bc` 决定扣哪种币 |
+| `0x34AB` | `0xAE4380` `send_msma_weapon_unlock_estimate` | 20B | 估价，本流程未触发 |
+| `0xA28F` | `0xAE4630` `send_msma_weapon_unlock_complete` | 20B | 确认，本流程未触发 |
+| `0x2E33` | `0xAE48C0`（日志串在 `0xE12FF4`） | 16B | 同上 |
+
+`use_gp = use_bc = 0` 就是免费解锁，不必再做货币同步。
+
+⚠️ 接入新请求时务必先把 opcode 加进 `fake_auth.HALL_OPS`：
+分发前有一道 `any(op in HALL_OPS ...)` 的闸门，不在白名单里的帧会被**整帧静默丢弃**，
+连"未知 opcode"都不会打日志。
+
+⚠️ `0x45E4` 在 `server/lounge_dispatch_table.json` 里记的是 `00AD5E25`（默认分支），
+那是枚举器只认首级二分表造成的误标。真实分派在 `0xAAE07D` 起的二级比较链上：
+`cmp eax,0x48A4 / 0x4632 / 0x44D4 / 0x45E4`，`0x45E4` 命中后**顺序落到** `0xAAE0B5`
+（没有跳转指令指向它，所以按跳转目标搜是搜不到的）。
 
 ### 7.2 weapon_settings关键列（从0计）
 

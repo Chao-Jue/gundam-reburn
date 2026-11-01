@@ -104,7 +104,16 @@ echo     After the client is up, optionally run start_msgid.cmd (as admin)
 echo     to attach the msg-id probe.
 echo.
 
-"%PY%" tools\run_hooked.py --no-elevate --fake all --redirect-connect 127.0.0.1:30000 --out-file server\hook_runs\_pilot_run.log --retry 10 --seconds 3000 --veh
+REM 两种启动方式：
+REM   默认  = frida 注入 + 伪造 CPS 驱动/ACOPCShell（需要驱动链，历史方案）
+REM   cpsoff= 纯原生 + 命令行参数 cpsoff，客户端 0x5836xx 直接跳过 ACOPCShell
+REM            (无 frida、无 IOCTL 伪造、不需要管理员；见 server/cpsoff-验证-2026-11-01.md)
+if "%GUNDAM_CPS_OFF%"=="1" (
+    echo     [i] MODE cpsoff - native launch, no frida, no CPS faking, no admin
+    "%PY%" tools\launch_plain.py --arg ./data/ --extra-args cpsoff --seconds 3000
+) else (
+    "%PY%" tools\run_hooked.py --no-elevate --fake all --redirect-connect 127.0.0.1:30000 --out-file server\hook_runs\_pilot_run.log --retry 10 --seconds 3000 --veh
+)
 echo.
 echo [i] client exited (code=%errorlevel%)
 
