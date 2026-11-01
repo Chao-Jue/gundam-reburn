@@ -1,0 +1,65 @@
+{
+  "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86",
+  "revision_id": 103423,
+  "balance_warning": "Wiki balance/version and IDs are not verified for v5.0.0.33.",
+  "weapons": [
+    {
+      "item_id": 777101,
+      "kind": "BEAM_SPRAYGUN",
+      "name": "光束喷枪",
+      "gold_only": false,
+      "template": "高达OL武器模板",
+      "attributes": {
+        "武器名称": "光束喷枪",
+        "是否金限": "0",
+        "图片名称(png)": "联邦光束喷枪1",
+        "重量": "320",
+        "弹数": "5/20",
+        "射击模式": "单发散射",
+        "倒地值": "49",
+        "威力": "1000",
+        "集弹性能": "800",
+        "射程距离": "300",
+        "装填性能": "680",
+        "锁定": "780",
+        "红锁距离": "200"
+      }
+    },
+    {
+      "item_id": 777102,
+      "kind": "WRESTLE",
+      "name": "光束军刀",
+      "gold_only": false,
+      "template": "高达OL武器模板",
+      "attributes": {
+        "武器名称": "光束军刀",
+        "是否金限": "0",
+        "图片名称(png)": "联邦光束刀1",
+        "重量": "240",
+        "倒地值": "800",
+        "威力": "3500",
+        "锁定": "740",
+        "N格追击": "300"
+      }
+    },
+    {
+      "item_id": 777103,
+      "kind": "HAND_THROW",
+      "name": "手雷",
+      "gold_only": false,
+      "template": "高达OL武器模板",
+      "attributes": {
+        "武器名称": "手雷",
+        "是否金限": "0",
+        "图片名称(png)": "联邦手雷1",
+        "重量": "130",
+        "弹数": "1/7",
+        "射击模式": "投掷",
+        "倒地值": "939",
+        "威力": "6500",
+        "装填性能": "760",
+        "效果范围": "5000"
+      }
+    }
+  ]
+}

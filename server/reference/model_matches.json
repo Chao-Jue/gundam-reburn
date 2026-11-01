@@ -1,0 +1,2799 @@
+{
+  "schema_version": 1,
+  "matches": {
+    "chara/01/01/0101/model/MSM_0101_0101_01.dxg": {
+      "model_id": 101010101,
+      "model_path": "chara/01/01/0101/model/MSM_0101_0101_01.dxg",
+      "model_sha256": "cabf65db215269dfb5f57d7fc95ed8e6e525346999649c2a72676b6f778c56e6",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆",
+          "revision_id": 103423,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "Hand_03": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "Hand_02": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "Hand_04": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "MSM_0101_0101_01_GM_00": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "MSM_0101_0101_01_GM_01": "chara/01/01/0101/tex/MST_0101_0101_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:08:47.946894+00:00"
+    },
+    "chara/01/01/0111/model/MSM_0101_0111_01.dxg": {
+      "model_id": 101011101,
+      "model_path": "chara/01/01/0111/model/MSM_0101_0111_01.dxg",
+      "model_sha256": "7a2463dd1037cbc35b142955f63cdef682dd33670d8d53bceb3f65cadb5605c4",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达",
+          "revision_id": 81201,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "Hand_03": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "Hand_02": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "Hand_04": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "MSM_0101_0111_01_GND_00": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "MSM_0101_0111_01_GND_01": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "Saber_01": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "Saber_02": "chara/01/01/0111/tex/MST_0101_0111_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:20:31.763134+00:00"
+    },
+    "chara/01/01/0112/model/MSM_0101_0112_01.dxg": {
+      "model_id": 101011201,
+      "model_path": "chara/01/01/0112/model/MSM_0101_0112_01.dxg",
+      "model_sha256": "a4c7e6bf83bbc3d85a85c2511a07916e69e212bde15f339026fc6f5e3959ae93",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达(Ver.3.0)",
+          "revision_id": 72016,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%28Ver.3.0%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0112/tex/MST_0101_0112_01C.dds",
+        "Hand_03": "chara/01/01/0112/tex/MST_0101_0112_01C.dds",
+        "Hand_02": "chara/01/01/0112/tex/MST_0101_0112_01C.dds",
+        "Hand_04": "chara/01/01/0112/tex/MST_0101_0112_01C.dds",
+        "MSM_0101_0112_01_GN30_00": "chara/01/01/0112/tex/MST_0101_0112_01C.dds",
+        "MSM_0101_0112_01_GN30_01": "chara/01/01/0112/tex/MST_0101_0112_01C.dds",
+        "Saber_01": "chara/01/01/0112/tex/MST_0101_0112_01C.dds",
+        "Saber_02": "chara/01/01/0112/tex/MST_0101_0112_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:24:48.526408+00:00"
+    },
+    "chara/01/01/0115/model/MSM_0101_0115_01.dxg": {
+      "model_id": 101011501,
+      "model_path": "chara/01/01/0115/model/MSM_0101_0115_01.dxg",
+      "model_sha256": "aa8da367cf97d1083992a503542a367683fe6a6277012c6de240c65a3100ea3f",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL卡斯巴尔(夏亚)专用敢达",
+          "revision_id": 94980,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%8D%A1%E6%96%AF%E5%B7%B4%E5%B0%94%28%E5%A4%8F%E4%BA%9A%29%E4%B8%93%E7%94%A8%E6%95%A2%E8%BE%BE"
+        }
+      ],
+      "textures": {
+        "Hand_04": "chara/01/01/0115/tex/MST_0101_0115_01C.dds",
+        "Hand_02": "chara/01/01/0115/tex/MST_0101_0115_01C.dds",
+        "Hand_03": "chara/01/01/0115/tex/MST_0101_0115_01C.dds",
+        "Hand_01": "chara/01/01/0115/tex/MST_0101_0115_01C.dds",
+        "MSM_0101_0115_01_GNDCA_00": "chara/01/01/0115/tex/MST_0101_0115_01C.dds",
+        "MSM_0101_0115_01_GNDCA_01": "chara/01/01/0115/tex/MST_0101_0115_01C.dds",
+        "MSM_0101_0115_01_GNDCA_02": "chara/01/01/0115/tex/MST_0101_0115_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_02",
+        "Saber_01",
+        "Hand_04",
+        "Hand_03",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T13:21:41.194018+00:00"
+    },
+    "chara/01/01/0120/model/MSM_0101_0120_01.dxg": {
+      "model_id": 101012001,
+      "model_path": "chara/01/01/0120/model/MSM_0101_0120_01.dxg",
+      "model_sha256": "e025caf4e3a1492dee77f46e193ae6a6a5d39ac4deee143f14ee677a863276f3",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达G40",
+          "revision_id": 103539,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BEG40"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0120/tex/MST_0101_0120_01C.dds",
+        "Hand_02": "chara/01/01/0120/tex/MST_0101_0120_01C.dds",
+        "Hand_03": "chara/01/01/0120/tex/MST_0101_0120_01C.dds",
+        "Hand_04": "chara/01/01/0120/tex/MST_0101_0120_01C.dds",
+        "MSM_0101_0120_01_GNDG40O": "chara/01/01/0120/tex/MST_0101_0120_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Saber_01",
+        "Saber_02",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T13:22:09.877584+00:00"
+    },
+    "chara/01/01/0202/model/MSM_0101_0202_01.dxg": {
+      "model_id": 101020201,
+      "model_path": "chara/01/01/0202/model/MSM_0101_0202_01.dxg",
+      "model_sha256": "e1d5eec26c9d735d60250fbcb125c4034dfa5591ba8d49c15338a640a4f7bc05",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆训练机",
+          "revision_id": 103449,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E8%AE%AD%E7%BB%83%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0202/tex/MST_0101_0202_01C.dds",
+        "Hand_03": "chara/01/01/0202/tex/MST_0101_0202_01C.dds",
+        "Hand_02": "chara/01/01/0202/tex/MST_0101_0202_01C.dds",
+        "Hand_04": "chara/01/01/0202/tex/MST_0101_0202_01C.dds",
+        "MSM_0101_0202_01_GMT_00": "chara/01/01/0202/tex/MST_0101_0202_01C.dds",
+        "MSM_0101_0202_01_GMT_01": "chara/01/01/0202/tex/MST_0101_0202_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_01",
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T13:26:11.680767+00:00"
+    },
+    "chara/01/01/0103/model/MSM_0101_0103_01.dxg": {
+      "model_id": 101010301,
+      "model_path": "chara/01/01/0103/model/MSM_0101_0103_01.dxg",
+      "model_sha256": "a8b8c9a4a0b9ea23480e3c67fffe7265fd5e9103664ffbca1c3397c05f65f58f",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆改(宇宙战形态)",
+          "revision_id": 97548,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E6%94%B9%28%E5%AE%87%E5%AE%99%E6%88%98%E5%BD%A2%E6%80%81%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0103/tex/MST_0101_0103_01.dds",
+        "Hand_02": "chara/01/01/0103/tex/MST_0101_0103_01.dds",
+        "Hand_03": "chara/01/01/0103/tex/MST_0101_0103_01.dds",
+        "Hand_04": "chara/01/01/0103/tex/MST_0101_0103_01.dds",
+        "MSM_0101_0103_01_GMTC_00": "chara/01/01/0103/tex/MST_0101_0103_01.dds",
+        "MSM_0101_0103_01_GMTC_01": "chara/01/01/0103/tex/MST_0101_0103_01.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Saber_01",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T14:24:58.075739+00:00"
+    },
+    "chara/01/01/0104/model/MSM_0101_0104_02.dxg": {
+      "model_id": 101010402,
+      "model_path": "chara/01/01/0104/model/MSM_0101_0104_02.dxg",
+      "model_sha256": "b588c4ae93b1ffd3f8f1bb12b6996360bfc090f182c7fc7b58a0fa322c5a8030",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆后期生产型(特殊装备)",
+          "revision_id": 99798,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%90%8E%E6%9C%9F%E7%94%9F%E4%BA%A7%E5%9E%8B%28%E7%89%B9%E6%AE%8A%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0104/tex/MST_0101_0104_02C.dds",
+        "Hand_02": "chara/01/01/0104/tex/MST_0101_0104_02C.dds",
+        "Hand_03": "chara/01/01/0104/tex/MST_0101_0104_02C.dds",
+        "Hand_04": "chara/01/01/0104/tex/MST_0101_0104_02C.dds",
+        "MSM_0101_0104_02_GMLT_00": "chara/01/01/0104/tex/MST_0101_0104_02C.dds",
+        "MSM_0101_0104_02_GMLT_01": "chara/01/01/0104/tex/MST_0101_0104_02C.dds",
+        "Saber_01": "chara/01/01/0104/tex/MST_0101_0104_02C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:18:56.887077+00:00"
+    },
+    "chara/01/01/0201/model/MSM_0101_0201_01.dxg": {
+      "model_id": 101020101,
+      "model_path": "chara/01/01/0201/model/MSM_0101_0201_01.dxg",
+      "model_sha256": "7a8971c520a6f3ba20cefe62b766387f02d1c5a3561afc1f358208d5f431d700",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆轻装型",
+          "revision_id": 182699,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E8%BD%BB%E8%A3%85%E5%9E%8B"
+        }
+      ],
+      "textures": {
+        "Hand_02": "chara/01/01/0201/tex/MST_0101_0201_01C.dds",
+        "Hand_01": "chara/01/01/0201/tex/MST_0101_0201_01C.dds",
+        "Hand_04": "chara/01/01/0201/tex/MST_0101_0201_01C.dds",
+        "Hand_03": "chara/01/01/0201/tex/MST_0101_0201_01C.dds",
+        "MSM_0101_0201_01_GLA_00": "chara/01/01/0201/tex/MST_0101_0201_01C.dds",
+        "MSM_0101_0201_01_GLA_01": "chara/01/01/0201/tex/MST_0101_0201_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_01",
+        "MS_decal",
+        "Hand_04",
+        "Hand_03"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T14:54:19.806632+00:00"
+    },
+    "chara/01/01/0203/model/MSM_0101_0203_01.dxg": {
+      "model_id": 101020301,
+      "model_path": "chara/01/01/0203/model/MSM_0101_0203_01.dxg",
+      "model_sha256": "5baa4b595c16a0106ec269772093df7fcab37940fb160e0b559fca590227a374",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆狙击特装型",
+          "revision_id": 103359,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%8B%99%E5%87%BB%E7%89%B9%E8%A3%85%E5%9E%8B"
+        }
+      ],
+      "textures": {
+        "Hand_04": "chara/01/01/0203/tex/MST_0101_0203_01C.dds",
+        "Hand_02": "chara/01/01/0203/tex/MST_0101_0203_01C.dds",
+        "Hand_03": "chara/01/01/0203/tex/MST_0101_0203_01C.dds",
+        "Hand_01": "chara/01/01/0203/tex/MST_0101_0203_01C.dds",
+        "MSM_0101_0203_01_GSC_00": "chara/01/01/0203/tex/MST_0101_0203_01C.dds",
+        "MSM_0101_0203_01_GSC_01": "chara/01/01/0203/tex/MST_0101_0203_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_04",
+        "Hand_03"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T14:54:34.453697+00:00"
+    },
+    "chara/01/01/0204/model/MSM_0101_0204_01.dxg": {
+      "model_id": 101020401,
+      "model_path": "chara/01/01/0204/model/MSM_0101_0204_01.dxg",
+      "model_sha256": "e96393fdb8686bdad3d9ec101f3b40b8b1861c08e0d5d52f41c0c5ffa59c2b11",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL沙漠型吉姆",
+          "revision_id": 220162,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%B2%99%E6%BC%A0%E5%9E%8B%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0204/tex/MST_0101_0204_01C.dds",
+        "Hand_02": "chara/01/01/0204/tex/MST_0101_0204_01C.dds",
+        "Hand_03": "chara/01/01/0204/tex/MST_0101_0204_01C.dds",
+        "Hand_04": "chara/01/01/0204/tex/MST_0101_0204_01C.dds",
+        "MSM_0101_0204_01_GDSm_00": "chara/01/01/0204/tex/MST_0101_0204_01C.dds",
+        "MSM_0101_0204_01_GDSm_01": "chara/01/01/0204/tex/MST_0101_0204_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_01",
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T14:54:44.038760+00:00"
+    },
+    "chara/01/01/0205/model/MSM_0101_0205_01.dxg": {
+      "model_id": 101020501,
+      "model_path": "chara/01/01/0205/model/MSM_0101_0205_01.dxg",
+      "model_sha256": "14906456af3ae13530230900974f6b3a6aaf52aaae238a30a6a2aa4eee0b294c",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL扎尼",
+          "revision_id": 8713,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%89%8E%E5%B0%BC"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0205/tex/MST_0101_0205_01C.dds",
+        "Hand_02": "chara/01/01/0205/tex/MST_0101_0205_01C.dds",
+        "Hand_03": "chara/01/01/0205/tex/MST_0101_0205_01C.dds",
+        "Hand_04": "chara/01/01/0205/tex/MST_0101_0205_01C.dds",
+        "MSM_0101_0205_01_ZNY_00": "chara/01/01/0205/tex/MST_0101_0205_01C.dds",
+        "MSM_0101_0205_01_ZNY_01": "chara/01/01/0205/tex/MST_0101_0205_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T14:55:19.099074+00:00"
+    },
+    "chara/01/01/0206/model/MSM_0101_0206_01.dxg": {
+      "model_id": 101020601,
+      "model_path": "chara/01/01/0206/model/MSM_0101_0206_01.dxg",
+      "model_sha256": "01a6ea30bf3626f95c407cd6556ba6c52e94fec503d014556eafca0613fd7b83",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL陆战用吉姆",
+          "revision_id": 9007,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E9%99%86%E6%88%98%E7%94%A8%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0206/tex/MSM_0101_0206_01C.dds",
+        "Hand_03": "chara/01/01/0206/tex/MSM_0101_0206_01C.dds",
+        "Hand_02": "chara/01/01/0206/tex/MSM_0101_0206_01C.dds",
+        "Hand_04": "chara/01/01/0206/tex/MSM_0101_0206_01C.dds",
+        "MSM_0101_0206_01_RSGM_00": "chara/01/01/0206/tex/MSM_0101_0206_01C.dds",
+        "MSM_0101_0206_01_RSGM_01": "chara/01/01/0206/tex/MSM_0101_0206_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "Saber_01",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T14:56:27.281701+00:00"
+    },
+    "chara/01/01/0211/model/MSM_0101_0211_01.dxg": {
+      "model_id": 101021101,
+      "model_path": "chara/01/01/0211/model/MSM_0101_0211_01.dxg",
+      "model_sha256": "cb86977204bc1b96a97f069c162e53526be3e9358d646f14feec80f0cca14d72",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉莱(基本型)",
+          "revision_id": 139760,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E8%8E%B1%28%E5%9F%BA%E6%9C%AC%E5%9E%8B%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0211/tex/MST_0101_0211_01C.dds",
+        "Hand_02": "chara/01/01/0211/tex/MST_0101_0211_01C.dds",
+        "Hand_03": "chara/01/01/0211/tex/MST_0101_0211_01C.dds",
+        "Hand_04": "chara/01/01/0211/tex/MST_0101_0211_01C.dds",
+        "MSM_0101_0211_01_81GB_00": "chara/01/01/0211/tex/MST_0101_0211_01C.dds",
+        "MSM_0101_0211_01_81GB_01": "chara/01/01/0211/tex/MST_0101_0211_01C.dds",
+        "Saber_01": "chara/01/01/0211/tex/MST_0101_0211_01C.dds",
+        "Saber_02": "chara/01/01/0211/tex/MST_0101_0211_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:39:11.144536+00:00"
+    },
+    "chara/01/01/0212/model/MSM_0101_0212_01.dxg": {
+      "model_id": 101021201,
+      "model_path": "chara/01/01/0212/model/MSM_0101_0212_01.dxg",
+      "model_sha256": "c490f7b990bf22e12410cd273e345a8badab37bc9f3cbe3fd51b8fe7cb9c1115",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL水中型敢达",
+          "revision_id": 99800,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%B0%B4%E4%B8%AD%E5%9E%8B%E6%95%A2%E8%BE%BE"
+        }
+      ],
+      "textures": {
+        "MSM_0101_0212_01_MGD_00": "chara/01/01/0212/tex/MST_0101_0212_01C.dds",
+        "MSM_0101_0212_01_MGD_01": "chara/01/01/0212/tex/MST_0101_0212_01C.dds",
+        "Hand_01": "chara/01/01/0212/tex/MST_0101_0212_01C.dds",
+        "Hand_02": "chara/01/01/0212/tex/MST_0101_0212_01C.dds",
+        "Hand_03": "chara/01/01/0212/tex/MST_0101_0212_01C.dds",
+        "Hand_04": "chara/01/01/0212/tex/MST_0101_0212_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:06:37.273897+00:00"
+    },
+    "chara/01/01/0213/model/MSM_0101_0213_01.dxg": {
+      "model_id": 101021301,
+      "model_path": "chara/01/01/0213/model/MSM_0101_0213_01.dxg",
+      "model_sha256": "38541d8265cc65feebfc2023c3cc949459cc268265eab68b94f12204cdee6753",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达4号机",
+          "revision_id": 159553,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE4%E5%8F%B7%E6%9C%BA"
+        },
+        {
+          "title": "高达OL敢达4号机(重击装备)(国)",
+          "revision_id": 159554,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE4%E5%8F%B7%E6%9C%BA%28%E9%87%8D%E5%87%BB%E8%A3%85%E5%A4%87%29%28%E5%9B%BD%29"
+        }
+      ],
+      "textures": {
+        "Hand_04": "chara/01/01/0213/tex/MST_0101_0213_01C.dds",
+        "Hand_01": "chara/01/01/0213/tex/MST_0101_0213_01C.dds",
+        "Hand_02": "chara/01/01/0213/tex/MST_0101_0213_01C.dds",
+        "Hand_03": "chara/01/01/0213/tex/MST_0101_0213_01C.dds",
+        "MSM_0101_0213_01_GND4_00": "chara/01/01/0213/tex/MST_0101_0213_01C.dds",
+        "MSM_0101_0213_01_GND4_01": "chara/01/01/0213/tex/MST_0101_0213_01C.dds",
+        "Saber_01": "chara/01/01/0213/tex/MST_0101_0213_01C.dds",
+        "Saber_02": "chara/01/01/0213/tex/MST_0101_0213_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_04",
+        "Hand_03"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:08:01.489280+00:00"
+    },
+    "chara/01/01/0214/model/MSM_0101_0214_01.dxg": {
+      "model_id": 101021401,
+      "model_path": "chara/01/01/0214/model/MSM_0101_0214_01.dxg",
+      "model_sha256": "80c4e98d6ad73e8cadb59a8f538bb63098d1abaecb2eba40fe86f3d805ff63a8",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达5号机",
+          "revision_id": 159555,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE5%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0214/tex/MST_0101_0214_01C.dds",
+        "Hand_02": "chara/01/01/0214/tex/MST_0101_0214_01C.dds",
+        "Hand_03": "chara/01/01/0214/tex/MST_0101_0214_01C.dds",
+        "Hand_04": "chara/01/01/0214/tex/MST_0101_0214_01C.dds",
+        "MSM_0101_0214_01_GND5_00": "chara/01/01/0214/tex/MST_0101_0214_01C.dds",
+        "MSM_0101_0214_01_GND5_01": "chara/01/01/0214/tex/MST_0101_0214_01C.dds",
+        "Saber_01": "chara/01/01/0214/tex/MST_0101_0214_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:07:40.316311+00:00"
+    },
+    "chara/01/01/0104/model/MSM_0101_0104_01.dxg": {
+      "model_id": 101010401,
+      "model_path": "chara/01/01/0104/model/MSM_0101_0104_01.dxg",
+      "model_sha256": "e90b7d4b10c3b6c6f5c4bb6798c6355ada36f4245cff4273db839711b39083f1",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆后期生产型",
+          "revision_id": 8587,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%90%8E%E6%9C%9F%E7%94%9F%E4%BA%A7%E5%9E%8B"
+        },
+        {
+          "title": "高达OL吉姆后期生产型(强袭装备)",
+          "revision_id": 97659,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%90%8E%E6%9C%9F%E7%94%9F%E4%BA%A7%E5%9E%8B%28%E5%BC%BA%E8%A2%AD%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0104/tex/MST_0101_0104_01.dds",
+        "Hand_02": "chara/01/01/0104/tex/MST_0101_0104_01.dds",
+        "Hand_03": "chara/01/01/0104/tex/MST_0101_0104_02C.dds",
+        "Hand_04": "chara/01/01/0104/tex/MST_0101_0104_02C.dds",
+        "MSM_0101_0104_01_GMLT_00": "chara/01/01/0104/tex/MST_0101_0104_01.dds",
+        "MSM_0101_0104_01_GMLT_01": "chara/01/01/0104/tex/MST_0101_0104_01.dds",
+        "Saber_01": "chara/01/01/0104/tex/MST_0101_0104_01.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Saber_01",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:18:46.701557+00:00"
+    },
+    "chara/01/01/0111/model/MSM_0101_0111_02.dxg": {
+      "model_id": 101011102,
+      "model_path": "chara/01/01/0111/model/MSM_0101_0111_02.dxg",
+      "model_sha256": "7baecaf04bac5b0afd81b16646241bb51ff3bbec936a9d121e073ac01c87bc8f",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL原型敢达",
+          "revision_id": 129023,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%8E%9F%E5%9E%8B%E6%95%A2%E8%BE%BE"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0111/tex/MST_0101_0111_02C.dds",
+        "Hand_03": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "Hand_02": "chara/01/01/0111/tex/MST_0101_0111_02C.dds",
+        "Hand_04": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "MSM_0101_0111_02_PGN_00": "chara/01/01/0111/tex/MST_0101_0111_02C.dds",
+        "MSM_0101_0111_02_PGN_01": "chara/01/01/0111/tex/MST_0101_0111_02C.dds",
+        "Saber_01": "chara/01/01/0111/tex/MST_0101_0111_02C.dds",
+        "Saber_02": "chara/01/01/0111/tex/MST_0101_0111_02C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:22:41.477213+00:00"
+    },
+    "chara/01/01/0111/model/MSM_0101_0111_03.dxg": {
+      "model_id": 101011103,
+      "model_path": "chara/01/01/0111/model/MSM_0101_0111_03.dxg",
+      "model_sha256": "554edc6fcd693aff9d885fb3f1206d31419ce2ea5f841c251ee37e46ffa68d7a",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OLG-3敢达",
+          "revision_id": 8447,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOLG-3%E6%95%A2%E8%BE%BE"
+        },
+        {
+          "title": "高达OLG-3敢达(强袭装备)(国)",
+          "revision_id": 97492,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOLG-3%E6%95%A2%E8%BE%BE%28%E5%BC%BA%E8%A2%AD%E8%A3%85%E5%A4%87%29%28%E5%9B%BD%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0111/tex/MST_0101_0111_03C.dds",
+        "Hand_03": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "Hand_02": "chara/01/01/0111/tex/MST_0101_0111_03C.dds",
+        "Hand_04": "chara/01/01/0111/tex/MST_0101_0111_01C.dds",
+        "MSM_0101_0111_03_GND_00": "chara/01/01/0111/tex/MST_0101_0111_03C.dds",
+        "MSM_0101_0111_03_GND_01": "chara/01/01/0111/tex/MST_0101_0111_03C.dds",
+        "Saber_01": "chara/01/01/0111/tex/MST_0101_0111_03C.dds",
+        "Saber_02": "chara/01/01/0111/tex/MST_0101_0111_03C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:23:36.493363+00:00"
+    },
+    "chara/01/01/0105/model/MSM_0101_0105_01.dxg": {
+      "model_id": 101010501,
+      "model_path": "chara/01/01/0105/model/MSM_0101_0105_01.dxg",
+      "model_sha256": "c70d3cd3ecfe3cba6c8844a2d216326cd4f1d39d753ad5375cce608949b98220",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆(指挥官用)",
+          "revision_id": 101011,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%28%E6%8C%87%E6%8C%A5%E5%AE%98%E7%94%A8%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0105/tex/MST_0101_0105_01C.dds",
+        "Hand_02": "chara/01/01/0105/tex/MST_0101_0105_01C.dds",
+        "Hand_03": "chara/01/01/0105/tex/MST_0101_0105_01C.dds",
+        "Hand_04": "chara/01/01/0105/tex/MST_0101_0105_01C.dds",
+        "MSM_0101_0105_01_GMSK_00": "chara/01/01/0105/tex/MST_0101_0105_01C.dds",
+        "MSM_0101_0105_01_GMSK_01": "chara/01/01/0105/tex/MST_0101_0105_01C.dds",
+        "Saber_02": "chara/01/01/0105/tex/MST_0101_0105_01C.dds",
+        "Saber_01": "chara/01/01/0105/tex/MST_0101_0105_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:29:06.967646+00:00"
+    },
+    "chara/01/01/0101/model/MSM_0101_0101_02.dxg": {
+      "model_id": 101010102,
+      "model_path": "chara/01/01/0101/model/MSM_0101_0101_02.dxg",
+      "model_sha256": "090cd12e22522143f92a180d7e1584cf3266586b839bccce0589aff782bc56ab",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆",
+          "revision_id": 103423,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "MSM_0101_0101_02_GMC": "chara/01/01/0101/tex/MST_0101_0101_02C.dds",
+        "Hand_03": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "Hand_01": "chara/01/01/0101/tex/MST_0101_0101_02C.dds",
+        "Hand_02": "chara/01/01/0101/tex/MST_0101_0101_02C.dds",
+        "Hand_04": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "Sabel_01": "chara/01/01/0101/tex/MST_0101_0101_02C.dds",
+        "Sabel_02": "chara/01/01/0101/tex/MST_0101_0101_02C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:29:51.507573+00:00"
+    },
+    "chara/01/01/0101/model/MSM_0101_0101_03.dxg": {
+      "model_id": 101010103,
+      "model_path": "chara/01/01/0101/model/MSM_0101_0101_03.dxg",
+      "model_sha256": "afb26288d299a5127f3ab06fdff12949973b91bf43f72378ea305ed56ec9ebd0",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆(白色野犬式样)",
+          "revision_id": 97665,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%28%E7%99%BD%E8%89%B2%E9%87%8E%E7%8A%AC%E5%BC%8F%E6%A0%B7%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0101/tex/MST_0101_0101_03C.dds",
+        "Hand_03": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "Hand_02": "chara/01/01/0101/tex/MST_0101_0101_03C.dds",
+        "Hand_04": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+        "MSM_0101_0101_03_GWD_00": "chara/01/01/0101/tex/MST_0101_0101_03C.dds",
+        "MSM_0101_0101_03_GWD_01": "chara/01/01/0101/tex/MST_0101_0101_03C.dds",
+        "Saber_01": "chara/01/01/0101/tex/MST_0101_0101_03C.dds",
+        "Emblem": "chara/01/01/0101/tex/MST_0101_0101_03C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04",
+        "Emblem"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:31:06.163710+00:00"
+    },
+    "chara/01/01/0121/model/MSM_0101_0121_01.dxg": {
+      "model_id": 101012101,
+      "model_path": "chara/01/01/0121/model/MSM_0101_0121_01.dxg",
+      "model_sha256": "3bb17268fe49048617aabf46b4b55db01425b79e7d36d7e993d260bdf76f9657",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达G40",
+          "revision_id": 103539,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BEG40"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0121/tex/MST_0101_0121_01C.dds",
+        "Hand_02": "chara/01/01/0121/tex/MST_0101_0121_01C.dds",
+        "Hand_03": "chara/01/01/0121/tex/MST_0101_0121_01C.dds",
+        "Hand_04": "chara/01/01/0121/tex/MST_0101_0121_01C.dds",
+        "MSM_0101_0121_01_GNDG40O": "chara/01/01/0121/tex/MST_0101_0121_01C.dds",
+        "Saber_01": "chara/01/01/0121/tex/MST_0101_0121_01C.dds",
+        "Saber_02": "chara/01/01/0121/tex/MST_0101_0121_01C.dds",
+        "add": "chara/01/01/0121/tex/MST_0101_0121_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:37:06.232323+00:00"
+    },
+    "chara/01/01/0216/model/MSM_0101_0216_01.dxg": {
+      "model_id": 101021601,
+      "model_path": "chara/01/01/0216/model/MSM_0101_0216_01.dxg",
+      "model_sha256": "453abc86c625e2f1dac34922ca6c17cb5782f70f24e2c125d2079839e6acd24b",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL全装甲敢达7号机",
+          "revision_id": 96039,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%85%A8%E8%A3%85%E7%94%B2%E6%95%A2%E8%BE%BE7%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "Hand_02": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "Hand_03": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "Hand_04": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "MSM_0101_0216_01_FAG7_00": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "MSM_0101_0216_01_FAG7_01": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "MSM_0101_0216_01_FAG7_02": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "Saber_01": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "Saber_02": "chara/01/01/0216/tex/MST_0101_0216_01C.dds",
+        "cannon": "chara/01/01/0216/tex/MST_0101_0216_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_01",
+        "Saber_02",
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:39:49.175751+00:00"
+    },
+    "chara/01/01/0217/model/MSM_0101_0217_01.dxg": {
+      "model_id": 101021701,
+      "model_path": "chara/01/01/0217/model/MSM_0101_0217_01.dxg",
+      "model_sha256": "1bbaccfbd9ce7407d9da6f3932ee1bdf91b33355960222ae8db573f24624d1b5",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉莱(轻装甲)",
+          "revision_id": 114916,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E8%8E%B1%28%E8%BD%BB%E8%A3%85%E7%94%B2%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0217/tex/MST_0101_0217_01C.dds",
+        "Hand_02": "chara/01/01/0217/tex/MST_0101_0217_01C.dds",
+        "Hand_03": "chara/01/01/0217/tex/MST_0101_0217_01C.dds",
+        "Hand_04": "chara/01/01/0217/tex/MST_0101_0217_01C.dds",
+        "MSM_0101_0217_01_81LA_00": "chara/01/01/0217/tex/MST_0101_0217_01C.dds",
+        "MSM_0101_0217_01_81LA_01": "chara/01/01/0217/tex/MST_0101_0217_01C.dds",
+        "Saber_02": "chara/01/01/0217/tex/MST_0101_0217_01C.dds",
+        "Saber_01": "chara/01/01/0217/tex/MST_0101_0217_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "0211",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:44:36.236275+00:00"
+    },
+    "chara/01/01/0218/model/MSM_0101_0218_01.dxg": {
+      "model_id": 101021801,
+      "model_path": "chara/01/01/0218/model/MSM_0101_0218_01.dxg",
+      "model_sha256": "09c761c7b50c077339ac244a184fb5e60aaee335235e58d578c55a7cef0f3260",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉莱(标准型)",
+          "revision_id": 97480,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E8%8E%B1%28%E6%A0%87%E5%87%86%E5%9E%8B%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0218/tex/MST_0101_0218_01C.dds",
+        "Hand_02": "chara/01/01/0218/tex/MST_0101_0218_01C.dds",
+        "Hand_03": "chara/01/01/0218/tex/MST_0101_0218_01C.dds",
+        "Hand_04": "chara/01/01/0218/tex/MST_0101_0218_01C.dds",
+        "MSM_0101_0218_01_81ST_00": "chara/01/01/0218/tex/MST_0101_0218_01C.dds",
+        "MSM_0101_0218_01_81ST_01": "chara/01/01/0218/tex/MST_0101_0218_01C.dds",
+        "Saber_01": "chara/01/01/0218/tex/MST_0101_0218_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "0211",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:44:40.169423+00:00"
+    },
+    "chara/01/01/0219/model/MSM_0101_0219_01.dxg": {
+      "model_id": 101021901,
+      "model_path": "chara/01/01/0219/model/MSM_0101_0219_01.dxg",
+      "model_sha256": "b9de559aa38bee79189e4a85bd25b8839b20b3ea0485f26e55316cab4fdfbe3a",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉莱(突击装备)",
+          "revision_id": 8615,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E8%8E%B1%28%E7%AA%81%E5%87%BB%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0219/tex/MST_0101_0219_01C.dds",
+        "Hand_02": "chara/01/01/0219/tex/MST_0101_0219_01C.dds",
+        "Hand_03": "chara/01/01/0219/tex/MST_0101_0219_01C.dds",
+        "Hand_04": "chara/01/01/0219/tex/MST_0101_0219_01C.dds",
+        "MSM_0101_0219_01_81GAG_00": "chara/01/01/0219/tex/MST_0101_0219_01C.dds",
+        "MSM_0101_0219_01_81GAG_01": "chara/01/01/0219/tex/MST_0101_0219_01C.dds",
+        "Saber_01": "chara/01/01/0219/tex/MST_0101_0219_01C.dds",
+        "Saber_02": "chara/01/01/0219/tex/MST_0101_0219_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "0211",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:44:44.231714+00:00"
+    },
+    "chara/01/01/0220/model/MSM_0101_0220_01.dxg": {
+      "model_id": 101022001,
+      "model_path": "chara/01/01/0220/model/MSM_0101_0220_01.dxg",
+      "model_sha256": "5c1a21f17399a84ad19a887c9ad05c7306819fc5972c21a593903e4975ad81ed",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉莱(突击装备)",
+          "revision_id": 8615,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E8%8E%B1%28%E7%AA%81%E5%87%BB%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0220/tex/MST_0101_0220_01C.dds",
+        "Hand_02": "chara/01/01/0220/tex/MST_0101_0220_01C.dds",
+        "Hand_03": "chara/01/01/0220/tex/MST_0101_0220_01C.dds",
+        "Hand_04": "chara/01/01/0220/tex/MST_0101_0220_01C.dds",
+        "MSM_0101_0220_01_81GAS_00": "chara/01/01/0220/tex/MST_0101_0220_01C.dds",
+        "MSM_0101_0220_01_81GAS_01": "chara/01/01/0220/tex/MST_0101_0220_01C.dds",
+        "Saber_01": "chara/01/01/0220/tex/MST_0101_0220_01C.dds",
+        "Saber_02": "chara/01/01/0220/tex/MST_0101_0220_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:47:48.383999+00:00"
+    },
+    "chara/01/01/0221/model/MSM_0101_0221_01.dxg": {
+      "model_id": 101022101,
+      "model_path": "chara/01/01/0221/model/MSM_0101_0221_01.dxg",
+      "model_sha256": "26e2eaa110083c99c6781e7dbb36a10dfd72142d2e27a65e18e964a7269973b9",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆加农",
+          "revision_id": 99837,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%8A%A0%E5%86%9C"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "Hand_02": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "Hand_03": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "Hand_04": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "MSM_0101_0221_01_GMC_00": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "MSM_0101_0221_01_GMC_01": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "Cannon_01": "chara/01/01/0221/tex/MST_0101_0221_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:49:46.550720+00:00"
+    },
+    "chara/01/01/0221/model/MSM_0101_0221_02.dxg": {
+      "model_id": 101022102,
+      "model_path": "chara/01/01/0221/model/MSM_0101_0221_02.dxg",
+      "model_sha256": "50a590016ac3348267f9bd36c12cbe2bdd5e4c72b2447c5e4595b24d8637a6ff",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆加农(沃尔夫机)",
+          "revision_id": 99805,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%8A%A0%E5%86%9C%28%E6%B2%83%E5%B0%94%E5%A4%AB%E6%9C%BA%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0221/tex/MST_0101_0221_02C.dds",
+        "Hand_02": "chara/01/01/0221/tex/MST_0101_0221_02C.dds",
+        "Hand_03": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "Hand_04": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "MSM_0101_0221_02_GCRW_00": "chara/01/01/0221/tex/MST_0101_0221_02C.dds",
+        "MSM_0101_0221_02_GCRW_01": "chara/01/01/0221/tex/MST_0101_0221_02C.dds",
+        "Cannon_01": "chara/01/01/0221/tex/MST_0101_0221_02C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:51:50.848301+00:00"
+    },
+    "chara/01/01/0221/model/MSM_0101_0221_03.dxg": {
+      "model_id": 101022103,
+      "model_path": "chara/01/01/0221/model/MSM_0101_0221_03.dxg",
+      "model_sha256": "f3c6f758b3c6ce4f9f623e56f2b26280c8bd97b75d811069a2db329336a255ea",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆加农(第4小队式样)",
+          "revision_id": 103427,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%8A%A0%E5%86%9C%28%E7%AC%AC4%E5%B0%8F%E9%98%9F%E5%BC%8F%E6%A0%B7%29"
+        }
+      ],
+      "textures": {
+        "MSM_0101_0221_03_GCT04_00": "chara/01/01/0221/tex/MST_0101_0221_03C.dds",
+        "MSM_0101_0221_03_GCT04_01": "chara/01/01/0221/tex/MST_0101_0221_03C.dds",
+        "Hand_04": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "Hand_03": "chara/01/01/0221/tex/MST_0101_0221_01C.dds",
+        "Hand_02": "chara/01/01/0221/tex/MST_0101_0221_03C.dds",
+        "Hand_01": "chara/01/01/0221/tex/MST_0101_0221_03C.dds",
+        "Cannon_01": "chara/01/01/0221/tex/MST_0101_0221_03C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_04",
+        "Hand_03"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:50:33.517740+00:00"
+    },
+    "chara/01/01/0222/model/MSM_0101_0222_01.dxg": {
+      "model_id": 101022201,
+      "model_path": "chara/01/01/0222/model/MSM_0101_0222_01.dxg",
+      "model_sha256": "8c0e26d722c43ed6e2d84cdd17574aa8918e17587171a7132c5f8aff42b0bbcd",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆加农(白色野犬式样)",
+          "revision_id": 97667,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%8A%A0%E5%86%9C%28%E7%99%BD%E8%89%B2%E9%87%8E%E7%8A%AC%E5%BC%8F%E6%A0%B7%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0222/tex/MST_0101_0222_01C.dds",
+        "Hand_02": "chara/01/01/0222/tex/MST_0101_0222_01C.dds",
+        "Hand_03": "chara/01/01/0222/tex/MST_0101_0222_01C.dds",
+        "Hand_04": "chara/01/01/0222/tex/MST_0101_0222_01C.dds",
+        "MSM_0101_0222_01_GMCWD_00": "chara/01/01/0222/tex/MST_0101_0222_01C.dds",
+        "MSM_0101_0222_01_GMCWD_01": "chara/01/01/0222/tex/MST_0101_0222_01C.dds",
+        "Cannon_01": "chara/01/01/0222/tex/MST_0101_0222_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:52:12.412276+00:00"
+    },
+    "chara/01/01/0223/model/MSM_0101_0223_01.dxg": {
+      "model_id": 101022301,
+      "model_path": "chara/01/01/0223/model/MSM_0101_0223_01.dxg",
+      "model_sha256": "a56f1e09b01f24901ba400f6e379ae456df04c8027d1e82595c078b8f015fc99",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆加农(北美战线式样)",
+          "revision_id": 98946,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%8A%A0%E5%86%9C%28%E5%8C%97%E7%BE%8E%E6%88%98%E7%BA%BF%E5%BC%8F%E6%A0%B7%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0223/tex/MST_0101_0223_01C.dds",
+        "Hand_03": "chara/01/01/0223/tex/MST_0101_0223_01C.dds",
+        "Hand_02": "chara/01/01/0223/tex/MST_0101_0223_01C.dds",
+        "Hand_04": "chara/01/01/0223/tex/MST_0101_0223_01C.dds",
+        "MSM_0101_0223_01_GCNA_00": "chara/01/01/0223/tex/MST_0101_0223_01C.dds",
+        "MSM_0101_0223_01_GCNA_01": "chara/01/01/0223/tex/MST_0101_0223_01C.dds",
+        "MSM_0101_0223_01_GCNA_02": "chara/01/01/0223/tex/MST_0101_0223_01C.dds",
+        "Cannon_01": "chara/01/01/0223/tex/MST_0101_0223_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:52:43.273447+00:00"
+    },
+    "chara/01/01/0230/model/MSM_0101_0230_01.dxg": {
+      "model_id": 101023001,
+      "model_path": "chara/01/01/0230/model/MSM_0101_0230_01.dxg",
+      "model_sha256": "30bef11110fce6b3079882f0ee209d657fbcac646c142603527569268b8601cf",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉莱(标准型)",
+          "revision_id": 97480,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E8%8E%B1%28%E6%A0%87%E5%87%86%E5%9E%8B%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0230/tex/MST_0101_0230_01C.dds",
+        "Hand_02": "chara/01/01/0230/tex/MST_0101_0230_01C.dds",
+        "Hand_03": "chara/01/01/0230/tex/MST_0101_0230_01C.dds",
+        "Hand_04": "chara/01/01/0230/tex/MST_0101_0230_01C.dds",
+        "MSM_0101_0230_01_81ST_00": "chara/01/01/0230/tex/MST_0101_0230_01C.dds",
+        "MSM_0101_0230_01_81ST_01": "chara/01/01/0230/tex/MST_0101_0230_01C.dds",
+        "Saber_01": "chara/01/01/0230/tex/MST_0101_0230_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "中国红",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:54:20.030242+00:00"
+    },
+    "chara/01/01/0231/model/MSM_0101_0231_01.dxg": {
+      "model_id": 101023101,
+      "model_path": "chara/01/01/0231/model/MSM_0101_0231_01.dxg",
+      "model_sha256": "1e830dddf2cbe036720725d6b087564b7d846685b2ad11e85f403d25454f2313",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL全装甲敢达",
+          "revision_id": 187996,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%85%A8%E8%A3%85%E7%94%B2%E6%95%A2%E8%BE%BE"
+        }
+      ],
+      "textures": {
+        "Hand_03": "chara/01/01/0231/tex/MST_0101_0231_01C.dds",
+        "Hand_01": "chara/01/01/0231/tex/MST_0101_0231_01C.dds",
+        "Hand_04": "chara/01/01/0231/tex/MST_0101_0231_01C.dds",
+        "Hand_02": "chara/01/01/0231/tex/MST_0101_0231_01C.dds",
+        "MSM_0101_0231_01_FAG_00": "chara/01/01/0231/tex/MST_0101_0231_01C.dds",
+        "MSM_0101_0231_01_FAG_01": "chara/01/01/0231/tex/MST_0101_0231_01C.dds",
+        "Rifle": "chara/01/01/0231/tex/MST_0101_0231_01C.dds",
+        "Cannon_01": "chara/01/01/0231/tex/MST_0101_0231_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:54:57.660423+00:00"
+    },
+    "chara/01/01/0254/model/MSM_0101_0254_01.dxg": {
+      "model_id": 101025401,
+      "model_path": "chara/01/01/0254/model/MSM_0101_0254_01.dxg",
+      "model_sha256": "8cfc03127085501fd0b2e3058724da288eba2bd5c5d9d8283874724331ee1382",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "强袭型吉姆",
+          "revision_id": 5475,
+          "source_url": "https://wiki.biligame.com/gundam/%E5%BC%BA%E8%A2%AD%E5%9E%8B%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0254/tex/MST_0101_0254_01C.dds",
+        "Hand_02": "chara/01/01/0254/tex/MST_0101_0254_01C.dds",
+        "Hand_03": "chara/01/01/0254/tex/MST_0101_0254_01C.dds",
+        "Hand_04": "chara/01/01/0254/tex/MST_0101_0254_01C.dds",
+        "MSM_0101_0254_01_GDSm_00": "chara/01/01/0254/tex/MST_0101_0254_01C.dds",
+        "MSM_0101_0254_01_GDSm_01": "chara/01/01/0254/tex/MST_0101_0254_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_01",
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "强袭型吉姆俘获",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:56:46.979407+00:00"
+    },
+    "chara/01/01/0252/model/MSM_0101_0252_01.dxg": {
+      "model_id": 101025201,
+      "model_path": "chara/01/01/0252/model/MSM_0101_0252_01.dxg",
+      "model_sha256": "3d4ad5576fd4def5e5330a9289a00464e5aa1537311927cb96d59d7611fc4918",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆训练机",
+          "revision_id": 103449,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E8%AE%AD%E7%BB%83%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0252/tex/MST_0101_0252_01C.dds",
+        "Hand_03": "chara/01/01/0252/tex/MST_0101_0252_01C.dds",
+        "Hand_02": "chara/01/01/0252/tex/MST_0101_0252_01C.dds",
+        "Hand_04": "chara/01/01/0252/tex/MST_0101_0252_01C.dds",
+        "MSM_0101_0252_01_GMT_00": "chara/01/01/0252/tex/MST_0101_0252_01C.dds",
+        "MSM_0101_0252_01_GMT_01": "chara/01/01/0252/tex/MST_0101_0252_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_01",
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "小黄 俘获",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:57:13.108592+00:00"
+    },
+    "chara/01/01/0262/model/MSM_0101_0262_01.dxg": {
+      "model_id": 101026201,
+      "model_path": "chara/01/01/0262/model/MSM_0101_0262_01.dxg",
+      "model_sha256": "097fc7bbfddb1fe0c7465981b6015ce79fba90bfa45e544f9ca9c892e7e34d7b",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL水中型敢达",
+          "revision_id": 99800,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%B0%B4%E4%B8%AD%E5%9E%8B%E6%95%A2%E8%BE%BE"
+        }
+      ],
+      "textures": {
+        "MSM_0101_0262_01_MGD_00": "chara/01/01/0262/tex/MST_0101_0262_01C.dds",
+        "MSM_0101_0262_01_MGD_01": "chara/01/01/0262/tex/MST_0101_0262_01C.dds",
+        "Hand_01": "chara/01/01/0262/tex/MST_0101_0262_01C.dds",
+        "Hand_02": "chara/01/01/0262/tex/MST_0101_0262_01C.dds",
+        "Hand_03": "chara/01/01/0262/tex/MST_0101_0262_01C.dds",
+        "Hand_04": "chara/01/01/0262/tex/MST_0101_0262_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "水高俘获",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:57:53.088898+00:00"
+    },
+    "chara/01/01/0271/model/MSM_0101_0271_01.dxg": {
+      "model_id": 101027101,
+      "model_path": "chara/01/01/0271/model/MSM_0101_0271_01.dxg",
+      "model_sha256": "f9a48f53fe8fef6735462ee34d8c481e2d1289bbcd288136fa8a666c5b9501fa",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆加农",
+          "revision_id": 99837,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%8A%A0%E5%86%9C"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0271/tex/MST_0101_0271_01C.dds",
+        "Hand_02": "chara/01/01/0271/tex/MST_0101_0271_01C.dds",
+        "Hand_03": "chara/01/01/0271/tex/MST_0101_0271_01C.dds",
+        "Hand_04": "chara/01/01/0271/tex/MST_0101_0271_01C.dds",
+        "MSM_0101_0271_01_GMC_00": "chara/01/01/0271/tex/MST_0101_0271_01C.dds",
+        "MSM_0101_0271_01_GMC_01": "chara/01/01/0271/tex/MST_0101_0271_01C.dds",
+        "Cannon_01": "chara/01/01/0271/tex/MST_0101_0271_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "俘获",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:58:21.136213+00:00"
+    },
+    "chara/01/01/0601/model/MSM_0101_0601_01.dxg": {
+      "model_id": 101060101,
+      "model_path": "chara/01/01/0601/model/MSM_0101_0601_01.dxg",
+      "model_sha256": "bde70f19728010bda09f26b0836367f14c975ef1046b86049f0814c5eecd3064",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL陆战型吉姆",
+          "revision_id": 91659,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E9%99%86%E6%88%98%E5%9E%8B%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_03": "chara/01/01/0601/tex/MST_0101_0601_01C.dds",
+        "Hand_04": "chara/01/01/0601/tex/MST_0101_0601_01C.dds",
+        "Hand_01": "chara/01/01/0601/tex/MST_0101_0601_01C.dds",
+        "Hand_02": "chara/01/01/0601/tex/MST_0101_0601_01C.dds",
+        "MSM_0101_0601_01_GMG_00": "chara/01/01/0601/tex/MST_0101_0601_01C.dds",
+        "MSM_0101_0601_01_GMG_01": "chara/01/01/0601/tex/MST_0101_0601_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T15:59:38.059589+00:00"
+    },
+    "chara/01/01/0601/model/MSM_0101_0601_02.dxg": {
+      "model_id": 101060102,
+      "model_path": "chara/01/01/0601/model/MSM_0101_0601_02.dxg",
+      "model_sha256": "8f96411891ced4a2432e387b231e205e0deda60bcad27916f10bbfc381f9b8c7",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆狙击型",
+          "revision_id": 103368,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%8B%99%E5%87%BB%E5%9E%8B"
+        }
+      ],
+      "textures": {
+        "Hand_03": "chara/01/01/0601/tex/MST_0101_0601_01C.dds",
+        "Hand_04": "chara/01/01/0601/tex/MST_0101_0601_01C.dds",
+        "Hand_01": "chara/01/01/0601/tex/MST_0101_0601_02C.dds",
+        "Hand_02": "chara/01/01/0601/tex/MST_0101_0601_02C.dds",
+        "MSM_0101_0601_02_GMS_00": "chara/01/01/0601/tex/MST_0101_0601_02C.dds",
+        "MSM_0101_0601_02_GMS_01": "chara/01/01/0601/tex/MST_0101_0601_02C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:00:20.341537+00:00"
+    },
+    "chara/01/01/0651/model/MSM_0101_0651_02.dxg": {
+      "model_id": 101065102,
+      "model_path": "chara/01/01/0651/model/MSM_0101_0651_02.dxg",
+      "model_sha256": "12a5b654b83dd1e43612e40f2d57d175c1e1f25ecee85818e6ab5763860c46dd",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆狙击型",
+          "revision_id": 103368,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%8B%99%E5%87%BB%E5%9E%8B"
+        }
+      ],
+      "textures": {
+        "Hand_03": "chara/01/01/0651/tex/MST_0101_0651_01C.dds",
+        "Hand_04": "chara/01/01/0651/tex/MST_0101_0651_01C.dds",
+        "Hand_01": "chara/01/01/0651/tex/MST_0101_0651_02C.dds",
+        "Hand_02": "chara/01/01/0651/tex/MST_0101_0651_02C.dds",
+        "MSM_0101_0651_02_GMS_00": "chara/01/01/0651/tex/MST_0101_0651_02C.dds",
+        "MSM_0101_0651_02_GMS_01": "chara/01/01/0651/tex/MST_0101_0651_02C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "俘获",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:01:23.507528+00:00"
+    },
+    "chara/01/01/0651/model/MSM_0101_0651_01.dxg": {
+      "model_id": 101065101,
+      "model_path": "chara/01/01/0651/model/MSM_0101_0651_01.dxg",
+      "model_sha256": "d67be652c6f0248383ff4fb9c957a9330d9a1e1210d114196db62a2fbcbafc46",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL陆战型吉姆",
+          "revision_id": 91659,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E9%99%86%E6%88%98%E5%9E%8B%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_03": "chara/01/01/0651/tex/MST_0101_0651_01C.dds",
+        "Hand_04": "chara/01/01/0651/tex/MST_0101_0651_01C.dds",
+        "Hand_01": "chara/01/01/0651/tex/MST_0101_0651_01C.dds",
+        "Hand_02": "chara/01/01/0651/tex/MST_0101_0651_01C.dds",
+        "MSM_0101_0651_01_GMG_00": "chara/01/01/0651/tex/MST_0101_0651_01C.dds",
+        "MSM_0101_0651_01_GMG_01": "chara/01/01/0651/tex/MST_0101_0651_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "俘获",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:01:45.313190+00:00"
+    },
+    "chara/01/01/0801/model/MSM_0101_0801_01.dxg": {
+      "model_id": 101080101,
+      "model_path": "chara/01/01/0801/model/MSM_0101_0801_01.dxg",
+      "model_sha256": "d2a1a8a5228ee67a9e0e35b3ae13ea435957c1ab583c3e208f79a76c827c5ef4",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL水中型吉姆",
+          "revision_id": 91707,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%B0%B4%E4%B8%AD%E5%9E%8B%E5%90%89%E5%A7%86"
+        },
+        {
+          "title": "高达OL水中型吉姆(重击装备)",
+          "revision_id": 99793,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%B0%B4%E4%B8%AD%E5%9E%8B%E5%90%89%E5%A7%86%28%E9%87%8D%E5%87%BB%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0801/tex/MST_0101_0801_01C.dds",
+        "Hand_02": "chara/01/01/0801/tex/MST_0101_0801_01C.dds",
+        "Hand_03": "chara/01/01/0801/tex/MST_0101_0801_01C.dds",
+        "Hand_04": "chara/01/01/0801/tex/MST_0101_0801_01C.dds",
+        "MSM_0101_0801_01_AGM_00": "chara/01/01/0801/tex/MST_0101_0801_01C.dds",
+        "MSM_0101_0801_01_AGM_01": "chara/01/01/0801/tex/MST_0101_0801_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:02:21.146489+00:00"
+    },
+    "chara/01/01/0802/model/MSM_0101_0802_01.dxg": {
+      "model_id": 101080201,
+      "model_path": "chara/01/01/0802/model/MSM_0101_0802_01.dxg",
+      "model_sha256": "19fe2f9a895574565c9e4c39ce8d3cd4cb6217bdb71be50af4ba3c01930861df",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "强袭型吉姆",
+          "revision_id": 5475,
+          "source_url": "https://wiki.biligame.com/gundam/%E5%BC%BA%E8%A2%AD%E5%9E%8B%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0802/tex/MST_0101_0802_01C.dds",
+        "Hand_02": "chara/01/01/0802/tex/MST_0101_0802_01C.dds",
+        "Hand_03": "chara/01/01/0802/tex/MST_0101_0802_01C.dds",
+        "Hand_04": "chara/01/01/0802/tex/MST_0101_0802_01C.dds",
+        "MSM_0101_0802_01_GMST_00": "chara/01/01/0802/tex/MST_0101_0802_01C.dds",
+        "MSM_0101_0802_01_GMST_01": "chara/01/01/0802/tex/MST_0101_0802_01C.dds",
+        "Saber_01": "chara/01/01/0802/tex/MST_0101_0802_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:02:44.664744+00:00"
+    },
+    "chara/01/01/0802/model/MSM_0101_0802_02.dxg": {
+      "model_id": 101080202,
+      "model_path": "chara/01/01/0802/model/MSM_0101_0802_02.dxg",
+      "model_sha256": "4f35a2681fefca70f89153b9732ad44e23325d4095ab0bd2ba35c1441258e84c",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL强袭型吉姆(复仇女神队式样)",
+          "revision_id": 103544,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%BC%BA%E8%A2%AD%E5%9E%8B%E5%90%89%E5%A7%86%28%E5%A4%8D%E4%BB%87%E5%A5%B3%E7%A5%9E%E9%98%9F%E5%BC%8F%E6%A0%B7%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0802/tex/MST_0101_0802_02C.dds",
+        "Hand_02": "chara/01/01/0802/tex/MST_0101_0802_02C.dds",
+        "Hand_03": "chara/01/01/0802/tex/MST_0101_0802_01C.dds",
+        "Hand_04": "chara/01/01/0802/tex/MST_0101_0802_01C.dds",
+        "MSM_0101_0802_02_GMSTN_00": "chara/01/01/0802/tex/MST_0101_0802_02C.dds",
+        "MSM_0101_0802_02_GMSTN_01": "chara/01/01/0802/tex/MST_0101_0802_02C.dds",
+        "Saber_01": "chara/01/01/0802/tex/MST_0101_0802_02C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:02:57.319299+00:00"
+    },
+    "chara/01/01/0803/model/MSM_0101_0803_01.dxg": {
+      "model_id": 101080301,
+      "model_path": "chara/01/01/0803/model/MSM_0101_0803_01.dxg",
+      "model_sha256": "b4855de46d2dcdd4adfbf384e0addc57504b79fb2e397293c46cdcd492abe190",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL水中型吉姆(特林顿配备机)",
+          "revision_id": 104992,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%B0%B4%E4%B8%AD%E5%9E%8B%E5%90%89%E5%A7%86%28%E7%89%B9%E6%9E%97%E9%A1%BF%E9%85%8D%E5%A4%87%E6%9C%BA%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0803/tex/MST_0101_0803_01C.dds",
+        "Hand_02": "chara/01/01/0803/tex/MST_0101_0803_01C.dds",
+        "Hand_03": "chara/01/01/0803/tex/MST_0101_0803_01C.dds",
+        "Hand_04": "chara/01/01/0803/tex/MST_0101_0803_01C.dds",
+        "MSM_0101_0803_01_AGMUC_00": "chara/01/01/0803/tex/MST_0101_0803_01C.dds",
+        "MSM_0101_0803_01_AGMUC_01": "chara/01/01/0803/tex/MST_0101_0803_01C.dds",
+        "Saber_01": "chara/01/01/0803/tex/MST_0101_0803_01C.dds",
+        "Anchor": "chara/01/01/0803/tex/MST_0101_0803_01Ca.dds",
+        "Hide_Anchor_13": "chara/01/01/0803/tex/MST_0101_0803_01Ca.dds",
+        "Hide_Anchor_14": "chara/01/01/0803/tex/MST_0101_0803_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:04:09.309759+00:00"
+    },
+    "chara/01/01/0804/model/MSM_0101_0804_01.dxg": {
+      "model_id": 101080401,
+      "model_path": "chara/01/01/0804/model/MSM_0101_0804_01.dxg",
+      "model_sha256": "9d8439bc5146fda6e37eaf927dd61140c627e83d7d4b1835cc4522d0255e7293",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆强袭特装型",
+          "revision_id": 109149,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%BC%BA%E8%A2%AD%E7%89%B9%E8%A3%85%E5%9E%8B"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0804/tex/MST_0101_0804_01C.dds",
+        "Hand_02": "chara/01/01/0804/tex/MST_0101_0804_01C.dds",
+        "Hand_03": "chara/01/01/0804/tex/MST_0101_0804_01C.dds",
+        "Hand_04": "chara/01/01/0804/tex/MST_0101_0804_01C.dds",
+        "MSM_0101_0804_01_STC": "chara/01/01/0804/tex/MST_0101_0804_01C.dds",
+        "Saber_01": "chara/01/01/0804/tex/MST_0101_0804_01C.dds",
+        "Hide_EXAM_01": "chara/01/01/0804/tex/MST_0101_0804_01C.dds",
+        "Hide_EXAM_02": "chara/01/01/0804/tex/MST_0101_0804_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal",
+        "Hide_EXAM_01",
+        "Hide_EXAM_02"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:05:22.407275+00:00"
+    },
+    "chara/01/01/0851/model/MSM_0101_0851_01.dxg": {
+      "model_id": 101085101,
+      "model_path": "chara/01/01/0851/model/MSM_0101_0851_01.dxg",
+      "model_sha256": "8cb4f62b23c014b4225bb87a6215e4c0100a194d2dc1f51ea45824d7af67184a",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL水中型吉姆",
+          "revision_id": 91707,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%B0%B4%E4%B8%AD%E5%9E%8B%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0851/tex/MST_0101_0851_01C.dds",
+        "Hand_02": "chara/01/01/0851/tex/MST_0101_0851_01C.dds",
+        "Hand_03": "chara/01/01/0851/tex/MST_0101_0851_01C.dds",
+        "Hand_04": "chara/01/01/0851/tex/MST_0101_0851_01C.dds",
+        "MSM_0101_0851_01_AGM_00": "chara/01/01/0851/tex/MST_0101_0851_01C.dds",
+        "MSM_0101_0851_01_AGM_01": "chara/01/01/0851/tex/MST_0101_0851_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "俘获",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:05:57.399591+00:00"
+    },
+    "chara/01/01/0852/model/MSM_0101_0852_01.dxg": {
+      "model_id": 101085201,
+      "model_path": "chara/01/01/0852/model/MSM_0101_0852_01.dxg",
+      "model_sha256": "67d97d8cd2b320f5016c6fbb0eb417a65fb0e89e155643cd8835c2455a568e03",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "强袭型吉姆",
+          "revision_id": 5475,
+          "source_url": "https://wiki.biligame.com/gundam/%E5%BC%BA%E8%A2%AD%E5%9E%8B%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0852/tex/MST_0101_0852_01C.dds",
+        "Hand_02": "chara/01/01/0852/tex/MST_0101_0852_01C.dds",
+        "Hand_03": "chara/01/01/0852/tex/MST_0101_0852_01C.dds",
+        "Hand_04": "chara/01/01/0852/tex/MST_0101_0852_01C.dds",
+        "MSM_0101_0852_01_GMST_00": "chara/01/01/0852/tex/MST_0101_0852_01C.dds",
+        "MSM_0101_0852_01_GMST_01": "chara/01/01/0852/tex/MST_0101_0852_01C.dds",
+        "Saber_01": "chara/01/01/0852/tex/MST_0101_0852_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "俘获",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:07:00.205095+00:00"
+    },
+    "chara/01/01/0911/model/MSM_0101_0911_01.dxg": {
+      "model_id": 101091101,
+      "model_path": "chara/01/01/0911/model/MSM_0101_0911_01.dxg",
+      "model_sha256": "baca23e4f445413655e778db5550c0c052a040b241d929b16b8f98af98b678a2",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL陆战型敢达",
+          "revision_id": 94131,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E9%99%86%E6%88%98%E5%9E%8B%E6%95%A2%E8%BE%BE"
+        }
+      ],
+      "textures": {
+        "MSM_0101_0911_01_GNG_00": "chara/01/01/0911/tex/MST_0101_0911_01C.dds",
+        "MSM_0101_0911_01_GNG_01": "chara/01/01/0911/tex/MST_0101_0911_01C.dds",
+        "Hand_01": "chara/01/01/0911/tex/MST_0101_0911_01C.dds",
+        "Hand_03": "chara/01/01/0911/tex/MST_0101_0911_01C.dds",
+        "Hand_02": "chara/01/01/0911/tex/MST_0101_0911_01C.dds",
+        "Hand_04": "chara/01/01/0911/tex/MST_0101_0911_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:07:45.229637+00:00"
+    },
+    "chara/01/01/0912/model/MSM_0101_0912_01.dxg": {
+      "model_id": 101091201,
+      "model_path": "chara/01/01/0912/model/MSM_0101_0912_01.dxg",
+      "model_sha256": "65d6fad607754a919abe93871b44a19f2d36acba37b926591e6c8fdaddd2bbc4",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达Ez8",
+          "revision_id": 104647,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BEEz8"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0912/tex/MST_0101_0912_01C.dds",
+        "Hand_02": "chara/01/01/0912/tex/MST_0101_0912_01C.dds",
+        "Hand_03": "chara/01/01/0912/tex/MST_0101_0912_01C.dds",
+        "Hand_04": "chara/01/01/0912/tex/MST_0101_0912_01C.dds",
+        "MSM_0101_0912_01_EZ8_00": "chara/01/01/0912/tex/MST_0101_0912_01C.dds",
+        "MSM_0101_0912_01_EZ8_01": "chara/01/01/0912/tex/MST_0101_0912_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:08:09.275413+00:00"
+    },
+    "chara/01/01/0913/model/MSM_0101_0913_01.dxg": {
+      "model_id": 101091301,
+      "model_path": "chara/01/01/0913/model/MSM_0101_0913_01.dxg",
+      "model_sha256": "0c2f95bad1fe3c62e39e91d989287ccd06cc54bd0023601ceedf5fef3286be44",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达Ez8(WR装备)",
+          "revision_id": 160785,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BEEz8%28WR%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0913/tex/MST_0101_0913_01C.dds",
+        "Hand_02": "chara/01/01/0913/tex/MST_0101_0913_01C.dds",
+        "Hand_03": "chara/01/01/0913/tex/MST_0101_0913_01C.dds",
+        "Hand_04": "chara/01/01/0913/tex/MST_0101_0913_01C.dds",
+        "MSM_0101_0913_01_EZ8WR_00": "chara/01/01/0913/tex/MST_0101_0913_01C.dds",
+        "MSM_0101_0913_01_EZ8WR_01": "chara/01/01/0913/tex/MST_0101_0913_01C.dds",
+        "container": "chara/01/01/0913/tex/MST_0101_0913_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:08:38.791474+00:00"
+    },
+    "chara/01/01/0914/model/MSM_0101_0914_01.dxg": {
+      "model_id": 101091401,
+      "model_path": "chara/01/01/0914/model/MSM_0101_0914_01.dxg",
+      "model_sha256": "c79b8cf724e03fcdc2dcd1d47665811087bef2608189dce9a3f157961f8205d6",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL陆战型敢达(装备背包)",
+          "revision_id": 99811,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E9%99%86%E6%88%98%E5%9E%8B%E6%95%A2%E8%BE%BE%28%E8%A3%85%E5%A4%87%E8%83%8C%E5%8C%85%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0914/tex/MST_0101_0914_01C.dds",
+        "Hand_03": "chara/01/01/0914/tex/MST_0101_0914_01C.dds",
+        "Hand_02": "chara/01/01/0914/tex/MST_0101_0914_01C.dds",
+        "Hand_04": "chara/01/01/0914/tex/MST_0101_0914_01C.dds",
+        "MSM_0101_0914_01_GNG01_00": "chara/01/01/0914/tex/MST_0101_0914_01C.dds",
+        "MSM_0101_0914_01_GNG01_01": "chara/01/01/0914/tex/MST_0101_0914_01C.dds",
+        "container": "chara/01/01/0914/tex/MST_0101_0914_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:09:29.814996+00:00"
+    },
+    "chara/01/01/0917/model/MSM_0101_0917_01.dxg": {
+      "model_id": 101091701,
+      "model_path": "chara/01/01/0917/model/MSM_0101_0917_01.dxg",
+      "model_sha256": "0bc3ea90c9cfbc2727670687b5eadb05d9839a4ea316d36c9f4e0fcd095301f2",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL陆战型敢达(吉姆头／支援装备)",
+          "revision_id": 103746,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E9%99%86%E6%88%98%E5%9E%8B%E6%95%A2%E8%BE%BE%28%E5%90%89%E5%A7%86%E5%A4%B4%EF%BC%8F%E6%94%AF%E6%8F%B4%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/0917/tex/MST_0101_0917_01C.dds",
+        "Hand_03": "chara/01/01/0917/tex/MST_0101_0917_01C.dds",
+        "Hand_02": "chara/01/01/0917/tex/MST_0101_0917_01C.dds",
+        "Hand_04": "chara/01/01/0917/tex/MST_0101_0917_01C.dds",
+        "MSM_0101_0917_01_GMHC_00": "chara/01/01/0917/tex/MST_0101_0917_01C.dds",
+        "MSM_0101_0917_01_GMHC_01": "chara/01/01/0917/tex/MST_0101_0917_01C.dds",
+        "container": "chara/01/01/0917/tex/MST_0101_0917_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "0915",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:12:02.509870+00:00"
+    },
+    "chara/01/01/0920/model/MSM_0101_0920_01.dxg": {
+      "model_id": 101092001,
+      "model_path": "chara/01/01/0920/model/MSM_0101_0920_01.dxg",
+      "model_sha256": "5f3a8ed3bf793d05d04df9a893adeaac46d6073315fe50a9eb5e0c4d6622ff34",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL陆战型敢达(沙漠战式样)",
+          "revision_id": 72082,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E9%99%86%E6%88%98%E5%9E%8B%E6%95%A2%E8%BE%BE%28%E6%B2%99%E6%BC%A0%E6%88%98%E5%BC%8F%E6%A0%B7%29"
+        }
+      ],
+      "textures": {
+        "Hand_02": "chara/01/01/0920/tex/MST_0101_0920_01Ca.dds",
+        "Hand_01": "chara/01/01/0920/tex/MST_0101_0920_01Ca.dds",
+        "Hand_03": "chara/01/01/0920/tex/MST_0101_0920_01C.dds",
+        "Hand_04": "chara/01/01/0920/tex/MST_0101_0920_01C.dds",
+        "MSM_0101_0920_01_GNGD08_00": "chara/01/01/0920/tex/MST_0101_0920_01C.dds",
+        "MSM_0101_0920_01_GNGD08_01": "chara/01/01/0920/tex/MST_0101_0920_01Ca.dds",
+        "MSM_0101_0920_01_GNGD08_02": "chara/01/01/0920/tex/MST_0101_0920_01C.dds",
+        "container1": "chara/01/01/0920/tex/MST_0101_0920_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:13:06.532446+00:00"
+    },
+    "chara/01/01/1001/model/MSM_0101_1001_01.dxg": {
+      "model_id": 101100101,
+      "model_path": "chara/01/01/1001/model/MSM_0101_1001_01.dxg",
+      "model_sha256": "5e39a847eea276e68587b9584fb60e16829adf95a87314dd60806df27392ae9d",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL装甲强化型吉姆",
+          "revision_id": 92082,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E8%A3%85%E7%94%B2%E5%BC%BA%E5%8C%96%E5%9E%8B%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_03": "chara/01/01/1001/tex/MST_0101_1001_01.dds",
+        "Hand_04": "chara/01/01/1001/tex/MST_0101_1001_01.dds",
+        "Hand_01": "chara/01/01/1001/tex/MST_0101_1001_01.dds",
+        "Hand_02": "chara/01/01/1001/tex/MST_0101_1001_01.dds",
+        "MSM_0101_1001_01_SKG_00": "chara/01/01/1001/tex/MST_0101_1001_01.dds",
+        "MSM_0101_1001_01_SKG_01": "chara/01/01/1001/tex/MST_0101_1001_01.dds",
+        "Saber_01": "chara/01/01/1001/tex/MST_0101_1001_01.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:14:11.606602+00:00"
+    },
+    "chara/01/01/1002/model/MSM_0101_1002_01.dxg": {
+      "model_id": 101100201,
+      "model_path": "chara/01/01/1002/model/MSM_0101_1002_01.dxg",
+      "model_sha256": "53163afc894ee4b9f505cc9dd2c5a5ef57b94f59f0b7131869eacb1a3cd7cf3b",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达6号机",
+          "revision_id": 96270,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE6%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1002/tex/MST_0101_1002_01C.dds",
+        "Hand_03": "chara/01/01/1002/tex/MST_0101_1002_01C.dds",
+        "Hand_02": "chara/01/01/1002/tex/MST_0101_1002_01C.dds",
+        "Hand_04": "chara/01/01/1002/tex/MST_0101_1002_01C.dds",
+        "MSM_0101_1002_01_MAD6_00": "chara/01/01/1002/tex/MST_0101_1002_01C.dds",
+        "MSM_0101_1002_01_MAD6_01": "chara/01/01/1002/tex/MST_0101_1002_01C.dds",
+        "Cannon": "chara/01/01/1002/tex/MST_0101_1002_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal",
+        "Saber_01",
+        "Saber_02"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:14:29.496702+00:00"
+    },
+    "chara/01/01/1011/model/MSM_0101_1011_01.dxg": {
+      "model_id": 101101101,
+      "model_path": "chara/01/01/1011/model/MSM_0101_1011_01.dxg",
+      "model_sha256": "7eaafb033bb822151e3b10be78d62b0b4cc07e11605abca0b288ee075acbf565",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL精灵敢达",
+          "revision_id": 127840,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E7%B2%BE%E7%81%B5%E6%95%A2%E8%BE%BE"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1011/tex/MST_0101_1011_01.dds",
+        "Hand_02": "chara/01/01/1011/tex/MST_0101_1011_01.dds",
+        "Hand_03": "chara/01/01/1011/tex/MST_0101_1011_01.dds",
+        "Hand_04": "chara/01/01/1011/tex/MST_0101_1011_01.dds",
+        "MSM_0101_1011_01_PX_00": "chara/01/01/1011/tex/MST_0101_1011_01.dds",
+        "MSM_0101_1011_01_PX_01": "chara/01/01/1011/tex/MST_0101_1011_01.dds",
+        "Saber_01": "chara/01/01/1011/tex/MST_0101_1011_01.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:14:49.622778+00:00"
+    },
+    "chara/01/01/1101/model/MSM_0101_1101_01.dxg": {
+      "model_id": 101110101,
+      "model_path": "chara/01/01/1101/model/MSM_0101_1101_01.dxg",
+      "model_sha256": "0480e52f449c98a8f848f0872d9b27279e364195436ed23bfd318fee9e854a9f",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "吉姆指挥官型",
+          "revision_id": 71339,
+          "source_url": "https://wiki.biligame.com/gundam/%E5%90%89%E5%A7%86%E6%8C%87%E6%8C%A5%E5%AE%98%E5%9E%8B"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1101/tex/MST_0101_1101_01C.dds",
+        "Hand_02": "chara/01/01/1101/tex/MST_0101_1101_01C.dds",
+        "Hand_03": "chara/01/01/1101/tex/MST_0101_1101_01C.dds",
+        "Hand_04": "chara/01/01/1101/tex/MST_0101_1101_01C.dds",
+        "MSM_0101_1101_01_GMC_00": "chara/01/01/1101/tex/MST_0101_1101_01C.dds",
+        "MSM_0101_1101_01_GMC_01": "chara/01/01/1101/tex/MST_0101_1101_01C.dds",
+        "Saber_01": "chara/01/01/1101/tex/MST_0101_1101_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:17:02.778531+00:00"
+    },
+    "chara/01/01/1103/model/MSM_0101_1103_01.dxg": {
+      "model_id": 101110301,
+      "model_path": "chara/01/01/1103/model/MSM_0101_1103_01.dxg",
+      "model_sha256": "d59b806b17df87e77fb8fc9b79912ad23894e62093d16425829cd99b3da0d231",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆指挥型(土拨鼠)",
+          "revision_id": 101443,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E6%8C%87%E6%8C%A5%E5%9E%8B%28%E5%9C%9F%E6%8B%A8%E9%BC%A0%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1103/tex/MST_0101_1103_01C.dds",
+        "Hand_02": "chara/01/01/1103/tex/MST_0101_1103_01C.dds",
+        "Hand_03": "chara/01/01/1103/tex/MST_0101_1103_01C.dds",
+        "Hand_04": "chara/01/01/1103/tex/MST_0101_1103_01C.dds",
+        "MSM_0101_1103_01_GMCS_00": "chara/01/01/1103/tex/MST_0101_1103_01C.dds",
+        "MSM_0101_1103_01_GMCS_01": "chara/01/01/1103/tex/MST_0101_1103_01C.dds",
+        "Saber_01": "chara/01/01/1103/tex/MST_0101_1103_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:17:40.051648+00:00"
+    },
+    "chara/01/01/1104/model/MSM_0101_1104_01.dxg": {
+      "model_id": 101110401,
+      "model_path": "chara/01/01/1104/model/MSM_0101_1104_01.dxg",
+      "model_sha256": "82f746352e74e8e45300586ad9a173bd00f28cda077fd466038e4ddf92ec8de2",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆狙击型Ⅱ",
+          "revision_id": 102512,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%8B%99%E5%87%BB%E5%9E%8B%E2%85%A1"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "Hand_02": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "Hand_03": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "Hand_04": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "MSM_0101_1104_01_GSP2_00": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "MSM_0101_1104_01_GSP2_01": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "Saber_01": "chara/01/01/1104/tex/MST_0101_1104_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal",
+        "Saber_01"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:18:29.523783+00:00"
+    },
+    "chara/01/01/1104/model/MSM_0101_1104_02.dxg": {
+      "model_id": 101110402,
+      "model_path": "chara/01/01/1104/model/MSM_0101_1104_02.dxg",
+      "model_sha256": "fc4c5c0bcd3a988243c5805f827ded6c21647a65a8aea4870a51a82917230f2e",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆狙击型Ⅱ(白色野犬队式样)",
+          "revision_id": 97496,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%8B%99%E5%87%BB%E5%9E%8B%E2%85%A1%28%E7%99%BD%E8%89%B2%E9%87%8E%E7%8A%AC%E9%98%9F%E5%BC%8F%E6%A0%B7%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1104/tex/MST_0101_1104_02C.dds",
+        "Hand_02": "chara/01/01/1104/tex/MST_0101_1104_02C.dds",
+        "Hand_03": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "Hand_04": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "MSM_0101_1104_02_GSP2_WD_00": "chara/01/01/1104/tex/MST_0101_1104_02C.dds",
+        "MSM_0101_1104_02_GSP2_WD_01": "chara/01/01/1104/tex/MST_0101_1104_02C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal",
+        "Saber_01",
+        "Saber_02"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:18:53.112755+00:00"
+    },
+    "chara/01/01/1104/model/MSM_0101_1104_03.dxg": {
+      "model_id": 101110403,
+      "model_path": "chara/01/01/1104/model/MSM_0101_1104_03.dxg",
+      "model_sha256": "c9da619986bc1335c595320ed263c7159aa3583e99f45f5ed3c9d79f55f77abe",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆狙击型Ⅱ(沃尔夫机)(国)",
+          "revision_id": 97534,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%8B%99%E5%87%BB%E5%9E%8B%E2%85%A1%28%E6%B2%83%E5%B0%94%E5%A4%AB%E6%9C%BA%29%28%E5%9B%BD%29"
+        },
+        {
+          "title": "高达OL吉姆狙击型Ⅱ(沃尔夫／狙击装备)",
+          "revision_id": 97565,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%8B%99%E5%87%BB%E5%9E%8B%E2%85%A1%28%E6%B2%83%E5%B0%94%E5%A4%AB%EF%BC%8F%E7%8B%99%E5%87%BB%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1104/tex/MST_0101_1104_03C.dds",
+        "Hand_02": "chara/01/01/1104/tex/MST_0101_1104_03C.dds",
+        "Hand_03": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "Hand_04": "chara/01/01/1104/tex/MST_0101_1104_01C.dds",
+        "MSM_0101_1104_03_GSP2LW_00": "chara/01/01/1104/tex/MST_0101_1104_03C.dds",
+        "MSM_0101_1104_03_GSP2LW_01": "chara/01/01/1104/tex/MST_0101_1104_03C.dds",
+        "Saber_01": "chara/01/01/1104/tex/MST_0101_1104_03C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal",
+        "Saber_01"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:19:15.258749+00:00"
+    },
+    "chara/01/01/1111/model/MSM_0101_1111_01.dxg": {
+      "model_id": 101111101,
+      "model_path": "chara/01/01/1111/model/MSM_0101_1111_01.dxg",
+      "model_sha256": "3e439856f1b47c36470268b4ff64eeea540396ed799fba9ae2ba8d943273425d",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达NT-1",
+          "revision_id": 108054,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BENT-1"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1111/tex/MST_0101_1111_01C.dds",
+        "Hand_02": "chara/01/01/1111/tex/MST_0101_1111_01C.dds",
+        "Hand_03": "chara/01/01/1111/tex/MST_0101_1111_01C.dds",
+        "Hand_04": "chara/01/01/1111/tex/MST_0101_1111_01C.dds",
+        "MSM_0101_1111_01_ALX_00": "chara/01/01/1111/tex/MST_0101_1111_01C.dds",
+        "MSM_0101_1111_01_ALX_01": "chara/01/01/1111/tex/MST_0101_1111_01C.dds",
+        "Saber_01": "chara/01/01/1111/tex/MST_0101_1111_01C.dds",
+        "Saber_02": "chara/01/01/1111/tex/MST_0101_1111_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:23:21.228872+00:00"
+    },
+    "chara/01/01/1112/model/MSM_0101_1112_01.dxg": {
+      "model_id": 101111201,
+      "model_path": "chara/01/01/1112/model/MSM_0101_1112_01.dxg",
+      "model_sha256": "ee7236046ddcb2f2bb3b145db8557d37d021e69083ca7f1839995fae6d545ac3",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达NT-1(乔巴姆装甲装备)",
+          "revision_id": 99993,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BENT-1%28%E4%B9%94%E5%B7%B4%E5%A7%86%E8%A3%85%E7%94%B2%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1112/tex/MST_0101_1112_01C.dds",
+        "Hand_02": "chara/01/01/1112/tex/MST_0101_1112_01C.dds",
+        "Hand_03": "chara/01/01/1112/tex/MST_0101_1112_01C.dds",
+        "Hand_04": "chara/01/01/1112/tex/MST_0101_1112_01C.dds",
+        "MSM_0101_1112_01_NT1FA_00": "chara/01/01/1112/tex/MST_0101_1112_01C.dds",
+        "MSM_0101_1112_01_NT1FA_01": "chara/01/01/1112/tex/MST_0101_1112_01C.dds",
+        "Saber_01": "chara/01/01/1112/tex/MST_0101_1112_01C.dds",
+        "Saber_02": "chara/01/01/1112/tex/MST_0101_1112_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:23:55.502196+00:00"
+    },
+    "chara/01/01/1201/model/MSM_0101_1201_01.dxg": {
+      "model_id": 101120101,
+      "model_path": "chara/01/01/1201/model/MSM_0101_1201_01.dxg",
+      "model_sha256": "42dde77aed15a824cf5ded439a2a8d7327d76b5b8c5b25525a8b1122f21abc0b",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL大功率吉姆",
+          "revision_id": 8657,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%A4%A7%E5%8A%9F%E7%8E%87%E5%90%89%E5%A7%86"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1201/tex/MST_0101_1201_01C.dds",
+        "Hand_02": "chara/01/01/1201/tex/MST_0101_1201_01C.dds",
+        "Hand_03": "chara/01/01/1201/tex/MST_0101_1201_01C.dds",
+        "Hand_04": "chara/01/01/1201/tex/MST_0101_1201_01C.dds",
+        "MSM_0101_1201_01_PDG_00": "chara/01/01/1201/tex/MST_0101_1201_01C.dds",
+        "MSM_0101_1201_01_PDG_01": "chara/01/01/1201/tex/MST_0101_1201_01C.dds",
+        "Saber_01": "chara/01/01/1201/tex/MST_0101_1201_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:24:26.029441+00:00"
+    },
+    "chara/01/01/1203/model/MSM_0101_1203_01.dxg": {
+      "model_id": 101120301,
+      "model_path": "chara/01/01/1203/model/MSM_0101_1203_01.dxg",
+      "model_sha256": "8dd6dd28d0fe17acddb59e93c33b484cc9bf7b4c527910750a36f9af8b5aae93",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆特装型",
+          "revision_id": 8598,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%89%B9%E8%A3%85%E5%9E%8B"
+        },
+        {
+          "title": "高达OL吉姆特装型(巴宁机)",
+          "revision_id": 104217,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E7%89%B9%E8%A3%85%E5%9E%8B%28%E5%B7%B4%E5%AE%81%E6%9C%BA%29"
+        }
+      ],
+      "textures": {
+        "Hand_04": "chara/01/01/1203/tex/MST_0101_1203_01C.dds",
+        "Hand_03": "chara/01/01/1203/tex/MST_0101_1203_01C.dds",
+        "Hand_02": "chara/01/01/1203/tex/MST_0101_1203_01C.dds",
+        "Hand_01": "chara/01/01/1203/tex/MST_0101_1203_01C.dds",
+        "MSM_0101_1203_01_GMC_00": "chara/01/01/1203/tex/MST_0101_1203_01C.dds",
+        "MSM_0101_1203_01_GMC_01": "chara/01/01/1203/tex/MST_0101_1203_01C.dds",
+        "Saber_01": "chara/01/01/1203/tex/MST_0101_1203_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_04",
+        "Hand_03",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:25:09.203335+00:00"
+    },
+    "chara/01/01/1204/model/MSM_0101_1204_01.dxg": {
+      "model_id": 101120401,
+      "model_path": "chara/01/01/1204/model/MSM_0101_1204_01.dxg",
+      "model_sha256": "e27ed86d00bad5bee02e96c12b84eb56664d96174bde5976b73b11501801b5fb",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆镇暴型",
+          "revision_id": 209380,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E9%95%87%E6%9A%B4%E5%9E%8B"
+        }
+      ],
+      "textures": {
+        "Hand_04": "chara/01/01/1204/tex/MST_0101_1204_01C.dds",
+        "Hand_03": "chara/01/01/1204/tex/MST_0101_1204_01C.dds",
+        "Hand_02": "chara/01/01/1204/tex/MST_0101_1204_01C.dds",
+        "Hand_01": "chara/01/01/1204/tex/MST_0101_1204_01C.dds",
+        "MSM_0101_1204_01_GMQL_00": "chara/01/01/1204/tex/MST_0101_1204_01C.dds",
+        "MSM_0101_1204_01_GMQL_01": "chara/01/01/1204/tex/MST_0101_1204_01C.dds",
+        "Saber_01": "chara/01/01/1204/tex/MST_0101_1204_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_04",
+        "Hand_03",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:25:39.144944+00:00"
+    },
+    "chara/01/01/1210/model/MSM_0101_1210_01.dxg": {
+      "model_id": 101121001,
+      "model_path": "chara/01/01/1210/model/MSM_0101_1210_01.dxg",
+      "model_sha256": "86df6115d33f00d98bb1e0d52fcbb83f2106f496b9d76f43452f4480a13e5f55",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做1号机",
+          "revision_id": 95045,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A1%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1210/tex/MST_0101_1210_01C.dds",
+        "Hand_02": "chara/01/01/1210/tex/MST_0101_1210_01C.dds",
+        "Hand_03": "chara/01/01/1210/tex/MST_0101_1210_01C.dds",
+        "Hand_04": "chara/01/01/1210/tex/MST_0101_1210_01C.dds",
+        "MSM_0101_1210_01_GP01_00": "chara/01/01/1210/tex/MST_0101_1210_01C.dds",
+        "MSM_0101_1210_01_GP01_01": "chara/01/01/1210/tex/MST_0101_1210_01C.dds",
+        "Saber_01": "chara/01/01/1210/tex/MST_0101_1210_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:27:32.770136+00:00"
+    },
+    "chara/01/01/1211/model/MSM_0101_1211_01.dxg": {
+      "model_id": 101121101,
+      "model_path": "chara/01/01/1211/model/MSM_0101_1211_01.dxg",
+      "model_sha256": "67b58a4f27da30ac2d951a7d81316a7fa47159f63d74163e7d6d59ce53d746f8",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做1号机",
+          "revision_id": 95045,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A1%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1211/tex/MST_0101_1211_01C.dds",
+        "Hand_02": "chara/01/01/1211/tex/MST_0101_1211_01C.dds",
+        "Hand_03": "chara/01/01/1211/tex/MST_0101_1211_01C.dds",
+        "Hand_04": "chara/01/01/1211/tex/MST_0101_1211_01C.dds",
+        "MSM_0101_1211_01_GP1Fb_00": "chara/01/01/1211/tex/MST_0101_1211_01C.dds",
+        "MSM_0101_1211_01_GP1Fb_01": "chara/01/01/1211/tex/MST_0101_1211_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Saber_01",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "FB",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:28:39.435522+00:00"
+    },
+    "chara/01/01/1212/model/MSM_0101_1212_01.dxg": {
+      "model_id": 101121201,
+      "model_path": "chara/01/01/1212/model/MSM_0101_1212_01.dxg",
+      "model_sha256": "e3bf54d3e0fbdf7b75c20716dc3432683e5d5592a6a656d3c5e715ecdfe88886",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做2号机",
+          "revision_id": 127841,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A2%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds",
+        "Hand_02": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds",
+        "Hand_03": "chara/01/01/1212/tex/ET_08_0105_99C.dds",
+        "Hand_04": "chara/01/01/1212/tex/ET_08_0105_99C.dds",
+        "MSM_0101_1212_01_GP02_00": "chara/01/01/1212/tex/MST_0101_1212_01C.dds",
+        "MSM_0101_1212_01_GP02_01": "chara/01/01/1212/tex/MST_0101_1212_01C.dds",
+        "Thruster_L": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds",
+        "Thruster_R": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04",
+        "Saber_01",
+        "Saber_02"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:31:07.795585+00:00"
+    },
+    "chara/01/01/1212/model/MSM_0101_1212_02.dxg": {
+      "model_id": 101121202,
+      "model_path": "chara/01/01/1212/model/MSM_0101_1212_02.dxg",
+      "model_sha256": "781340e41b76224c5851945171b3643ff435f2f8cd12a3ba2ca2433ab6914455",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做2号机",
+          "revision_id": 127841,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A2%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "MSM_0101_1212_02_GP2_00": "chara/01/01/1212/tex/MST_0101_1212_02C.dds",
+        "Hand_04_00": "chara/01/01/1212/tex/ET_08_0105_99C.dds",
+        "Hand_01_00": "chara/01/01/1212/tex/MST_0101_1212_02C.dds",
+        "Hand_03_00": "chara/01/01/1212/tex/ET_08_0105_99C.dds",
+        "Hand_02_00": "chara/01/01/1212/tex/MST_0101_1212_02C.dds",
+        "MSM_0101_1212_02_GP2_01": "chara/01/01/1212/tex/MST_0101_1212_02C.dds",
+        "saber_00": "chara/01/01/1212/tex/MST_0101_1212_02C.dds",
+        "Cannon_02": "chara/01/01/1212/tex/MST_0101_1212_02Ca.dds",
+        "Cannon01_02": "chara/01/01/1212/tex/MST_0101_1212_02Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_04_00",
+        "Hand_03_00",
+        "MS_decal"
+      ],
+      "notes": "MLRS",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:33:06.551499+00:00"
+    },
+    "chara/01/01/1212/model/MSM_0101_1212_99.dxg": {
+      "model_id": 101121299,
+      "model_path": "chara/01/01/1212/model/MSM_0101_1212_99.dxg",
+      "model_sha256": "990621139339968c9fe5232e7b049c6d34a680f6085b639b89d105002d338556",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做2号机",
+          "revision_id": 127841,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A2%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1212/tex/ET_08_0105_99C.dds",
+        "Hand_02": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds",
+        "Hand_03": "chara/01/01/1212/tex/ET_08_0105_99C.dds",
+        "Hand_04": "chara/01/01/1212/tex/ET_08_0105_99C.dds",
+        "MSM_0101_1212_99_GP2BB_00": "chara/01/01/1212/tex/MST_0101_1212_01C.dds",
+        "MSM_0101_1212_99_GP2BB_01": "chara/01/01/1212/tex/MST_0101_1212_01C.dds",
+        "Cannon_01": "chara/01/01/1212/tex/ET_08_0105_99C.dds",
+        "Thruster_L": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds",
+        "Thruster_R": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds",
+        "Saber_02": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds",
+        "Saber_01": "chara/01/01/1212/tex/MST_0101_1212_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "光束火箭炮",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:35:46.421323+00:00"
+    },
+    "chara/01/01/1213/model/MSM_0101_1213_01.dxg": {
+      "model_id": 101121301,
+      "model_path": "chara/01/01/1213/model/MSM_0101_1213_01.dxg",
+      "model_sha256": "3b44845c62c3f9ed4000f7b36a9f6947ebab37960d301a5733d0ac08be352ed2",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做3号机",
+          "revision_id": 101129,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A3%E5%8F%B7%E6%9C%BA"
+        },
+        {
+          "title": "高达OL敢达试做3号机(重击装备)(国)",
+          "revision_id": 104651,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A3%E5%8F%B7%E6%9C%BA%28%E9%87%8D%E5%87%BB%E8%A3%85%E5%A4%87%29%28%E5%9B%BD%29"
+        }
+      ],
+      "textures": {
+        "Hand_04": "chara/01/01/1213/tex/MST_0101_1213_01C.dds",
+        "Hand_03": "chara/01/01/1213/tex/MST_0101_1213_01C.dds",
+        "Hand_02": "chara/01/01/1213/tex/MST_0101_1213_01C.dds",
+        "Hand_01": "chara/01/01/1213/tex/MST_0101_1213_01C.dds",
+        "MSM_0101_1213_01_GP03_00": "chara/01/01/1213/tex/MST_0101_1213_01C.dds",
+        "MSM_0101_1213_01_GP03_01": "chara/01/01/1213/tex/MST_0101_1213_01C.dds",
+        "MSM_0101_1213_01_GP03_02": "chara/01/01/1213/tex/MST_0101_1213_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_04",
+        "Hand_03",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:36:39.098894+00:00"
+    },
+    "chara/01/01/1214/model/MSM_0101_1214_01.dxg": {
+      "model_id": 101121401,
+      "model_path": "chara/01/01/1214/model/MSM_0101_1214_01.dxg",
+      "model_sha256": "1aa73c65bfd715b5803462085dc52c33ebfa41b20a4d81a31dee75191807047c",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL红色角马(加贝拉·迪特)",
+          "revision_id": 98623,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E7%BA%A2%E8%89%B2%E8%A7%92%E9%A9%AC%28%E5%8A%A0%E8%B4%9D%E6%8B%89%C2%B7%E8%BF%AA%E7%89%B9%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "Hand_02": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "Hand_03": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "Hand_04": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "MSM_0101_1214_01_GVT_00": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "MSM_0101_1214_01_GVT_01": "chara/01/01/1214/tex/MST_0101_1214_01Ca.dds",
+        "MSM_0101_1214_01_GVT_02": "chara/01/01/1214/tex/MST_0101_1214_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:37:34.281958+00:00"
+    },
+    "chara/01/01/1214/model/MSM_0101_1214_02.dxg": {
+      "model_id": 101121402,
+      "model_path": "chara/01/01/1214/model/MSM_0101_1214_02.dxg",
+      "model_sha256": "aa2782302c095489eba3d93d10e58728ad1b6cb76e7b985fb03067de8159b1e8",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL红色角马(加贝拉·迪特)",
+          "revision_id": 98623,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E7%BA%A2%E8%89%B2%E8%A7%92%E9%A9%AC%28%E5%8A%A0%E8%B4%9D%E6%8B%89%C2%B7%E8%BF%AA%E7%89%B9%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "Hand_02": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "Hand_03": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "Hand_04": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "MSM_0101_1214_02_GVTS_00": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "MSM_0101_1214_02_GVTS_01": "chara/01/01/1214/tex/MST_0101_1214_01Ca.dds",
+        "MSM_0101_1214_02_GVTS_02": "chara/01/01/1214/tex/MST_0101_1214_01C.dds",
+        "booster": "chara/01/01/1214/tex/MST_0101_1214_02Cb.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "角马推进器",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:38:29.767794+00:00"
+    },
+    "chara/01/01/1215/model/MSM_0101_1215_01.dxg": {
+      "model_id": 101121501,
+      "model_path": "chara/01/01/1215/model/MSM_0101_1215_01.dxg",
+      "model_sha256": "4111ba2870c40a194ef856b5cb7cc70429f61b4122551c3c879ead2bae8d79fb",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做4号机",
+          "revision_id": 105469,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A4%E5%8F%B7%E6%9C%BA"
+        },
+        {
+          "title": "高达OL敢达试做4号机(重击装备)(国)",
+          "revision_id": 88229,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A4%E5%8F%B7%E6%9C%BA%28%E9%87%8D%E5%87%BB%E8%A3%85%E5%A4%87%29%28%E5%9B%BD%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "Hand_02": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "Hand_03": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "Hand_04": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "MSM_0101_1215_01_GP04S_00": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "MSM_0101_1215_01_GP04S_01": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "booster": "chara/01/01/1215/tex/MST_0101_1215_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04",
+        "Saber_02",
+        "Saber_01"
+      ],
+      "notes": "gp04 推进器",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:39:37.343557+00:00"
+    },
+    "chara/01/01/1215/model/MSM_0101_1215_02.dxg": {
+      "model_id": 101121502,
+      "model_path": "chara/01/01/1215/model/MSM_0101_1215_02.dxg",
+      "model_sha256": "6f2f5ef08357b49baebf8606e6bfce703875acb20e1ba86e8984141486d5f3cf",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做4号机",
+          "revision_id": 105469,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A4%E5%8F%B7%E6%9C%BA"
+        },
+        {
+          "title": "高达OL敢达试做4号机(重击装备)(国)",
+          "revision_id": 88229,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A4%E5%8F%B7%E6%9C%BA%28%E9%87%8D%E5%87%BB%E8%A3%85%E5%A4%87%29%28%E5%9B%BD%29"
+        }
+      ],
+      "textures": {
+        "MSM_0101_1215_02_GP04_00": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "MSM_0101_1215_02_GP04_01": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "Hand_01": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "Hand_02": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "Hand_03": "chara/01/01/1215/tex/MST_0101_1215_01C.dds",
+        "Hand_04": "chara/01/01/1215/tex/MST_0101_1215_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_01",
+        "Saber_02",
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:39:26.248055+00:00"
+    },
+    "chara/01/01/1217/model/MSM_0101_1217_01.dxg": {
+      "model_id": 101121701,
+      "model_path": "chara/01/01/1217/model/MSM_0101_1217_01.dxg",
+      "model_sha256": "aac4f7bc084e85af3c74d3ebfe06ec79af99eddf335ed720b323e6495989c313",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL敢达试做1号机(水中装备)",
+          "revision_id": 97490,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E6%95%A2%E8%BE%BE%E8%AF%95%E5%81%9A1%E5%8F%B7%E6%9C%BA%28%E6%B0%B4%E4%B8%AD%E8%A3%85%E5%A4%87%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1217/tex/MST_0101_1217_01C.dds",
+        "Hand_02": "chara/01/01/1217/tex/MST_0101_1217_01C.dds",
+        "Hand_03": "chara/01/01/1217/tex/MST_0101_1217_01C.dds",
+        "Hand_04": "chara/01/01/1217/tex/MST_0101_1217_01C.dds",
+        "MSM_0101_1217_01_GP01AQA_00": "chara/01/01/1217/tex/MST_0101_1217_01C.dds",
+        "MSM_0101_1217_01_GP01AQA_01": "chara/01/01/1217/tex/MST_0101_1217_01C.dds",
+        "Saber_01": "chara/01/01/1217/tex/MST_0101_1217_01C.dds",
+        "AQA_Parts": "chara/01/01/1217/tex/MST_0101_1217_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:40:25.904612+00:00"
+    },
+    "chara/01/01/1218/model/MSM_0101_1218_01.dxg": {
+      "model_id": 101121801,
+      "model_path": "chara/01/01/1218/model/MSM_0101_1218_01.dxg",
+      "model_sha256": "d0c191ccedd9b545831aee8688999d0c23290bc62f4f56a9f07e3ce5434fced5",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL加贝拉·迪特改(特殊装备)(国)",
+          "revision_id": 105472,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%8A%A0%E8%B4%9D%E6%8B%89%C2%B7%E8%BF%AA%E7%89%B9%E6%94%B9%28%E7%89%B9%E6%AE%8A%E8%A3%85%E5%A4%87%29%28%E5%9B%BD%29"
+        },
+        {
+          "title": "高达OL加贝拉·迪特改",
+          "revision_id": 97579,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%8A%A0%E8%B4%9D%E6%8B%89%C2%B7%E8%BF%AA%E7%89%B9%E6%94%B9"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1218/tex/MST_0101_1218_01C.dds",
+        "Hand_02": "chara/01/01/1218/tex/MST_0101_1218_01C.dds",
+        "Hand_03": "chara/01/01/1218/tex/MST_0101_1218_01C.dds",
+        "Hand_04": "chara/01/01/1218/tex/MST_0101_1218_01C.dds",
+        "MSM_0101_1218_01_GVTC_00": "chara/01/01/1218/tex/MST_0101_1218_01C.dds",
+        "MSM_0101_1218_01_GVTC_01": "chara/01/01/1218/tex/MST_0101_1218_01C.dds",
+        "Sluster": "chara/01/01/1218/tex/MST_0101_1218_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "角马改",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:41:12.026459+00:00"
+    },
+    "chara/01/01/1221/model/MSM_0101_1221_01.dxg": {
+      "model_id": 101122101,
+      "model_path": "chara/01/01/1221/model/MSM_0101_1221_01.dxg",
+      "model_sha256": "707806ce556201fd61c3369e80c3248e4bf180fcf650bec67115b1bf1d99c9ab",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL吉姆加农Ⅱ",
+          "revision_id": 8582,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E5%90%89%E5%A7%86%E5%8A%A0%E5%86%9C%E2%85%A1"
+        }
+      ],
+      "textures": {
+        "MSM_0101_1221_01_GC2_00": "chara/01/01/1221/tex/MST_0101_1221_01C.dds",
+        "MSM_0101_1221_01_GC2_01": "chara/01/01/1221/tex/MST_0101_1221_01C.dds",
+        "Hand_03": "chara/01/01/1221/tex/MST_0101_1221_01C.dds",
+        "Hand_01": "chara/01/01/1221/tex/MST_0101_1221_01C.dds",
+        "Hand_04": "chara/01/01/1221/tex/MST_0101_1221_01C.dds",
+        "Hand_02": "chara/01/01/1221/tex/MST_0101_1221_01C.dds",
+        "cannon": "chara/01/01/1221/tex/MST_0101_1221_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Saber_01",
+        "Hand_03",
+        "Hand_04",
+        "MS_decal"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:41:50.701155+00:00"
+    },
+    "chara/01/01/1301/model/MSM_0101_1301_01.dxg": {
+      "model_id": 101130101,
+      "model_path": "chara/01/01/1301/model/MSM_0101_1301_01.dxg",
+      "model_sha256": "06505c28fc6971c6caf574fe0fd44cc3c3693cd5f7073c27b0abe9890395f89f",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL蓝色命运1号机",
+          "revision_id": 104218,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E8%93%9D%E8%89%B2%E5%91%BD%E8%BF%901%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1301/tex/MST_0101_1301_01C.dds",
+        "Hand_03": "chara/01/01/1301/tex/MST_0101_1301_01C.dds",
+        "Hand_02": "chara/01/01/1301/tex/MST_0101_1301_01C.dds",
+        "Hand_04": "chara/01/01/1301/tex/MST_0101_1301_01C.dds",
+        "MSM_0101_1301_01_BD1": "chara/01/01/1301/tex/MST_0101_1301_01C.dds",
+        "Hide_EXAM_01": "chara/01/01/1301/tex/MST_0101_1301_01C.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04",
+        "Hide_EXAM_02"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:42:40.695568+00:00"
+    },
+    "chara/01/01/1302/model/MSM_0101_1302_01.dxg": {
+      "model_id": 101130201,
+      "model_path": "chara/01/01/1302/model/MSM_0101_1302_01.dxg",
+      "model_sha256": "fed63e4d4cd3ff4c77278a88cd192b058c84a9223011adbfbc1ad4eaec54b891",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL蓝色命运2号机",
+          "revision_id": 104796,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E8%93%9D%E8%89%B2%E5%91%BD%E8%BF%902%E5%8F%B7%E6%9C%BA"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1302/tex/MST_0101_1302_01C.dds",
+        "Hand_03": "chara/01/01/1302/tex/MST_0101_1302_01C.dds",
+        "Hand_02": "chara/01/01/1302/tex/MST_0101_1302_01C.dds",
+        "Hand_04": "chara/01/01/1302/tex/MST_0101_1302_01C.dds",
+        "MSM_0101_1302_01_BD2N": "chara/01/01/1302/tex/MST_0101_1302_01C.dds",
+        "backpack": "chara/01/01/1302/tex/MST_0101_1302_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:43:02.927309+00:00"
+    },
+    "chara/01/01/1303/model/MSM_0101_1303_01.dxg": {
+      "model_id": 101130301,
+      "model_path": "chara/01/01/1303/model/MSM_0101_1303_01.dxg",
+      "model_sha256": "0f0300487cc0287da2bdd3ae53eb93994ff3b807960913827834b38b991eee13",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL蓝色命运3号机",
+          "revision_id": 105399,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E8%93%9D%E8%89%B2%E5%91%BD%E8%BF%903%E5%8F%B7%E6%9C%BA"
+        },
+        {
+          "title": "高达OL蓝色命运3号机(重击装备)(国)",
+          "revision_id": 77383,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E8%93%9D%E8%89%B2%E5%91%BD%E8%BF%903%E5%8F%B7%E6%9C%BA%28%E9%87%8D%E5%87%BB%E8%A3%85%E5%A4%87%29%28%E5%9B%BD%29"
+        }
+      ],
+      "textures": {
+        "MSM_0101_1303_01_BD3": "chara/01/01/1303/tex/MST_0101_1303_01C.dds",
+        "Hand_04": "chara/01/01/1303/tex/MST_0101_1303_01C.dds",
+        "Hand_02": "chara/01/01/1303/tex/MST_0101_1303_01C.dds",
+        "Hand_03": "chara/01/01/1303/tex/MST_0101_1303_01C.dds",
+        "Hand_01": "chara/01/01/1303/tex/MST_0101_1303_01C.dds",
+        "Hide_EXAM_02": "chara/01/01/1303/tex/MST_0101_1303_01C.dds",
+        "Hide_EXAM_01": "chara/01/01/1303/tex/MST_0101_1303_01C.dds",
+        "backpack": "chara/01/01/1303/tex/MST_0101_1303_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "Hand_04",
+        "Hand_03",
+        "MS_decal",
+        "Hide_EXAM_02"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:43:46.937294+00:00"
+    },
+    "chara/01/01/1304/model/MSM_0101_1304_01.dxg": {
+      "model_id": 101130401,
+      "model_path": "chara/01/01/1304/model/MSM_0101_1304_01.dxg",
+      "model_sha256": "ce3ca0cba9e5db3496503c789f1c4bb3f49a698ea7810ea914fbaddaba4ea67c",
+      "reference_asset_version": true,
+      "units": [
+        {
+          "title": "高达OL蓝色命运2号机(地球联邦军式样)(国)",
+          "revision_id": 91046,
+          "source_url": "https://wiki.biligame.com/gundam/%E9%AB%98%E8%BE%BEOL%E8%93%9D%E8%89%B2%E5%91%BD%E8%BF%902%E5%8F%B7%E6%9C%BA%28%E5%9C%B0%E7%90%83%E8%81%94%E9%82%A6%E5%86%9B%E5%BC%8F%E6%A0%B7%29%28%E5%9B%BD%29"
+        }
+      ],
+      "textures": {
+        "Hand_01": "chara/01/01/1304/tex/MST_0101_1304_01C.dds",
+        "Hand_03": "chara/01/01/1304/tex/MST_0101_1304_01C.dds",
+        "Hand_02": "chara/01/01/1304/tex/MST_0101_1304_01C.dds",
+        "Hand_04": "chara/01/01/1304/tex/MST_0101_1304_01C.dds",
+        "MSM_0101_1304_01_BD2E": "chara/01/01/1304/tex/MST_0101_1304_01C.dds",
+        "backpack": "chara/01/01/1304/tex/MST_0101_1304_01Ca.dds",
+        "Hide_EXAM_01": "chara/01/01/1304/tex/MST_0101_1304_01C.dds",
+        "Hide_EXAM_02": "chara/01/01/1304/tex/MST_0101_1304_01Ca.dds"
+      },
+      "texture_flip_y": false,
+      "hidden_meshes": [
+        "MS_decal",
+        "Hand_03",
+        "Hand_04",
+        "Hide_EXAM_02"
+      ],
+      "notes": "",
+      "status": "manually_confirmed",
+      "updated_at_utc": "2026-10-29T16:44:15.534027+00:00"
+    }
+  }
+}

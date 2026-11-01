@@ -1,0 +1,1350 @@
+[
+ {
+  "class": "CAIParam",
+  "idx": 41,
+  "load": "0053D380",
+  "entry": "0053D380",
+  "ncols_min": 18,
+  "cols": {
+   "0": "i",
+   "1": "s",
+   "2": "s",
+   "3": "i",
+   "10": "i",
+   "12": "i",
+   "13": "i",
+   "14": "i",
+   "17": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CAIWeaponParam",
+  "idx": 42,
+  "load": "0053D9E0",
+  "entry": "0053D9E0",
+  "ncols_min": 13,
+  "cols": {
+   "0": "i",
+   "1": "s",
+   "2": "s",
+   "3": "s",
+   "4": "s",
+   "5": "s",
+   "6": "s",
+   "11": "i",
+   "12": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CActionModuleInfoTable",
+  "idx": 59,
+  "load": "0053C7D0",
+  "entry": "0053C7D0",
+  "ncols_min": 11,
+  "cols": {
+   "4": "s",
+   "5": "i",
+   "6": "s",
+   "7": "i",
+   "8": "s",
+   "9": "s",
+   "10": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CAtkParamTable",
+  "idx": 9,
+  "load": "0053DEB0",
+  "entry": "0053DEB0",
+  "ncols_min": 31,
+  "cols": {
+   "0": "i",
+   "5": "i",
+   "6": "i",
+   "7": "s",
+   "17": "s",
+   "24": "i",
+   "27": "i",
+   "29": "s",
+   "30": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CBannerInfoTable",
+  "idx": 58,
+  "load": "0053E930",
+  "entry": "0053E930",
+  "ncols_min": 7,
+  "cols": {
+   "0": "i",
+   "1": "s",
+   "2": "s",
+   "3": "s",
+   "4": "s",
+   "5": "s",
+   "6": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CBuffTable",
+  "idx": 40,
+  "load": "0053EF50",
+  "entry": "0053EF50",
+  "ncols_min": 9,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "s",
+   "8": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CBuildupWeaponTable",
+  "idx": 39,
+  "load": "0053F080",
+  "entry": "0053F080",
+  "ncols_min": 2,
+  "cols": {
+   "0": "i",
+   "1": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CBulletTable",
+  "idx": 6,
+  "load": "0053F1F0",
+  "entry": "0053F1F0",
+  "ncols_min": 25,
+  "cols": {
+   "0": "i",
+   "3": "s",
+   "4": "i",
+   "9": "s",
+   "10": "s",
+   "19": "s",
+   "23": "i",
+   "24": "s"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CBywordTable",
+  "idx": 32,
+  "load": "0053F700",
+  "entry": "0053F700",
+  "ncols_min": 7,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "6": "s"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CCharaFlightTable",
+  "idx": 54,
+  "load": "0054B2E0",
+  "entry": "0054B2E0",
+  "ncols_min": 31,
+  "cols": {
+   "0": "i",
+   "4": "i",
+   "5": "i",
+   "24": "i",
+   "25": "i",
+   "30": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CCharaParamTable",
+  "idx": 4,
+  "load": "0054EF50",
+  "entry": "0054EF50",
+  "ncols_min": 26,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "s",
+   "7": "s",
+   "8": "s",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "13": "i",
+   "15": "i",
+   "16": "i",
+   "17": "i",
+   "18": "i",
+   "19": "i",
+   "20": "i",
+   "21": "i",
+   "22": "i",
+   "24": "i",
+   "25": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CCharaParamTable",
+  "idx": 34,
+  "load": "0054EF50",
+  "entry": "0054EF50",
+  "ncols_min": 26,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "s",
+   "7": "s",
+   "8": "s",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "13": "i",
+   "15": "i",
+   "16": "i",
+   "17": "i",
+   "18": "i",
+   "19": "i",
+   "20": "i",
+   "21": "i",
+   "22": "i",
+   "24": "i",
+   "25": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CCharaTable",
+  "idx": 5,
+  "load": "0053FA30",
+  "entry": "0053FA30",
+  "ncols_min": 35,
+  "cols": {
+   "0": "i",
+   "6": "i",
+   "12": "i",
+   "13": "i",
+   "14": "i",
+   "16": "i",
+   "17": "i",
+   "18": "i",
+   "19": "i",
+   "20": "i",
+   "21": "i",
+   "22": "i",
+   "23": "i",
+   "24": "s",
+   "25": "s",
+   "26": "s",
+   "27": "i",
+   "29": "i",
+   "30": "i",
+   "31": "i",
+   "32": "i",
+   "34": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CClanChallengeTable",
+  "idx": 45,
+  "load": "00540330",
+  "entry": "00540330",
+  "ncols_min": 18,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "4": "s",
+   "5": "i",
+   "11": "i",
+   "12": "i",
+   "14": "i",
+   "15": "i",
+   "17": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CCombatOperationTable",
+  "idx": 29,
+  "load": "00540A80",
+  "entry": "00540A80",
+  "ncols_min": 13,
+  "cols": {
+   "0": "i",
+   "9": "i",
+   "12": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CCommanderNpcTable",
+  "idx": 27,
+  "load": "005413F0",
+  "entry": "005413F0",
+  "ncols_min": 20,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "5": "s",
+   "6": "i",
+   "12": "i",
+   "13": "i",
+   "14": "i",
+   "17": "i",
+   "18": "s",
+   "19": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CCommanderSupportTable",
+  "idx": 28,
+  "load": "00542970",
+  "entry": "00542970",
+  "ncols_min": 13,
+  "cols": {
+   "0": "i",
+   "2": "s",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i",
+   "8": "i",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "12": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CDailyRecordTable",
+  "idx": 44,
+  "load": "00543DD0",
+  "entry": "00543DD0",
+  "ncols_min": 18,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "4": "s",
+   "5": "i",
+   "8": "i",
+   "10": "s",
+   "11": "i",
+   "12": "i",
+   "14": "i",
+   "15": "i",
+   "17": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CDamageFieldParamTable",
+  "idx": 30,
+  "load": "00544330",
+  "entry": "00544330",
+  "ncols_min": 14,
+  "cols": {
+   "0": "i",
+   "4": "s",
+   "13": "s"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CForceGaugeTable",
+  "idx": 61,
+  "load": "00545A30",
+  "entry": "00545A30",
+  "ncols_min": 14,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "13": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CFormationTable",
+  "idx": 37,
+  "load": "005462B0",
+  "entry": "005462B0",
+  "ncols_min": 1,
+  "cols": {
+   "0": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CGachaTable",
+  "idx": 31,
+  "load": "00546550",
+  "entry": "00546550",
+  "ncols_min": 31,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "4": "s",
+   "5": "s",
+   "6": "i",
+   "7": "i",
+   "8": "i",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "12": "i",
+   "13": "i",
+   "14": "i",
+   "15": "i",
+   "16": "i",
+   "17": "i",
+   "18": "i",
+   "19": "i",
+   "23": "i",
+   "25": "i",
+   "29": "i",
+   "30": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CHighScoreCoopTable",
+  "idx": 56,
+  "load": "005468A0",
+  "entry": "005468A0",
+  "ncols_min": 13,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "8": "i",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "12": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CItemOverCustomPointTable",
+  "idx": 66,
+  "load": "00557B70",
+  "entry": "00557B70",
+  "ncols_min": 4,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "3": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CItemTable",
+  "idx": 62,
+  "load": "00558560",
+  "entry": "00558560",
+  "ncols_min": 8,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "4": "s",
+   "5": "i",
+   "6": "i",
+   "7": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CItempackTable",
+  "idx": 60,
+  "load": "00557CE0",
+  "entry": "00557CE0",
+  "ncols_min": 4,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CLvupClanTable",
+  "idx": 15,
+  "load": "00547CA0",
+  "entry": "00547CA0",
+  "ncols_min": 13,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "3": "s",
+   "4": "i",
+   "5": "i",
+   "6": "s",
+   "7": "i",
+   "8": "s",
+   "9": "s",
+   "10": "i",
+   "11": "s",
+   "12": "i"
+  },
+  "enums": {
+   "3": [
+    "MECHANIC_LV0",
+    "MECHANIC_LV1",
+    "MECHANIC_LV2",
+    "MECHANIC_LV3",
+    "MECHANIC_LV4",
+    "MECHANIC_LV5",
+    "MECHANIC_LV6",
+    "MECHANIC_LV7",
+    "MECHANIC_LV8",
+    "MECHANIC_LV9",
+    "MECHANIC_LV10"
+   ],
+   "6": [
+    "ROKAKU_LV0",
+    "ROKAKU_LV1",
+    "ROKAKU_LV2",
+    "ROKAKU_LV3",
+    "ROKAKU_LV4",
+    "ROKAKU_LV5"
+   ],
+   "8": [
+    "SHOP_LV0",
+    "SHOP_LV1",
+    "SHOP_LV2",
+    "SHOP_LV3",
+    "SHOP_LV4",
+    "SHOP_LV5",
+    "SHOP_LV6",
+    "SHOP_LV7",
+    "SHOP_LV8",
+    "SHOP_LV9",
+    "SHOP_LV10",
+    "SHOP_LV11",
+    "SHOP_LV12",
+    "SHOP_LV13",
+    "SHOP_LV14",
+    "SHOP_LV15",
+    "SHOP_LV16",
+    "SHOP_LV17",
+    "SHOP_LV18",
+    "SHOP_LV19",
+    "SHOP_LV20",
+    "SHOP_LV21"
+   ],
+   "9": [
+    "DECKCOST_LV0",
+    "DECKCOST_LV1",
+    "DECKCOST_LV2",
+    "DECKCOST_LV3",
+    "DECKCOST_LV4",
+    "DECKCOST_LV5"
+   ],
+   "11": [
+    "DISCOUNT_LV0",
+    "DISCOUNT_LV1",
+    "DISCOUNT_LV2",
+    "DISCOUNT_LV3",
+    "DISCOUNT_LV4",
+    "DISCOUNT_LV5",
+    "DISCOUNT_LV6",
+    "DISCOUNT_LV7",
+    "DISCOUNT_LV8",
+    "DISCOUNT_LV9",
+    "DISCOUNT_LV10"
+   ]
+  }
+ },
+ {
+  "class": "CLvupFavmsTable",
+  "idx": 16,
+  "load": "00547F30",
+  "entry": "00547F30",
+  "ncols_min": 12,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "3": "i",
+   "4": "i",
+   "6": "i",
+   "7": "i",
+   "9": "i",
+   "10": "i",
+   "11": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CLvupMsmaTable",
+  "idx": 14,
+  "load": "005480A0",
+  "entry": "005480A0",
+  "ncols_min": 2,
+  "cols": {
+   "0": "i",
+   "1": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CLvupPilotClassTable",
+  "idx": 13,
+  "load": "005481A0",
+  "entry": "005481A0",
+  "ncols_min": 9,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "s",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i",
+   "8": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CLvupPilotExaminationTable",
+  "idx": 12,
+  "load": "005483A0",
+  "entry": "005483A0",
+  "ncols_min": 5,
+  "cols": {
+   "0": "i",
+   "1": "s",
+   "3": "i",
+   "4": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CLvupPilotTable",
+  "idx": 11,
+  "load": "005484A0",
+  "entry": "005484A0",
+  "ncols_min": 43,
+  "cols": {
+   "0": "i",
+   "36": "i",
+   "37": "i",
+   "38": "i",
+   "41": "i",
+   "42": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMSMABattleDetailTables",
+  "idx": 33,
+  "load": "00549B10",
+  "entry": "00549B10",
+  "ncols_min": 0,
+  "cols": {},
+  "enums": {}
+ },
+ {
+  "class": "CMSMAColorSetTable",
+  "idx": 3,
+  "load": "009E0A50",
+  "entry": "009E0920",
+  "ncols_min": 18,
+  "cols": {
+   "0": "i",
+   "2": "i",
+   "4": "i",
+   "5": "i",
+   "7": "i",
+   "8": "i",
+   "11": "i",
+   "13": "i",
+   "14": "i",
+   "15": "i",
+   "16": "s",
+   "17": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMSMAModuleTable",
+  "idx": 52,
+  "load": "0054B880",
+  "entry": "0054B880",
+  "ncols_min": 3,
+  "cols": {
+   "0": "i",
+   "2": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMSMAOverCustomTable",
+  "idx": 65,
+  "load": "0054B970",
+  "entry": "0054B970",
+  "ncols_min": 13,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "4": "i",
+   "5": "i",
+   "7": "i",
+   "8": "i",
+   "10": "i",
+   "11": "i",
+   "12": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMSMAWeaponEquipCombTable",
+  "idx": 2,
+  "load": "009DCAE0",
+  "entry": "009DC9A0",
+  "ncols_min": 11,
+  "cols": {
+   "0": "i",
+   "2": "s",
+   "3": "s",
+   "4": "s",
+   "5": "s",
+   "6": "i",
+   "8": "i",
+   "10": "s"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMSMAWeaponSetTable",
+  "idx": 1,
+  "load": "009DC930",
+  "entry": "009DC7F0",
+  "ncols_min": 21,
+  "cols": {
+   "0": "i",
+   "2": "i",
+   "4": "s",
+   "5": "s",
+   "6": "i",
+   "7": "i",
+   "8": "i",
+   "10": "i",
+   "11": "i",
+   "14": "i",
+   "16": "i",
+   "17": "i",
+   "18": "i",
+   "19": "i",
+   "20": "s"
+  },
+  "enums": {
+   "0": [
+    "JAPAN",
+    "CHINA",
+    "ALL"
+   ]
+  }
+ },
+ {
+  "class": "CMechanicMSMATable",
+  "idx": 20,
+  "load": "00548740",
+  "entry": "00548740",
+  "ncols_min": 13,
+  "cols": {
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i",
+   "8": "i",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "12": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMechanicOverCustomTable",
+  "idx": 67,
+  "load": "00548980",
+  "entry": "00548980",
+  "ncols_min": 7,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMechanicSuccessTable",
+  "idx": 21,
+  "load": "00548D10",
+  "entry": "00548D10",
+  "ncols_min": 11,
+  "cols": {
+   "0": "s",
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i",
+   "8": "i",
+   "9": "i",
+   "10": "s"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMechanicWeaponTable",
+  "idx": 19,
+  "load": "00548820",
+  "entry": "00548820",
+  "ncols_min": 21,
+  "cols": {
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i",
+   "8": "i",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "12": "i",
+   "13": "i",
+   "14": "i",
+   "15": "i",
+   "16": "i",
+   "17": "i",
+   "18": "i",
+   "19": "i",
+   "20": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMissionCoopTable",
+  "idx": 25,
+  "load": "00561540",
+  "entry": "00561540",
+  "ncols_min": 20,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "s",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i",
+   "8": "i",
+   "9": "s",
+   "10": "s",
+   "11": "i",
+   "13": "i",
+   "14": "i",
+   "15": "i",
+   "16": "i",
+   "19": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMissionExtRuleTable",
+  "idx": 23,
+  "load": "00561AB0",
+  "entry": "00561AB0",
+  "ncols_min": 7,
+  "cols": {
+   "0": "i",
+   "2": "s",
+   "3": "s",
+   "4": "s",
+   "5": "i",
+   "6": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMissionGroupTable",
+  "idx": 26,
+  "load": "00562310",
+  "entry": "00562310",
+  "ncols_min": 3,
+  "cols": {
+   "0": "i",
+   "2": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMissionVsTable",
+  "idx": 24,
+  "load": "005628A0",
+  "entry": "005628A0",
+  "ncols_min": 57,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "5": "i",
+   "13": "i",
+   "14": "i",
+   "15": "i",
+   "16": "s",
+   "17": "s",
+   "18": "s",
+   "23": "i",
+   "26": "i",
+   "27": "i",
+   "28": "i",
+   "31": "i",
+   "32": "i",
+   "33": "i",
+   "34": "i",
+   "35": "i",
+   "38": "i",
+   "39": "i",
+   "40": "i",
+   "41": "i",
+   "44": "i",
+   "55": "i",
+   "56": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMissionXwarBanPickTable",
+  "idx": 68,
+  "load": "00562C90",
+  "entry": "00562C90",
+  "ncols_min": 3,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CModuleBonusLotTable",
+  "idx": 63,
+  "load": "009DCC90",
+  "entry": "009DCB50",
+  "ncols_min": 10,
+  "cols": {
+   "0": "i",
+   "1": "s",
+   "2": "i",
+   "5": "i",
+   "6": "s",
+   "7": "i",
+   "8": "i",
+   "9": "i"
+  },
+  "enums": {
+   "9": [
+    "ASSAULT_A",
+    "RANK1"
+   ]
+  }
+ },
+ {
+  "class": "CModuleBonusTable",
+  "idx": 51,
+  "load": "00564E30",
+  "entry": "00564E30",
+  "ncols_min": 6,
+  "cols": {
+   "1": "i",
+   "2": "i",
+   "4": "i",
+   "5": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CModuleDevelopTable",
+  "idx": 50,
+  "load": "00565010",
+  "entry": "00565010",
+  "ncols_min": 7,
+  "cols": {
+   "0": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "6": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CModuleRentalTable",
+  "idx": 64,
+  "load": "00565080",
+  "entry": "00565080",
+  "ncols_min": 8,
+  "cols": {
+   "0": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CModuleTable",
+  "idx": 49,
+  "load": "00565230",
+  "entry": "00565230",
+  "ncols_min": 8,
+  "cols": {
+   "0": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "6": "i",
+   "7": "s"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMonthlyBonusRewardTable",
+  "idx": 69,
+  "load": "00549450",
+  "entry": "00549450",
+  "ncols_min": 8,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "s",
+   "3": "i",
+   "4": "s",
+   "5": "i",
+   "6": "i",
+   "7": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMsmaBreakupTable",
+  "idx": 53,
+  "load": "00549C70",
+  "entry": "00549C70",
+  "ncols_min": 7,
+  "cols": {
+   "0": "i",
+   "1": "s",
+   "2": "s",
+   "3": "s",
+   "4": "i",
+   "6": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMsmaFavmsTable",
+  "idx": 17,
+  "load": "0054B290",
+  "entry": "0054B290",
+  "ncols_min": 7,
+  "cols": {
+   "0": "i",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMsmaMaterialTable",
+  "idx": 18,
+  "load": "00558D10",
+  "entry": "00558D10",
+  "ncols_min": 3,
+  "cols": {
+   "0": "i",
+   "2": "s"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMsmaMissionUnitTable",
+  "idx": 55,
+  "load": "0054B730",
+  "entry": "0054B730",
+  "ncols_min": 7,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "3": "s",
+   "4": "i",
+   "5": "i",
+   "6": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CMsmaPlanTable",
+  "idx": 22,
+  "load": "00559A20",
+  "entry": "00559A20",
+  "ncols_min": 44,
+  "cols": {
+   "0": "i",
+   "2": "i",
+   "5": "i",
+   "7": "i",
+   "9": "i",
+   "11": "i",
+   "13": "i",
+   "15": "i",
+   "16": "i",
+   "18": "i",
+   "19": "i",
+   "21": "i",
+   "22": "i",
+   "24": "i",
+   "25": "i",
+   "27": "i",
+   "28": "i",
+   "30": "i",
+   "31": "i",
+   "33": "i",
+   "34": "i",
+   "36": "i",
+   "37": "i",
+   "39": "i",
+   "40": "i",
+   "42": "i",
+   "43": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CNetcafeChallengeTable",
+  "idx": 47,
+  "load": "00551FA0",
+  "entry": "00551FA0",
+  "ncols_min": 18,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "4": "s",
+   "5": "i",
+   "8": "i",
+   "10": "s",
+   "11": "i",
+   "12": "i",
+   "14": "i",
+   "15": "i",
+   "17": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "COverHaulTable",
+  "idx": 48,
+  "load": "00552140",
+  "entry": "00552140",
+  "ncols_min": 11,
+  "cols": {
+   "0": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "6": "i",
+   "7": "i",
+   "8": "i",
+   "10": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CPartTable",
+  "idx": 7,
+  "load": "0055A1A0",
+  "entry": "0055A1A0",
+  "ncols_min": 22,
+  "cols": {
+   "0": "i",
+   "2": "i",
+   "3": "i",
+   "4": "s",
+   "10": "s",
+   "12": "s",
+   "18": "s",
+   "19": "s",
+   "21": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CPlayBonusRewardTable",
+  "idx": 57,
+  "load": "00556D40",
+  "entry": "00556D40",
+  "ncols_min": 10,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "5": "i",
+   "6": "i",
+   "7": "i",
+   "9": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CQuestTable",
+  "idx": 43,
+  "load": "005575C0",
+  "entry": "005575C0",
+  "ncols_min": 25,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "24": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CTokenItemTable",
+  "idx": 10,
+  "load": "0055A560",
+  "entry": "0055A560",
+  "ncols_min": 5,
+  "cols": {
+   "0": "i",
+   "2": "s",
+   "3": "i",
+   "4": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CTroopChallengeTable",
+  "idx": 46,
+  "load": "00557770",
+  "entry": "00557770",
+  "ncols_min": 18,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "4": "s",
+   "5": "i",
+   "8": "i",
+   "10": "i",
+   "11": "i",
+   "12": "i",
+   "14": "i",
+   "15": "i",
+   "17": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CUseItemTable",
+  "idx": 8,
+  "load": "0055A5B0",
+  "entry": "0055A5B0",
+  "ncols_min": 4,
+  "cols": {
+   "0": "i",
+   "2": "i",
+   "3": "i"
+  },
+  "enums": {}
+ },
+ {
+  "class": "CWeaponBattleDetailTables",
+  "idx": 35,
+  "load": "0055A8F0",
+  "entry": "0055A8F0",
+  "ncols_min": 0,
+  "cols": {},
+  "enums": {}
+ },
+ {
+  "class": "CWeaponTable",
+  "idx": 36,
+  "load": "0055C3E0",
+  "entry": "0055C3E0",
+  "ncols_min": 26,
+  "cols": {
+   "0": "i",
+   "1": "i",
+   "2": "i",
+   "3": "i",
+   "4": "i",
+   "7": "i",
+   "8": "i",
+   "9": "i",
+   "10": "i",
+   "11": "i",
+   "12": "i",
+   "13": "s",
+   "14": "i",
+   "15": "s",
+   "17": "i",
+   "18": "s",
+   "19": "i",
+   "20": "i",
+   "21": "s",
+   "22": "i",
+   "23": "i",
+   "24": "i",
+   "25": "i"
+  },
+  "enums": {}
+ }
+]

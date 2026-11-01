@@ -1,0 +1,3740 @@
+{
+  "model_id": 101010101,
+  "source": "chara/01/01/0101/motionlist.csv",
+  "common_animation_format": "chara/01/01/anim/MSA_0101_%05d.mrb",
+  "motions": [
+    {
+      "motion_id": 1,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 2,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 5,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 6,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 11,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 12,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 13,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 15,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 16,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 17,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 19,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "83.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "667.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 22,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "100.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 23,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 24,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 25,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 26,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "1000.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 27,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "1500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 28,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 40,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 41,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "666.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 42,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 43,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "667.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 51,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 52,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 53,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 60,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "400.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 61,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 62,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 81,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 70,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "633.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 91,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 203,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "1000.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 207,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 208,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 215,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 216,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 217,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 219,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "200.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 220,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 221,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "283.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 222,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "100.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 223,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 224,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 225,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 226,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "1000.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 270,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "633.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3081,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3082,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "300.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3101,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3102,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3103,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3104,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3105,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3106,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3111,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3112,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3113,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3115,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3116,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3117,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3151,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3152,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3153,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "483.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3181,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3182,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "483.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3307,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3308,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3315,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3316,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 3317,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4001,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4002,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4003,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4004,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4005,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4006,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4011,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4012,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4013,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4015,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4016,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4017,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4051,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4052,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4053,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "484.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4081,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4082,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "300.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4101,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4102,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4103,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4104,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4105,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4106,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4111,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4112,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4113,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4115,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4116,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4117,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4151,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4152,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4153,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "483.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4182,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "483.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4207,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4208,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4215,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4216,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4217,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4307,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4308,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4315,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4316,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 4317,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7001,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7002,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7003,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7004,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7005,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7006,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7011,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7012,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7013,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7015,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7016,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7017,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7051,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7052,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7053,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "484.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7081,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7082,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7101,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7102,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7103,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7104,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7105,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7106,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7111,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7112,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7113,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7115,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7116,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7117,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7151,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7152,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7153,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "484.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7181,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7207,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7208,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7215,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7216,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7217,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7307,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7308,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7315,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7316,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 7317,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8081,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8082,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8101,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "384.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8102,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8103,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8104,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8105,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8106,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8111,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8112,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8113,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8115,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8116,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8117,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8151,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8152,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8153,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "484.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8181,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8182,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8307,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8308,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8315,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8316,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 8317,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10001,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10002,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10003,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10004,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10005,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10006,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10011,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10012,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10013,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10015,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10016,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10017,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10051,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10052,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10053,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "484.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10054,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "1000.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10055,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "834.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10081,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10082,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10181,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10182,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10207,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10208,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10215,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10216,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 10217,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20001,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20002,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20003,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20004,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20005,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20006,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20011,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20012,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20013,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20015,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20016,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20017,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20030,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20031,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20032,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "666.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20036,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20037,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20038,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20039,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20041,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "666.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20051,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20052,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20053,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "484.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20081,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20082,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "300.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20181,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20207,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20208,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20215,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20216,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 20217,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21001,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21002,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21003,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21004,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21005,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21006,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21011,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21012,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21013,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21015,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21016,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21017,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21030,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "416.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21031,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "583.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21032,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "1000.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21036,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21051,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21052,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21053,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "483.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21207,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21208,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21215,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21216,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 21217,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30002,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30003,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30004,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30005,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30006,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30101,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30102,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30103,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30104,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "366.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30105,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30106,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "333.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30111,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30112,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30113,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30115,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30116,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30117,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30151,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30152,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30153,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "483.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30307,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30308,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30315,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30316,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 30317,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31030,
+      "parameters": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "166.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31101,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31102,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "150.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31103,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31104,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "367.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31105,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31106,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "334.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31111,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31112,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31113,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "133.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31115,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31116,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31117,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31151,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31152,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31153,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "484.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31307,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31308,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "500.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31315,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "16.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31316,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "17.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    },
+    {
+      "motion_id": 31317,
+      "parameters": [
+        "1",
+        "0",
+        "0",
+        "0",
+        "167.0"
+      ],
+      "common_exists": true,
+      "unique_exists": false
+    }
+  ],
+  "limitation": "File availability only. Weapon action semantic binding and timing are not inferred from IDs."
+}

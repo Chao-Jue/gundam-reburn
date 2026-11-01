@@ -1,0 +1,187 @@
+{
+  "address": "0xa964d0",
+  "success": 1,
+  "wire_size": 30,
+  "mapping": [
+    {
+      "wire": 0,
+      "struct": [
+        0
+      ]
+    },
+    {
+      "wire": 1,
+      "struct": [
+        1
+      ]
+    },
+    {
+      "wire": 2,
+      "struct": [
+        2
+      ]
+    },
+    {
+      "wire": 3,
+      "struct": [
+        3
+      ]
+    },
+    {
+      "wire": 4,
+      "struct": [
+        4
+      ]
+    },
+    {
+      "wire": 5,
+      "struct": [
+        5
+      ]
+    },
+    {
+      "wire": 6,
+      "struct": [
+        6
+      ]
+    },
+    {
+      "wire": 7,
+      "struct": [
+        7
+      ]
+    },
+    {
+      "wire": 8,
+      "struct": [
+        8
+      ]
+    },
+    {
+      "wire": 9,
+      "struct": [
+        9
+      ]
+    },
+    {
+      "wire": 10,
+      "struct": [
+        10
+      ]
+    },
+    {
+      "wire": 11,
+      "struct": [
+        11
+      ]
+    },
+    {
+      "wire": 12,
+      "struct": [
+        12
+      ]
+    },
+    {
+      "wire": 13,
+      "struct": [
+        13
+      ]
+    },
+    {
+      "wire": 14,
+      "struct": [
+        14
+      ]
+    },
+    {
+      "wire": 15,
+      "struct": [
+        15
+      ]
+    },
+    {
+      "wire": 16,
+      "struct": [
+        16
+      ]
+    },
+    {
+      "wire": 17,
+      "struct": [
+        17
+      ]
+    },
+    {
+      "wire": 18,
+      "struct": [
+        18
+      ]
+    },
+    {
+      "wire": 19,
+      "struct": [
+        19
+      ]
+    },
+    {
+      "wire": 20,
+      "struct": [
+        20
+      ]
+    },
+    {
+      "wire": 21,
+      "struct": [
+        21
+      ]
+    },
+    {
+      "wire": 22,
+      "struct": [
+        22
+      ]
+    },
+    {
+      "wire": 23,
+      "struct": [
+        23
+      ]
+    },
+    {
+      "wire": 24,
+      "struct": [
+        24
+      ]
+    },
+    {
+      "wire": 25,
+      "struct": [
+        25
+      ]
+    },
+    {
+      "wire": 26,
+      "struct": [
+        26
+      ]
+    },
+    {
+      "wire": 27,
+      "struct": [
+        27
+      ]
+    },
+    {
+      "wire": 28,
+      "struct": [
+        28
+      ]
+    },
+    {
+      "wire": 29,
+      "struct": [
+        29
+      ]
+    }
+  ]
+}

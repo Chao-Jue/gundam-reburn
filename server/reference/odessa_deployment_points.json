@@ -1,0 +1,132 @@
+{
+  "source": "GundamOnline_CHINA_\u5df2\u89e3\u5bc6/decrypted/world/field/F01/30110130.vra",
+  "map_id": 100102,
+  "points": [
+    {
+      "team": 1,
+      "position_cm": [
+        -25796.355469,
+        750.0,
+        1681.392822
+      ],
+      "source_object": "OZ_99_as_zeon_pop"
+    },
+    {
+      "team": 0,
+      "position_cm": [
+        -22981.851563,
+        750.0,
+        -5884.386719
+      ],
+      "source_object": "OZ_99_as_eff_pop"
+    },
+    {
+      "team": 0,
+      "position_cm": [
+        4740.72998,
+        -684.683228,
+        -2831.53833
+      ],
+      "source_object": "OZ_99_as_eff_pop"
+    },
+    {
+      "team": 1,
+      "position_cm": [
+        -7162.39502,
+        -684.513916,
+        554.394531
+      ],
+      "source_object": "OZ_99_as_zeon_pop"
+    },
+    {
+      "team": 0,
+      "position_cm": [
+        25361.871094,
+        750.0,
+        -2300.838867
+      ],
+      "source_object": "OZ_99_as_eff_pop"
+    },
+    {
+      "team": 1,
+      "position_cm": [
+        23285.40625,
+        750.0,
+        5439.41748
+      ],
+      "source_object": "OZ_99_as_zeon_pop"
+    },
+    {
+      "team": 0,
+      "position_cm": [
+        12445.0,
+        -671.0,
+        15881.0
+      ],
+      "source_object": "OZ_99_as_eff_pop"
+    },
+    {
+      "team": 0,
+      "position_cm": [
+        29650.0,
+        550.0,
+        -13000.0
+      ],
+      "source_object": "OZ_99_as_eff_pop"
+    },
+    {
+      "team": 1,
+      "position_cm": [
+        -29500.0,
+        550.0,
+        11450.0
+      ],
+      "source_object": "OZ_99_as_zeon_pop"
+    },
+    {
+      "team": 1,
+      "position_cm": [
+        -12613.0,
+        -716.0,
+        -17653.0
+      ],
+      "source_object": "OZ_99_as_zeon_pop"
+    },
+    {
+      "team": 0,
+      "position_cm": [
+        -6176.01123,
+        750.0,
+        14779.241211
+      ],
+      "source_object": "OZ_99_as_eff_pop"
+    },
+    {
+      "team": 1,
+      "position_cm": [
+        -14705.464844,
+        750.0,
+        16578.107422
+      ],
+      "source_object": "OZ_99_as_zeon_pop"
+    },
+    {
+      "team": 0,
+      "position_cm": [
+        14355.599609,
+        750.0,
+        -17955.160156
+      ],
+      "source_object": "OZ_99_as_eff_pop"
+    },
+    {
+      "team": 1,
+      "position_cm": [
+        5474.075195,
+        750.0,
+        -16278.522461
+      ],
+      "source_object": "OZ_99_as_zeon_pop"
+    }
+  ]
+}

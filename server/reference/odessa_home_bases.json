@@ -1,0 +1,10 @@
+{
+  "source": "GundamOnline_CHINA_已解密/decrypted/world/field/F01/30110130.vra",
+  "note": "The four standalone team pop objects under mission, outside numbered FreeRespawnpost groups. Different mission variant from 30110100; complete original A/B/C-X/Y/Z layout remains unrecovered.",
+  "points": [
+    {"team": 0, "position_cm": [12445, -671, 15881]},
+    {"team": 0, "position_cm": [29650, 550, -13000]},
+    {"team": 1, "position_cm": [-29500, 550, 11450]},
+    {"team": 1, "position_cm": [-12613, -716, -17653]}
+  ]
+}
