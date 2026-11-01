@@ -84,9 +84,14 @@ class IdentityExperimentTest(unittest.TestCase):
             body = experiment.table_body(name)
             self.assertIsNotNone(body, name)
             tables[name] = list(csv.reader(io.StringIO(body.decode())))[2:]
-        self.assertEqual({int(r[0]) for r in tables['item/item.csv']}, set(ids) | {777104})
-        self.assertEqual({int(r[0]) for r in tables['item/weapon_settings.csv']}, set(ids) | {777104})
-        self.assertEqual({int(r[2]) for r in tables['msma/msma_weapon_set.csv']}, set(ids))
+        # 默认只授予三把 starter；下载表里还有追加的测试武器（必须显式解锁）。
+        granted = set(ids)
+        defined = {w['item_id'] for w in experiment.all_definitions()}
+        self.assertEqual(granted, {w['item_id'] for w in experiment.starter_definitions()})
+        self.assertLess(granted, defined)
+        self.assertEqual({int(r[0]) for r in tables['item/item.csv']}, defined | {777104})
+        self.assertEqual({int(r[0]) for r in tables['item/weapon_settings.csv']}, defined | {777104})
+        self.assertEqual({int(r[2]) for r in tables['msma/msma_weapon_set.csv']}, defined)
         definition = list(csv.reader(io.StringIO(experiment.table_body('msma/msma_settings.csv').decode())))[2]
         self.assertEqual({r[0] for r in tables['msma/msma_weapon_set.csv']}, {definition[38]})
 
@@ -108,7 +113,7 @@ class IdentityExperimentTest(unittest.TestCase):
 
     def test_weapon_weights_use_native_weight_column(self):
         rows = list(csv.reader(io.StringIO(experiment.table_body('item/weapon_settings.csv').decode())))[2:]
-        definitions = {w['item_id']: w for w in experiment.starter_definitions()}
+        definitions = {w['item_id']: w for w in experiment.all_definitions()}
         for row in rows:
             if row[21] == 'SHIELD':
                 self.assertEqual(row[109], '0')
@@ -139,7 +144,7 @@ class IdentityExperimentTest(unittest.TestCase):
         self.assertIsNotNone(body)
         details = {r[1]: r for r in list(csv.reader(io.StringIO(body.decode())))[2:]}
         rows = list(csv.reader(io.StringIO(experiment.table_body('item/weapon_settings.csv').decode())))[2:]
-        definitions = {w['item_id']: w for w in experiment.starter_definitions()}
+        definitions = {w['item_id']: w for w in experiment.all_definitions()}
         for row in rows:
             if row[21] == 'SHIELD':
                 self.assertEqual(row[74], '')

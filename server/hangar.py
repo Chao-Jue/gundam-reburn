@@ -94,6 +94,27 @@ class HangarStore:
             temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
             temporary.replace(self.path)
 
+    def add_weapon(self, account, pilot_id, uniqid, item_id, db_index=0):
+        """解锁一把武器：写进机体 weapons 列表并落盘。
+
+        幂等 —— 已持有直接返回 False，不产生写入。
+        只做存储层校验；"这把武器在不在本机型的可装备集合里" 由调用方判定。
+        """
+        with self.lock:
+            units = self.units(account, pilot_id)
+            unit = next((u for u in units if u['uniqid'] == uniqid), None)
+            if unit is None:
+                raise ValueError('unit does not exist')
+            if any(w['item_id'] == item_id for w in unit.get('weapons', [])):
+                return False
+            if len(unit.get('weapons', [])) >= 30:
+                # 0xAC0304 / unit_add_body: current client accepts at most 30.
+                raise ValueError('unit weapon list is full')
+            unit.setdefault('weapons', []).append(
+                {'item_id': int(item_id), 'db_index': int(db_index)})
+            self.replace_units(account, pilot_id, units)
+        return True
+
     def change_weapon(self, account, pilot_id, request):
         # Current sender 0xADFC00 reserves 18 bytes incl opcode, writes:
         # uniqid u64, slot u16, item_id u32. Actual body is 14 bytes.

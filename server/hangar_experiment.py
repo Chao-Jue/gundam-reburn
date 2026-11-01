@@ -19,8 +19,51 @@ SHIELD_HP = 990  # same cached GM Wiki revision103423 as the other reference sta
 
 
 
+def _reference(name):
+    return json.loads((Path(__file__).parent / 'reference' / name).read_text(encoding='utf-8'))['weapons']
+
+
 def starter_definitions():
-    return json.loads((Path(__file__).parent / 'reference/gm_starter_weapons.json').read_text(encoding='utf-8'))['weapons']
+    """默认授予的三把武器：只有它们会写进新建机体的 weapons 列表。"""
+    return _reference('gm_starter_weapons.json')
+
+
+def test_definitions():
+    """追加的测试武器：只进下载表，必须显式解锁。
+
+    资源号均已在 decrypted 资源树里核对 icon 与 vra 同时存在；
+    类别/动作只用原生枚举里已验证过的 SHOTGUN / WRESTLE / HAND_THROW。
+    """
+    return _reference('gm_test_weapons.json')
+
+
+def all_definitions():
+    return starter_definitions() + test_definitions()
+
+
+def unlock_weapon(store, account, pilot_id, uniqid, item_id):
+    """把一把已定义但未持有的武器写进机体记录并落盘。
+
+    幂等：已持有返回 False。db_index 取该武器在 all_definitions 里的下标，
+    与 msma_weapon_set 的下发顺序一致。
+    """
+    index = {w['item_id']: i for i, w in enumerate(all_definitions())}
+    if item_id not in index:
+        raise ValueError('weapon %d 不是已定义的测试武器' % item_id)
+    return store.add_weapon(account, pilot_id, uniqid, item_id, index[item_id])
+
+
+def category_of(weapon):
+    """线上类别枚举；原生枚举没有 BEAM_SPRAYGUN，喷枪落到 SHOTGUN。"""
+    return weapon.get('category') or ('SHOTGUN' if weapon['kind'] == 'BEAM_SPRAYGUN'
+                                      else weapon['kind'])
+
+
+ACTION_OF = {'BEAM_SPRAYGUN': 'GUN_SINGLE', 'WRESTLE': 'WRESTLE', 'HAND_THROW': 'HAND_THROW'}
+
+
+def action_of(weapon):
+    return weapon.get('action') or ACTION_OF[weapon['kind']]
 
 
 def performance_templates(weapon):
@@ -52,7 +95,7 @@ def csv_rows(rows):
 
 
 def weapon_tables(name):
-    definitions = starter_definitions()
+    definitions = all_definitions()
     if name == 'develop/mechanic_weapon.csv':
         # Detail preview 0x7A6810 unconditionally reads ticket key2 bounds.
         # 0x548820 reads 20 alternating min/max columns, each multiplied by10.
@@ -109,17 +152,15 @@ def weapon_tables(name):
             row[0] = w['item_id']
             # 0x55C45D: col2 -> weapon+4. 0x558110 WEAPON branch
             # passes weapon+4 to 0xA317F0/0xA318F0 (d/s%08d.dds).
-            # Resource identity checked against the local contact sheets.
-            row[2] = {777101: 2010501, 777102: 4010101,
-                      777103: 10020101}.get(w['item_id'], 0)
+            # 资源号按本地 icon+vra 双存在核对过，属实验引用。
+            row[2] = int(w['resource'])
             # 4E2570 selects weapon+4/+8/+C for state-dependent VRA loading.
             # Reuse the verified existing base model in alternate states until
             # distinct drawn/stowed variants are recovered. Not original poses.
             row[3] = row[4] = row[2]
             # Native enum55B240 has SHOTGUN, not BEAM_SPRAYGUN.
-            row[21] = 'SHOTGUN' if w['kind'] == 'BEAM_SPRAYGUN' else w['kind']
-            row[30] = {'BEAM_SPRAYGUN': 'GUN_SINGLE', 'WRESTLE': 'WRESTLE',
-                       'HAND_THROW': 'HAND_THROW'}[w['kind']]
+            row[21] = category_of(w)
+            row[30] = action_of(w)
             if '弹数' in w['attributes']:
                 row[101], row[102] = map(int, w['attributes']['弹数'].split('/'))
                 row[68] = w['item_id']  # bullet table -> weapon+970, bound55E1C0
@@ -143,8 +184,7 @@ def weapon_tables(name):
             # 0x551BC0 groups by col0, row+4=col2 item ID; row+0x14=col6 default.
             row = [0] * 29
             row[0], row[2] = MSMA_ID, w['item_id']
-            category = 'SHOTGUN' if w['kind'] == 'BEAM_SPRAYGUN' else w['kind']
-            row[4], row[5], row[6], row[28] = 'MAIN', category, 1, 'CHINA'
+            row[4], row[5], row[6], row[28] = 'MAIN', category_of(w), 1, 'CHINA'
             rows.append(row)
         return csv_rows(rows)
     return None

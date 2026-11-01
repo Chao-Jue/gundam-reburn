@@ -6,6 +6,7 @@
     {
       "item_id": 777101,
       "kind": "BEAM_SPRAYGUN",
+      "resource": 2010501,
       "name": "光束喷枪",
       "gold_only": false,
       "template": "高达OL武器模板",
@@ -28,6 +29,7 @@
     {
       "item_id": 777102,
       "kind": "WRESTLE",
+      "resource": 4010101,
       "name": "光束军刀",
       "gold_only": false,
       "template": "高达OL武器模板",
@@ -45,6 +47,7 @@
     {
       "item_id": 777103,
       "kind": "HAND_THROW",
+      "resource": 10020101,
       "name": "手雷",
       "gold_only": false,
       "template": "高达OL武器模板",
@@ -61,5 +64,6 @@
         "效果范围": "5000"
       }
     }
-  ]
+  ],
+  "resource_note": "resource 为本地外观引用（icon+vra 已核对），不证明原版吉姆武器变体正确。"
 }
