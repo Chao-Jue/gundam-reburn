@@ -293,13 +293,20 @@ def op_block(opcode, body, kind=None):
 
 
 def body_70e9(rest, mode):
-    """0x70E9 = 反外挂模块校验报告。回什么正文，几种候选：
+    """0x70E9 = 「CPS 模块校验报告」（`send_you9_cps_CLientCheck_response`）。
 
-    rest 实测 = `05 00 00 00 | 00 00 00 00 | 00 00 00 00 | "C:\\WINDOWS\\system32\\uxtheme.dll_a0ae2b2b\\0"`
-    （三个整数 + 一个已被校验的文件路径）
+    rest 实测 = `05 00 00 00 | 00 00 00 00 | 00 00 00 00 | "<已被校验的模块>_<hash>"\\0`，
+    路径实测出现过 `C:\\WINDOWS\\system32\\uxtheme.dll_a0ae2b2b`、
+    `C:\\WINDOWS\\System32\\MSCTF.dll_36bd5c96`，
+    也出现过 `Addr:4546C0, C:E93FC9B529, O:6AFF688825` 这种地址+代码指纹。
 
-    none   —— 不回（现状，客户端随后静默）
-    zero   —— 3 个 0（默认：最像"校验通过"的 ack）
+    它是**单向上报**（客户端自己的日志串就叫 `..._response`），不是请求-应答：
+    镜像里查不到 `cmp eax,0x70E9`，93 条 lounge 接包 handler 和 282 条首级分发表里
+    也都没有它 ⇒ 服务端回什么都没人读。5.0.0.33 上实测回了 114 次 `zero`，
+    没有产生任何可观察影响（详见 server/0x70E9-应答实验.md §4）。
+
+    none   —— 不回（默认：它不需要回执，少一个变量）
+    zero   —— 3 个 0（历史上最常用的猜测，实测无害）
     ok4    —— 1 个 0
     mirror —— 把请求的前 12 字节原样回显
     echo   —— 整段正文回显
@@ -924,9 +931,14 @@ def hall_replies(op, rest, account, pilot_id=1):
             pushes.append((0xB080, xwar_entry.mission_info_body()))
         return pushes
     if op == 0x16AC:
-        # 0x2ACF 是 28B 定长：
+        # 0x2ACF 是 28B 定长（客户端 recv_msma_init_get_r_begin，处理器 0xAAA848，
+        # `push 0x1c` 预留正好 28）：
         # sv_time u32 | slot_num u16 | sort_sec u32 | sort_usec u32
         # | penalty u16 | bonus u16 | balance u16 | sort_type u32 | sort_order u32
+        # ↑ slot_num = 紧随其后的 0xA832 记录条数（不是仓库容量）。客户端自己的
+        #   日志串就叫它 slot_num，且是 recv_msma_init_get_r_begin 的字段；
+        #   0xAAA848 把它连同另外 8 个字段一起交给 vt[0x21c]。按"条数"理解是唯一
+        #   在 9.0.0.235 上通过单变量实验的读法，5.0.0.33 对偏大值也只是不敏感。
         # 0xFCE6 必须是空正文，多一个字节客户端会丢掉整条。
         units = HANGAR_STORE.units(account, pilot_id)
         if HANGAR_EXPERIMENT:
@@ -944,8 +956,8 @@ def hall_replies(op, rest, account, pilot_id=1):
         # 0x604830 accepts sort types 1..13 only. Type 0 makes 0x5E0600
         # leave the sorted vector empty; 0x787BB6 then dereferences null.
         struct.pack_into('<II', begin, 20, 1, 0)
-        if units:
-            struct.pack_into('<H', begin, 4, max(100, len(units)))
+        # slot_num 就是本次下发的 0xA832 条数；空仓库自然是 0。
+        struct.pack_into('<H', begin, 4, min(len(units), 0xFFFF))
         return ([(0x2ACF, bytes(begin))]
                 + [(0xA832, unit_add_body(unit)) for unit in units]
                 + [(0xFCE6, b'')])
@@ -2236,10 +2248,11 @@ def main():
                     help='seconds between pilot body repeats')
     ap.add_argument('--probe-gap', type=float, default=0.4,
                     help='两条试探之间的间隔秒数')
-    ap.add_argument('--seventye9', '--70e9', dest='seventye9', default='zero',
+    ap.add_argument('--seventye9', '--70e9', dest='seventye9', default='none',
                     choices=['none', 'zero', 'ok4', 'mirror', 'echo'],
-                    help='收到 0x70E9（反外挂模块校验报告）回什么：none=不回，zero=3 个 0（默认），'
-                         'ok4=1 个 0，mirror=回显请求前 12 字节，echo=整段回显')
+                    help='收到 0x70E9（CPS 模块校验报告）回什么：none=不回（默认，单向上报、'
+                         '客户端没有这条的下行 handler），zero=3 个 0，ok4=1 个 0，'
+                         'mirror=回显请求前 12 字节，echo=整段回显')
     ap.add_argument('--hangar-store', default=os.path.join(HERE, 'saved_hangar.json'),
                     help='角色机体资产JSON；缺省不授予机体，机型/武器ID须与客户端下载表匹配')
     ap.add_argument('--hangar-experiment', choices=['gm'], help='启用GM实验，资产写入独立的 .gm.json 存档')

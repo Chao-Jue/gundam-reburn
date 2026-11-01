@@ -61,7 +61,8 @@ timeout /t 1 /nobreak >nul
 :start_auth
 echo     [..] starting fake AUTH on 30000 ...
 REM --idle 必须给大：到了机师阶段客户端会长时间不吐一行，300s 会把连接关掉
-start "fake-auth" /min "%PY%" server\fake_auth.py --sweep --sweep-gap 2 --idle 7200 --seventye9 zero --pilot-variants vacant_both --probe-gap 12.0 %PILOT_EXTRA%
+REM 0x70E9 用默认的 none（单向上报，回了没人读）。要复现历史上的 zero 就加 --seventye9 zero
+start "fake-auth" /min "%PY%" server\fake_auth.py --sweep --sweep-gap 2 --idle 7200 --pilot-variants vacant_both --probe-gap 12.0 %PILOT_EXTRA%
 timeout /t 2 /nobreak >nul
 echo     [ok] port 30000 started
 

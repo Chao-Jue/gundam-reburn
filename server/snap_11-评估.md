@@ -72,7 +72,7 @@
 
 | 项 | 内容 | 对我们 |
 |---|---|---|
-| `0x70E9 file_integrity_get` | **永不应答，回了必崩** | 我们 `fake_auth.py` 默认回 3 个 0（`--integrity=zero`）。这条值得单独验一次"完全不回" |
+| `0x70E9 file_integrity_get` | ~~永不应答，回了必崩~~ → **已证伪（2026-11-01）**：5.0.0.33 上回了 114 次 `zero`，零崩溃；客户端根本没有这条的下行 handler，属于单向上报 | 默认已改成 `--seventye9 none`，理由是"不需要回执、少一个变量"，不是"回去会崩"。见 `0x70E9-应答实验.md` §6 |
 | `session.frame_chunk = 12000` | 超过 12000 B 的 record 切成多个 transport unit，每 unit 带同一 record 的一段 | 将来发 29514 / 46189 / 51725 这类大包时必须按字节流切，否则流错位 |
 | `0xF11C channel_list_r` | `user_max = 0` ⇒ 频道进不去 | 机师之后下一关的坑 |
 | `0x063E pilot_select_r` | "决定进不进频道" | 我们已知 |
@@ -142,7 +142,7 @@ tools/probe_battle.py            战斗链路无客户端回归测试
 
 1. **用 `server/opcode_names_from_snap11.csv` 给分发表补注释**（零风险，已产出）
 2. 把精力从"字段顺序 / 长度"移开，转向**"哪个字段的值不合法"**——偏移已被独立交叉验证
-3. 拿 `--integrity=none`（完全不回 0x70E9）做一次干净对照（一候选 = 一次全新启动）
+3. ~~拿 `--integrity=none`（完全不回 0x70E9）做一次干净对照~~ → 已改为 `--seventye9 none` 并设为默认；`zero` 侧已在 2026-11-01 累计 114 次证实无害，`none` 侧仍欠一次真实登录对照
 4. 找对方要 gosrv；拿不到再考虑用他们的 `opcodes.csv` 227 条对齐我们的 282 条，把剩下的 217 条补名
 5. 记录 `frame_chunk=12000`，将来发大包前套用
 

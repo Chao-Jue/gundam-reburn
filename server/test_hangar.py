@@ -52,6 +52,33 @@ class HangarTest(unittest.TestCase):
                 self.assertEqual(reply, [(0xD9DB, struct.pack('<iQHI', 0, 1001, 0, 12))])
                 self.assertEqual(len(fake_auth.hall_replies(0x16AC, b'', 'a', 1)), 2)
 
+    def test_init_begin_slot_num_is_record_count(self):
+        """0x2ACF +4 的 slot_num 是紧随其后的 A832 条数，不是仓库容量。
+
+        回归：曾经写成 max(100, n)，只是 5.0.0.33 对偏大值不敏感才没暴露；
+        9.0.0.235 上按这个值迭代会越界崩溃。
+        """
+        import fake_auth
+        with tempfile.TemporaryDirectory() as folder:
+            store = HangarStore(Path(folder) / 'hangar.json')
+            second = dict(sample_unit(), uniqid=1002)
+            store.replace_units('a', 3, [sample_unit(), second])
+            with patch.object(fake_auth, 'HANGAR_STORE', store):
+                messages = fake_auth.hall_replies(0x16AC, b'', 'a', 3)
+            begin = messages[0][1]
+            self.assertEqual(len(begin), 28)
+            self.assertEqual(struct.unpack_from('<H', begin, 4)[0], 2)
+            self.assertEqual(len([m for m in messages if m[0] == 0xA832]), 2)
+            # 空仓库 ⇒ 0 条记录 ⇒ 0
+            empty = fake_auth.hall_replies(0x16AC, b'', 'a', 9)
+            self.assertEqual(struct.unpack_from('<H', empty[0][1], 4)[0], 0)
+
+    def test_seventye9_defaults_to_none(self):
+        """0x70E9 是单向上报，默认不回；zero 仍保留为显式选项。"""
+        import fake_auth
+        self.assertIsNone(fake_auth.body_70e9(b'\x05\x00\x00\x00', 'none'))
+        self.assertEqual(fake_auth.body_70e9(b'\x05\x00\x00\x00', 'zero'), b'\x00' * 12)
+
 
 if __name__ == '__main__':
     unittest.main()
