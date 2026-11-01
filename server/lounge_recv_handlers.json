@@ -1,0 +1,653 @@
+[
+ {
+  "op": 1415,
+  "handler": 11158291,
+  "gate": null,
+  "size": null,
+  "name": ")->_proto_lounge_client::recv_pilot_dailyrecord_notice("
+ },
+ {
+  "op": 2024,
+  "handler": 11161188,
+  "gate": 182,
+  "size": 182,
+  "name": ")->_proto_lounge_client::recv_party_info_edit_notice("
+ },
+ {
+  "op": 2316,
+  "handler": 11162421,
+  "gate": 264,
+  "size": 264,
+  "name": ")->_proto_lounge_client::recv_pilot_money_update("
+ },
+ {
+  "op": 2682,
+  "handler": 11164405,
+  "gate": 489,
+  "size": 489,
+  "name": ")->_proto_lounge_client::recv_storage_msma_extend_r("
+ },
+ {
+  "op": 4273,
+  "handler": 11167288,
+  "gate": 575,
+  "size": 575,
+  "name": ")->_proto_lounge_client::recv_msma_over_custom_exp_notice("
+ },
+ {
+  "op": 5557,
+  "handler": 11168339,
+  "gate": 435,
+  "size": 435,
+  "name": ")->_proto_lounge_client::recv_clan_npc_update_r("
+ },
+ {
+  "op": 6408,
+  "handler": 11169987,
+  "gate": 302,
+  "size": 302,
+  "name": ")->_proto_lounge_client::recv_msma_missionunit_store_r("
+ },
+ {
+  "op": 7408,
+  "handler": 11170876,
+  "gate": 487,
+  "size": 11228,
+  "name": ")->_proto_lounge_client::recv_ranking_clan_get_r("
+ },
+ {
+  "op": 7426,
+  "handler": 11173583,
+  "gate": 173,
+  "size": null,
+  "name": ")->_proto_lounge_client::recv_channellobby_members_get_r("
+ },
+ {
+  "op": 8292,
+  "handler": 11176981,
+  "gate": 206,
+  "size": 206,
+  "name": ")->_proto_lounge_client::recv_msma_equip_weapon_exchange_r("
+ },
+ {
+  "op": 9294,
+  "handler": 11178210,
+  "gate": null,
+  "size": 169,
+  "name": ")->_proto_lounge_client::recv_btlroom_info_one("
+ },
+ {
+  "op": 9423,
+  "handler": 11179735,
+  "gate": 379,
+  "size": 379,
+  "name": ")->_proto_lounge_client::recv_gacha_enter_r("
+ },
+ {
+  "op": 10284,
+  "handler": 11180921,
+  "gate": 236,
+  "size": 236,
+  "name": ")->_proto_lounge_client::recv_msma_energy_charge_r("
+ },
+ {
+  "op": 11360,
+  "handler": 11183826,
+  "gate": 518,
+  "size": 518,
+  "name": ")->_proto_lounge_client::recv_cpf_authenticate_error("
+ },
+ {
+  "op": 11686,
+  "handler": 11185989,
+  "gate": 278,
+  "size": 278,
+  "name": ")->_proto_lounge_client::recv_msma_color_unlock_r("
+ },
+ {
+  "op": 13679,
+  "handler": 11190192,
+  "gate": 284,
+  "size": 1924,
+  "name": ")->_proto_lounge_client::recv_msma_msset_get_r("
+ },
+ {
+  "op": 13816,
+  "handler": 11191769,
+  "gate": 502,
+  "size": 502,
+  "name": ")->_proto_lounge_client::recv_restrict_exchange_notice("
+ },
+ {
+  "op": 15060,
+  "handler": 11194959,
+  "gate": 385,
+  "size": 7212,
+  "name": ")->_proto_lounge_client::recv_gacha_prize_lineup_r("
+ },
+ {
+  "op": 16256,
+  "handler": 11196410,
+  "gate": 252,
+  "size": 252,
+  "name": ")->_proto_lounge_client::recv_msma_breakup_r("
+ },
+ {
+  "op": 17237,
+  "handler": 11197543,
+  "gate": 544,
+  "size": 152,
+  "name": ")->_proto_lounge_client::recv_buff_effect_add("
+ },
+ {
+  "op": 17892,
+  "handler": 11198645,
+  "gate": 272,
+  "size": 272,
+  "name": ")->_proto_lounge_client::recv_msma_weapon_unlock_r("
+ },
+ {
+  "op": 18047,
+  "handler": 11200415,
+  "gate": 387,
+  "size": 277,
+  "name": ")->_proto_lounge_client::recv_gacha_exec_r("
+ },
+ {
+  "op": 19247,
+  "handler": 11202002,
+  "gate": null,
+  "size": 1028,
+  "name": ")->_proto_lounge_client::recv_pilot_rating_update("
+ },
+ {
+  "op": 19943,
+  "handler": 11203339,
+  "gate": 456,
+  "size": 456,
+  "name": ")->_proto_lounge_client::recv_clan_msgboard_msglist_get_r("
+ },
+ {
+  "op": 20291,
+  "handler": 11205600,
+  "gate": 333,
+  "size": 6608,
+  "name": ")->_proto_lounge_client::recv_friend_search_r("
+ },
+ {
+  "op": 20902,
+  "handler": 11207432,
+  "gate": 177,
+  "size": 183,
+  "name": ")->_proto_lounge_client::recv_pilot_overplay_update("
+ },
+ {
+  "op": 22166,
+  "handler": 11215211,
+  "gate": 464,
+  "size": 6025,
+  "name": ")->_proto_lounge_client::recv_clan_invite_pilotlist_get_r("
+ },
+ {
+  "op": 23084,
+  "handler": 11219054,
+  "gate": 495,
+  "size": 495,
+  "name": ")->_proto_lounge_client::recv_deckcost_extend_r("
+ },
+ {
+  "op": 23401,
+  "handler": 11221851,
+  "gate": 541,
+  "size": 541,
+  "name": ")->_proto_lounge_client::recv_pilot_examination_interval_skip_r("
+ },
+ {
+  "op": 24344,
+  "handler": 11222921,
+  "gate": 512,
+  "size": 512,
+  "name": ")->_proto_lounge_client::recv_cupteam_party_get_r("
+ },
+ {
+  "op": 24595,
+  "handler": 11224764,
+  "gate": 535,
+  "size": 535,
+  "name": ")->_proto_lounge_client::recv_pilot_earlyexit_rkgrevoke("
+ },
+ {
+  "op": 25661,
+  "handler": 11225685,
+  "gate": 525,
+  "size": 525,
+  "name": ")->_proto_lounge_client::recv_you9_cps_RAC_request("
+ },
+ {
+  "op": 26839,
+  "handler": 11226998,
+  "gate": 446,
+  "size": 446,
+  "name": ")->_proto_lounge_client::recv_clan_level_update("
+ },
+ {
+  "op": 27343,
+  "handler": 11228220,
+  "gate": 421,
+  "size": 421,
+  "name": ")->_proto_lounge_client::recv_clan_rookie_enter_r("
+ },
+ {
+  "op": 28663,
+  "handler": 11229744,
+  "gate": 433,
+  "size": 433,
+  "name": ")->_proto_lounge_client::recv_clan_emblem_update_r("
+ },
+ {
+  "op": 29042,
+  "handler": 11230986,
+  "gate": 292,
+  "size": 140,
+  "name": ")->_proto_lounge_client::recv_msma_equipset_store_r("
+ },
+ {
+  "op": 29440,
+  "handler": 11233048,
+  "gate": 470,
+  "size": 470,
+  "name": ")->_proto_lounge_client::recv_clan_rokaku_use_point_r("
+ },
+ {
+  "op": 30697,
+  "handler": 11237412,
+  "gate": 566,
+  "size": 566,
+  "name": ")->_proto_lounge_client::recv_msma_over_custom_level_up_r("
+ },
+ {
+  "op": 31128,
+  "handler": 11239146,
+  "gate": 572,
+  "size": 572,
+  "name": ")->_proto_lounge_client::recv_msma_over_custom_use_capsule_r("
+ },
+ {
+  "op": 31692,
+  "handler": 11240239,
+  "gate": 308,
+  "size": 308,
+  "name": ")->_proto_lounge_client::recv_item_add_dialog_show("
+ },
+ {
+  "op": 32162,
+  "handler": 11242216,
+  "gate": 549,
+  "size": 549,
+  "name": ")->_proto_lounge_client::recv_dailycup_booking_update("
+ },
+ {
+  "op": 33135,
+  "handler": 11243510,
+  "gate": 137,
+  "size": 137,
+  "name": ")->_proto_lounge_client::recv_btlroom_invite_to("
+ },
+ {
+  "op": 33265,
+  "handler": 11245279,
+  "gate": 276,
+  "size": null,
+  "name": ")->_proto_lounge_client::recv_pilot_dailyrecord_get_r("
+ },
+ {
+  "op": 33675,
+  "handler": 11246923,
+  "gate": 260,
+  "size": 260,
+  "name": ")->_proto_lounge_client::recv_msma_buildup_reset_r("
+ },
+ {
+  "op": 33995,
+  "handler": 11248566,
+  "gate": 326,
+  "size": 326,
+  "name": ")->_proto_lounge_client::recv_friend_list_mail_accept_r("
+ },
+ {
+  "op": 35140,
+  "handler": 11249958,
+  "gate": 493,
+  "size": 210,
+  "name": ")->_proto_lounge_client::recv_chat_troops_down("
+ },
+ {
+  "op": 35568,
+  "handler": 11251714,
+  "gate": 496,
+  "size": 496,
+  "name": ")->_proto_lounge_client::recv_deckcost_extend_info_notice("
+ },
+ {
+  "op": 36175,
+  "handler": 11253028,
+  "gate": 534,
+  "size": 534,
+  "name": ")->_proto_lounge_client::recv_get_special_a_info_r("
+ },
+ {
+  "op": 36670,
+  "handler": 11255516,
+  "gate": 298,
+  "size": 298,
+  "name": ")->_proto_lounge_client::recv_msma_equipset_del_r("
+ },
+ {
+  "op": 39218,
+  "handler": 11262128,
+  "gate": 266,
+  "size": 266,
+  "name": ")->_proto_lounge_client::recv_msma_weapon_buildup_estimate_r("
+ },
+ {
+  "op": 39764,
+  "handler": 11263043,
+  "gate": 341,
+  "size": 341,
+  "name": ")->_proto_lounge_client::recv_block_list_add_r("
+ },
+ {
+  "op": 40449,
+  "handler": 11264882,
+  "gate": 210,
+  "size": 210,
+  "name": ")->_proto_lounge_client::recv_msma_equip_special_change_r("
+ },
+ {
+  "op": 41476,
+  "handler": 11267763,
+  "gate": 539,
+  "size": 539,
+  "name": ")->_proto_lounge_client::recv_pilot_examination_state("
+ },
+ {
+  "op": 42300,
+  "handler": 11269010,
+  "gate": 547,
+  "size": 547,
+  "name": ")->_proto_lounge_client::recv_dailycup_entry_term("
+ },
+ {
+  "op": 42478,
+  "handler": 11270241,
+  "gate": 548,
+  "size": 548,
+  "name": ")->_proto_lounge_client::recv_dailycup_booking_accept("
+ },
+ {
+  "op": 42799,
+  "handler": 11271229,
+  "gate": 282,
+  "size": 282,
+  "name": ")->_proto_lounge_client::recv_msma_sp_parts_level_update("
+ },
+ {
+  "op": 43058,
+  "handler": 11272964,
+  "gate": 194,
+  "size": 2176,
+  "name": ")->_proto_lounge_client::recv_msma_add("
+ },
+ {
+  "op": 44432,
+  "handler": 11276659,
+  "gate": 460,
+  "size": 460,
+  "name": ")->_proto_lounge_client::recv_clan_msgboard_msg_delete_r("
+ },
+ {
+  "op": 45184,
+  "handler": 11277667,
+  "gate": null,
+  "size": 1035,
+  "name": ")->_proto_lounge_client::recv_mission_info_update_vs("
+ },
+ {
+  "op": 45219,
+  "handler": 11279884,
+  "gate": 128,
+  "size": 128,
+  "name": ")->_proto_lounge_client::recv_btlroom_update_count("
+ },
+ {
+  "op": 46143,
+  "handler": 11283562,
+  "gate": 185,
+  "size": 29608,
+  "name": ")->_proto_lounge_client::recv_party_recruit_list_get_r("
+ },
+ {
+  "op": 47291,
+  "handler": 11288312,
+  "gate": 286,
+  "size": 286,
+  "name": ")->_proto_lounge_client::recv_msma_msset_store_r("
+ },
+ {
+  "op": 47407,
+  "handler": 11290229,
+  "gate": 425,
+  "size": 425,
+  "name": ")->_proto_lounge_client::recv_clan_mshipbid_request_cancel_r("
+ },
+ {
+  "op": 47731,
+  "handler": 11292209,
+  "gate": 516,
+  "size": 132,
+  "name": ")->_proto_lounge_client::recv_cpf_authenticate("
+ },
+ {
+  "op": 48243,
+  "handler": 11294399,
+  "gate": 143,
+  "size": 143,
+  "name": ")->_proto_lounge_client::recv_btlroom_commander_cheer_r("
+ },
+ {
+  "op": 49823,
+  "handler": 11295420,
+  "gate": 503,
+  "size": 781,
+  "name": ")->_proto_lounge_client::recv_event_notice_add_dialog_show("
+ },
+ {
+  "op": 50236,
+  "handler": 11297613,
+  "gate": 398,
+  "size": 176,
+  "name": ")->_proto_lounge_client::recv_pilot_create_r("
+ },
+ {
+  "op": 50849,
+  "handler": 11300228,
+  "gate": 274,
+  "size": 274,
+  "name": ")->_proto_lounge_client::recv_msma_weapon_unlock_estimate_r("
+ },
+ {
+  "op": 51335,
+  "handler": 11301511,
+  "gate": 130,
+  "size": 130,
+  "name": ")->_proto_lounge_client::recv_btlroom_quick_start_r("
+ },
+ {
+  "op": 51493,
+  "handler": 11303521,
+  "gate": 391,
+  "size": 391,
+  "name": ")->_proto_lounge_client::recv_gacha_effect_stop_r("
+ },
+ {
+  "op": 52166,
+  "handler": 11307456,
+  "gate": 383,
+  "size": 1608,
+  "name": ")->_proto_lounge_client::recv_gacha_lineup_r("
+ },
+ {
+  "op": 54151,
+  "handler": 11311482,
+  "gate": 196,
+  "size": 210,
+  "name": ")->_proto_lounge_client::recv_pilot_comment_edit_r("
+ },
+ {
+  "op": 54279,
+  "handler": 11312837,
+  "gate": 281,
+  "size": 281,
+  "name": ")->_proto_lounge_client::recv_msma_sp_parts_exp_update("
+ },
+ {
+  "op": 54972,
+  "handler": 11321116,
+  "gate": 201,
+  "size": 201,
+  "name": ")->_proto_lounge_client::recv_msma_deckslot_change_r("
+ },
+ {
+  "op": 55367,
+  "handler": 11322439,
+  "gate": 506,
+  "size": 257,
+  "name": ")->_proto_lounge_client::recv_replay_get_access_url("
+ },
+ {
+  "op": 55522,
+  "handler": 11323865,
+  "gate": 254,
+  "size": 254,
+  "name": ")->_proto_lounge_client::recv_msma_buildup_r("
+ },
+ {
+  "op": 56108,
+  "handler": 11325717,
+  "gate": 509,
+  "size": 257,
+  "name": ")->_proto_lounge_client::recv_bbs_get_access_url("
+ },
+ {
+  "op": 56252,
+  "handler": 11327566,
+  "gate": 146,
+  "size": null,
+  "name": ")->_proto_lounge_client::recv_mission_info_update_coop("
+ },
+ {
+  "op": 56707,
+  "handler": 11329130,
+  "gate": 195,
+  "size": 195,
+  "name": ")->_proto_lounge_client::recv_msma_add_dialog_show("
+ },
+ {
+  "op": 56781,
+  "handler": 11332028,
+  "gate": 550,
+  "size": 550,
+  "name": ")->_proto_lounge_client::recv_dailycup_round_start_interval("
+ },
+ {
+  "op": 57566,
+  "handler": 11335581,
+  "gate": 538,
+  "size": 538,
+  "name": ")->_proto_lounge_client::recv_pilot_evflag_3_get_r("
+ },
+ {
+  "op": 58526,
+  "handler": 11339504,
+  "gate": 570,
+  "size": 570,
+  "name": ")->_proto_lounge_client::recv_msma_over_custom_buildup_r("
+ },
+ {
+  "op": 59036,
+  "handler": 11340976,
+  "gate": 423,
+  "size": 423,
+  "name": ")->_proto_lounge_client::recv_clan_mshipbid_request_r("
+ },
+ {
+  "op": 59574,
+  "handler": 11342425,
+  "gate": 335,
+  "size": 210,
+  "name": ")->_proto_lounge_client::recv_chat_world_down("
+ },
+ {
+  "op": 60337,
+  "handler": 11345948,
+  "gate": 304,
+  "size": 210,
+  "name": ")->_proto_lounge_client::recv_chat_party_down("
+ },
+ {
+  "op": 61182,
+  "handler": 11346927,
+  "gate": 304,
+  "size": 304,
+  "name": ")->_proto_lounge_client::recv_msma_buyback_r("
+ },
+ {
+  "op": 61615,
+  "handler": 11348714,
+  "gate": 521,
+  "size": 1285,
+  "name": ")->_proto_lounge_client::recv_pilot_dailybattlebonus_get_r("
+ },
+ {
+  "op": 61929,
+  "handler": 11351417,
+  "gate": 144,
+  "size": 144,
+  "name": ")->_proto_lounge_client::recv_btlroom_commander_cheer_message("
+ },
+ {
+  "op": 62740,
+  "handler": 11352315,
+  "gate": 462,
+  "size": 462,
+  "name": ")->_proto_lounge_client::recv_clan_msgboard_nicecount_add_r("
+ },
+ {
+  "op": 63083,
+  "handler": 11353873,
+  "gate": 389,
+  "size": 277,
+  "name": ")->_proto_lounge_client::recv_gacha_exec_w_buy_ticket_r("
+ },
+ {
+  "op": 64024,
+  "handler": 11355641,
+  "gate": 307,
+  "size": null,
+  "name": ")->_proto_lounge_client::recv_pilot_netcafechallenge_get_r("
+ },
+ {
+  "op": 64722,
+  "handler": 11358071,
+  "gate": 193,
+  "size": 1536,
+  "name": ")->_proto_lounge_client::recv_pilot_rental_module_remain_info_notice("
+ },
+ {
+  "op": 65094,
+  "handler": 11359033,
+  "gate": 199,
+  "size": 31204,
+  "name": ")->_proto_lounge_client::recv_msma_get_buyback_list_r("
+ }
+]

@@ -48,6 +48,12 @@ def show(store, account, pilot):
             print('机体 %d 持有: %s' % (unit['uniqid'],
                                       [w['item_id'] for w in unit.get('weapons', [])]))
             print('           装备: %s' % unit.get('equipped_weapons'))
+            sets = unit.get('equipsets', [])
+            print('           装备组: %s' % ('无' if not sets else ''))
+            for entry in sets:
+                print('             [%d] %-12s 武器=%s 盾=%s'
+                      % (entry.get('slot', 0), entry.get('name', ''), entry.get('weapons'),
+                         entry.get('shield')))
     else:
         print('（该账号/机师还没有实验机体存档）')
 

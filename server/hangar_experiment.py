@@ -58,6 +58,21 @@ def lock_weapon(store, account, pilot_id, uniqid, item_id):
     return store.remove_weapon(account, pilot_id, uniqid, item_id)
 
 
+def store_equipset(store, account, pilot_id, uniqid, blob, slot=None):
+    """「装备记忆」：保存 121B 装备组块，返回 (实际存档字节, 解出的可读条目)。"""
+    return store.store_equipset(account, pilot_id, uniqid, blob, slot)
+
+
+def delete_equipset(store, account, pilot_id, uniqid, slot):
+    """「删除装备组合」。"""
+    return store.remove_equipset(account, pilot_id, uniqid, slot)
+
+
+def apply_equipset(store, account, pilot_id, uniqid, slot):
+    """「换装」：把装备组套回机体。"""
+    return store.apply_equipset(account, pilot_id, uniqid, slot)
+
+
 def category_of(weapon):
     """线上类别枚举；原生枚举没有 BEAM_SPRAYGUN，喷枪落到 SHOTGUN。"""
     return weapon.get('category') or ('SHOTGUN' if weapon['kind'] == 'BEAM_SPRAYGUN'

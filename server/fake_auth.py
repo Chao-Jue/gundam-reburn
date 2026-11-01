@@ -29,7 +29,7 @@ import threading
 import time
 import struct
 
-from hangar import HangarStore, unit_add_body
+from hangar import HangarStore, unit_add_body, EQUIPSET_WIRE_SIZE
 import hangar_experiment
 import xwar_entry
 import local_battle
@@ -763,6 +763,7 @@ HALL_OPS = {
     0x2EFF,  # local experimental reservation
     0xBEDC,  # cancel local reservation
     0x0AA5,  # 武器槽变更；按已持有资产验证并持久化
+    0x9527,  # 装备记忆（装备组保存）；正文 = uniqid u64 + 121B 装备组块
     0x550A,  # 武器开发/解锁；正文 20B = uniqid u64 + item_id u32 + use_gp u32 + use_bc u32
     0xA28F,  # 武器开发 complete（三段式的第三段）；「开发」按钮不会走到，先纳入白名单免得整帧被丢
     0x34AB,  # 武器开发 estimate（三段式的第二段）；同上
@@ -979,8 +980,47 @@ def hall_replies(op, rest, account, pilot_id=1):
         log('  [hangar] 武器解锁 %s item=%d uniqid=%d db_index=%d'
             % ('新增' if added else '已持有', item_id, uniqid, db_index))
         return [(0x45E4, unlock_reply_body(uniqid, item_id, db_index))]
+    if op == 0x9527:
+        # 0x9527 msma_equipset_store：装备界面的「装备记忆」按钮。
+        # 发送端 0xAE5480（日志串 0xE13120），`push 0x86` 预留 134B，
+        #   正文 = uniqid u64 | 121B 装备组块（序列化器 0xA948C0）。
+        # 实测 129B：uniqid + a u32 | b u32 | slot u16 | weapons 3u32 |
+        #            shield u32 | d u32 | tail 10u32 | e u32 | f u32 | name[43]
+        # 回复 0x7172 recv_msma_equipset_store_r（处理器 0xAB5F0A，size 0x8C）：
+        #   result i32 | uniqid u64 | 同一个 121B 装备组块 = 133B
+        #   0xAB5FD8 会校验「游标 == end」，长度必须精确。
+        body = rest
+        need = 8 + EQUIPSET_WIRE_SIZE
+        if len(body) < need:
+            log('  [hangar] 0x9527 正文只有 %d 字节（需要 %d），忽略' % (len(body), need))
+            return []
+        uniqid = struct.unpack_from('<Q', body, 0)[0]
+        blob = body[8:8 + EQUIPSET_WIRE_SIZE]
+        store = HANGAR_EXPERIMENT_STORE if HANGAR_EXPERIMENT else HANGAR_STORE
+        try:
+            stored, entry = hangar_experiment.store_equipset(
+                store, account, pilot_id, uniqid, blob)
+        except ValueError as error:
+            log('  [hangar] 装备记忆被拒绝: %s' % error)
+            return [(0x7172, struct.pack('<iQ', -1, uniqid) + blob)]
+        log('  [hangar] 装备记忆 slot=%d name=%r weapons=%s shield=%d'
+            % (entry['slot'], entry['name'], entry['weapons'], entry['shield']))
+        return [(0x7172, equipset_store_reply_body(uniqid, stored))]
     one = hall_reply(op, rest, account)
     return [one] if one else []
+
+
+def equipset_store_reply_body(uniqid, blob, result=0):
+    """0x7172 msma_equipset_store_r 的正文（133B）。
+
+    处理器 0xAB5F0A：0xAB5F41 claim_u32+read_u32(result) →
+    0xAB5F8C claim 8+read_u64(uniqid) → 0xAB5FB9 claim(0x80 内存块)+0xA96750
+    读 121B 装备组 → 0xAB5FD8 游标必须等于 end。
+    4 + 8 + 121 = 133。
+    """
+    if len(blob) != EQUIPSET_WIRE_SIZE:
+        raise ValueError('equipset block must be %d bytes' % EQUIPSET_WIRE_SIZE)
+    return struct.pack('<iQ', result, uniqid & 0xffffffffffffffff) + blob
 
 
 UNLOCK_REPLY_OVERRIDE = True   # 单元测试置 False，避免受调试用覆盖文件影响
