@@ -43,6 +43,17 @@ class BattleRoomNativeTest(unittest.TestCase):
         u.hook_add(UC_HOOK_CODE, compare)
         u.emu_start(0x54D210, stop, count=10000)
         self.assertEqual(u.reg_read(UC_X86_REG_EAX), 6)  # EX_STRONGHOLD, distinct from EX_RESPAWNPOST=7
+        # Independent minimap category: CSV col35 -> native parameter+150.
+        # An EX_STRONGHOLD at col7 is not sufficient to select the base icon.
+        token = row[35].encode('ascii')
+        u.mem_write(obj, bytes(32))
+        u.mem_write(obj + 4, token + b'\0')
+        u.mem_write(obj + 0x14, struct.pack('<II', len(token), 15))
+        u.mem_write(sp, struct.pack('<II', stop, obj))
+        u.reg_write(UC_X86_REG_ESP, sp)
+        u.emu_start(0x54D3D0, stop, count=10000)
+        self.assertEqual(u.reg_read(UC_X86_REG_EAX), 0x16,
+                         'base must also have STRONGHOLD minimap classification')
 
     def test_home_base_posts_pass_native_spawn_predicate(self):
         # The previous 885C60 rule-0x15 fixture was not the live rule (0x14).

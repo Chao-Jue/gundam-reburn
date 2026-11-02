@@ -13,11 +13,13 @@ from functools import lru_cache
 
 import xwar_entry
 import battlefield_bases
+import battle_entities
 
 MISSION_ID = xwar_entry.PREPARATION_MISSION_ID
 MAP_ID = 100102
 ROOM_NAME = 'Local preparation room'
 DEPLOYMENT_SECONDS = 60
+BASE_ENTITY_START = 100  # Server-owned fixed-base IDs, separate from native local-only IDs.
 
 
 @lru_cache(maxsize=1)
@@ -32,10 +34,10 @@ def deployment_post_body(index, team, position):
     xyz = [round(value / 100) for value in position]
     ordinal = sum(t == team for t, _ in deployment_points()[:index])
     name = chr(ord('A' if team == 0 else 'X') + ordinal).encode().ljust(13, b'\0')
-    # Home base type 0 plus a linked EX_STRONGHOLD character definition.
-    # TYPE_POST alone renders a spawn marker, not the TYPE_STRONGHOLD entity.
+    # Network 717D creates the actual base with letter/permission and map attachment.
+    # A nonzero local-only character here would create an extra incomplete actor.
     return struct.pack('<IHH13sII3hHB I', 0, team, team, name, 10000,
-                       battlefield_bases.MSMA_ID, *xyz, 0, 0, 0)
+                       0, *xyz, 0, 0, 0)
 
 
 def deployment_post_states_body():
@@ -56,13 +58,15 @@ def countdown_body(seconds):
     return struct.pack('<I', seconds)
 
 
-def prestart_body(seconds, ms_index=None, post=0xffff):
-    # 640D: remaining seconds plus four independently counted selection arrays.
+def prestart_body(seconds, ms_index=None, post=0xffff, base_entity=0xffff):
+    # 640D arrays describe member spawn locations: 0 none / 1 post / 2 stronghold.
+    # The first array is NOT a mech index (4407E0 counts these spawn kinds).
     if ms_index is None:
         return countdown_body(seconds) + bytes(16)
-    return (countdown_body(seconds) + struct.pack('<IB', 1, ms_index)
+    kind = 2 if base_entity != 0xffff else (1 if post != 0xffff else 0)
+    return (countdown_body(seconds) + struct.pack('<IB', 1, kind)
             + struct.pack('<IH', 1, post) + struct.pack('<IH', 1, 0xffff)
-            + struct.pack('<IH', 1, 0xffff))
+            + struct.pack('<IH', 1, base_entity))
 
 
 def mission_progress_body(prestart=True):
@@ -130,6 +134,19 @@ def spawn_unit_body(unit, deck_index):
             + bytes(42) + bytes(48) + struct.pack('<2BI2H2B', 0, 0, 0, 0, 0, 0, 0))
 
 
+def base_entity_replies(reservation):
+    replies = []
+    for i, (team, position) in enumerate(deployment_points()):
+        ordinal = sum(t == team for t, _ in deployment_points()[:i])
+        base = {'uniqid': 900000000 + i, 'msma_id': battlefield_bases.MSMA_ID}
+        replies.append((0x717D, battle_entities.appear_body(spawn_unit_body(base, 255),
+                        BASE_ENTITY_START + i, position, team=team, troops=team,
+                        # 44E120 resolves world=0 to a vacant member slot. Bases are
+                        # unowned world actors, never extra entities owned by the human.
+                        world_id=0, pilot_id=0, letter=ordinal)))
+    return replies
+
+
 @dataclass
 class Reservation:
     account: str
@@ -147,8 +164,10 @@ class Reservation:
     round_active: bool = False
     selected_index: int | None = None
     selected_post: int | None = None
+    selected_entity: int = 0xffff
     deployment_available: bool = False
     entities_ready: bool = False
+    bases_sent: bool = False
 
 
 class LocalBattleBackend:
@@ -231,6 +250,13 @@ class LocalBattleBackend:
     def replies(self, reservation, opcode, body):
         if not self.valid(reservation):
             return []
+        if opcode == 0xCB97 and reservation.round_active:
+            # A87750: is_initial u32, script_thread u8, NUL source <=64.
+            # 8297 has an empty body and invokes the native game-resume callback.
+            if (6 <= len(body) <= 70 and body[4] in (0, 1) and body[-1] == 0
+                    and b'\0' not in body[5:-1]):
+                return [(0x8297, b'')]
+            return []
         if opcode == 0xE650 and len(body) == 16:
             # A87E.. current sender: three u32, two u8 flags, entity u16.
             index, post, spot, ship_ride, msma_ride, entity = struct.unpack('<IIIBBH', body)
@@ -239,21 +265,39 @@ class LocalBattleBackend:
             if (reservation.deployment_available and not reservation.round_active
                     and index < len(units) and not ship_ride and not msma_ride):
                 # Selection acceptance during prestart; not a spawned entity.
-                if post == 0xffffffff:
+                if post == 0xffffffff and entity == 0xffff:
                     reservation.selected_index = index
+                    prefix = []
+                    if not reservation.bases_sent:
+                        prefix = base_entity_replies(reservation)
+                        reservation.bases_sent = True
                     remaining = (DEPLOYMENT_SECONDS if reservation.deployment_at is None else
                                  max(0, int(reservation.deployment_at - self.clock() + 0.999)))
-                    return [(0x640D, prestart_body(remaining, index,
-                              reservation.selected_post if reservation.selected_post is not None else 0xffff))]
+                    return prefix + [(0x640D, prestart_body(remaining, index,
+                              reservation.selected_post if reservation.selected_entity == 0xffff
+                              and reservation.selected_post is not None else 0xffff,
+                              reservation.selected_entity))]
+                if entity != 0xffff:
+                    base_index = entity - BASE_ENTITY_START
+                    if (post != 0xffffffff or not 0 <= base_index < len(deployment_points())
+                            or deployment_points()[base_index][0] != 0):
+                        return [(0x86B2, struct.pack('<iIIIH', -1, index, post, spot, entity) + b'\0')]
+                    post = base_index
                 if post >= len(deployment_points()) or deployment_points()[post][0] != 0:
                     return [(0x86B2, struct.pack('<iIIIH', -1, index, post, spot, 0xffff) + b'\0')]
                 reservation.selected_index = index
                 reservation.selected_post = post
+                reservation.selected_entity = entity
+                prefix = []
+                if not reservation.bases_sent:
+                    prefix = base_entity_replies(reservation)
+                    reservation.bases_sent = True
                 if reservation.deployment_at is None:
                     reservation.deployment_at = self.clock() + DEPLOYMENT_SECONDS
                 remaining = max(0, int(reservation.deployment_at - self.clock() + 0.999))
                 # 86B2 success advances the native respawn step; it is not a selection receipt.
-                return [(0x640D, prestart_body(remaining, index, post))]
+                return prefix + [(0x640D, prestart_body(remaining, index,
+                          post if entity == 0xffff else 0xffff, entity))]
             return [(0x86B2, struct.pack('<iIIIH', -1, index, post, spot, 0xffff) + b'\0')]
         if opcode == 0x0372 and not body:
             return [(0x3E23, mission_progress_body(not reservation.round_active))]
@@ -300,7 +344,24 @@ class LocalBattleBackend:
                     and self.clock() >= reservation.deployment_at):
                 # A progress flag is not a substitute for the missing entity stream.
                 if not reservation.entities_ready:
-                    return []
+                    if reservation.selected_index is None or reservation.selected_post is None:
+                        return []
+                    units = sorted((u for u in self.units_for_pilot(reservation.account, reservation.pilot_id)
+                                    if 0 <= u.get('deckslots', [255])[0] < 4), key=lambda u: u['deckslots'][0])
+                    if reservation.selected_index >= len(units):
+                        return []
+                    unit = units[reservation.selected_index]
+                    own = battle_entities.appear_self_body(spawn_unit_body(unit, unit['deckslots'][0]),
+                            1, deployment_points()[reservation.selected_post][1], team=0,
+                            troops=reservation.record[29], hp=unit.get('hp', 3425),
+                            shield_hp=990 if unit.get('shield') else 0)
+                    reservation.entities_ready = True
+                    reservation.round_active = True
+                    return [(0x7621, own), (0x86B2, struct.pack('<iIIIH', 0,
+                            reservation.selected_index,
+                            reservation.selected_post if reservation.selected_entity == 0xffff else 0xffffffff,
+                            0xffffffff, reservation.selected_entity) + b'\0'),
+                            (0x640D, prestart_body(0)), (0x3E23, mission_progress_body(False))]
                 reservation.round_active = True
                 return [(0x640D, prestart_body(0)), (0x3E23, mission_progress_body(False))]
             if (not self.valid(reservation) or not reservation.connected or reservation.started

@@ -249,8 +249,9 @@ def table_body(name):
         source = Path(__file__).resolve().parents[1] / 'GundamOnline_CHINA_已解密/decrypted/settings/autoexec.cfg'
         data = source.read_bytes()
         keys = {line.split(b',', 1)[0].strip() for line in data.splitlines()}
-        for key, values in ((b'eff_ui_color', b'255,51,170,255'),
-                            (b'zeon_ui_color', b'255,255,68,68')):
+        # 9EF6A0 prefixes the registered UI keys with "wnd_" before lookup.
+        for key, values in ((b'wnd_eff_ui_color', b'255,51,170,255'),
+                            (b'wnd_zeon_ui_color', b'255,255,68,68')):
             if key not in keys:
                 data += b'\r\n' + key + b',' + values + b',# local battle experiment\r\n'
         return data
@@ -299,7 +300,19 @@ def table_body(name):
         row = ['1'] * 32
         row[0] = MODEL_ID
         for index in (6, 12, 13, 14): row[index] = 0
-        return csv_table(row) + (','.join(str(v) for v in battlefield_bases.model_row(row)) + '\r\n').encode('utf-8')
+        # 53FA30 column15 -> model+34 -> 47C370 -> A23120. A nonzero
+        # value is a camera-distance override in deci-units, not a unit scale.
+        # Zero uses the client's native default (550 for the default option).
+        row[15] = 0
+        base_model = battlefield_bases.model_row(row)
+        # 477950 uses model+4 as the focus height; its no-parameter fallback
+        # is 160. Use that native fallback for GM, not the diagnostic 1.
+        # This is an experimental view parameter, not recovered balance data.
+        row[1] = 160
+        # Column14 -> model+32 -> 474670: owned actors require this flag
+        # to enter the native visibility refresh rather than stay camera-hidden.
+        row[14] = 1
+        return csv_table(row) + (','.join(str(v) for v in base_model) + '\r\n').encode('utf-8')
     return weapon_tables(name)
 
 

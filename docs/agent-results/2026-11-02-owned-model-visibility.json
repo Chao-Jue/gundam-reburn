@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": null,
+  "branch": null,
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "修正实验GM的镜头关注高度与己方模型可见性刷新标志；用户完整重启后确认能够看到吉姆。整体战斗功能仍未完成。",
+  "changed_files": ["server/hangar_experiment.py", "tools/test_battle_camera_native.py", "tools/diagnose_camera_distance.py", "server/正式战实体下发与未完成项-2026-11-02.md"],
+  "acceptance": [
+    {"criterion": "原生474670允许已初始化且有归属的GM进入可见性刷新", "status": "passed", "evidence": "列14为0时原生测试返回0并失败；改为1后通过。"},
+    {"criterion": "真实客户端吉姆可见", "status": "passed", "evidence": "2026-11-02用户响应完整重启实验服务及客户端的验收请求，确认：能够看到吉姆了。"}
+  ],
+  "verification": [
+    {"level": "automated_tests", "status": "failed", "command": "python -m unittest discover -s tools -p test_battle_camera_native.py -v", "exit_code": 1, "evidence": "修正前高度测试1!=160、显示资格测试0!=1分别复现预期失败。"},
+    {"level": "automated_tests", "status": "passed", "command": "python -m unittest discover -s tools -p test_*native*.py", "exit_code": 0, "evidence": "46项通过，含4项镜头与显示资格测试。"},
+    {"level": "automated_tests", "status": "passed", "command": "python -m unittest discover -s server -p test_*.py", "exit_code": 0, "evidence": "121项通过。"},
+    {"level": "compile_build", "status": "passed", "command": "python -m py_compile server/hangar_experiment.py tools/diagnose_camera_distance.py tools/test_battle_camera_native.py", "exit_code": 0, "evidence": "本次修改模块编译通过；不宣称全目录compileall通过。"},
+    {"level": "runtime_integration", "status": "passed", "command": "python tools/smoke_local_battle.py", "exit_code": 0, "evidence": "隔离服务启动和加密TCP正式战链路通过；未操作原版客户端UI。"},
+    {"level": "native_client_e2e", "status": "blocked", "command": null, "exit_code": null, "evidence": "历史临时验证未找到符合保护条件的己方实体，未写入内存；随后改用完整重启验证。"},
+    {"level": "native_client_e2e", "status": "passed", "command": null, "exit_code": null, "evidence": "用户完整重启后确认能够看到吉姆；此项仅验收模型显示，不代表完整战斗、同步或基地布局通过。"}
+  ],
+  "findings": [],
+  "remaining": ["基地悬空", "实际点击出击计数", "快照流与完整战斗生命周期"],
+  "next_steps": ["核对基地位置与实际地图变体", "核对出击选择请求和计数更新", "实现并验证战斗状态同步"]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": null,
+  "branch": null,
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "运行实验确认基地配色、字母、许可与准备时间缺失；临时初始化后用户可选择并确认，永久初始化链尚未修复",
+  "changed_files": ["tools/probe_base_palette.py", "tools/diagnose_base_palette.py", "tools/diagnose_base_spawn_state.py", "tools/test_base_runtime_state.py", "server/基地配色字母与出击许可-2026-11-01.md"],
+  "acceptance": [
+    {"criterion": "区分重复实例与重复字母", "status": "passed", "evidence": "四个不同实体，字母原值均255；补索引后用户确认A/B"},
+    {"criterion": "临时实验可选择并确认己方基地", "status": "passed", "evidence": "补配色/字母/许可/选择时间后用户确认"},
+    {"criterion": "重启后正常初始化且实体出击", "status": "not_run", "evidence": "本轮未实现永久初始化或战斗实体流"}
+  ],
+  "verification": [
+    {"level": "compile_build", "status": "passed", "command": "python -m py_compile tools/probe_base_palette.py tools/diagnose_base_palette.py tools/diagnose_base_spawn_state.py tools/test_base_runtime_state.py", "exit_code": 0, "evidence": "四文件编译成功"},
+    {"level": "automated_tests", "status": "passed", "command": "python -m unittest discover -s tools -p test_base_runtime_state.py -v", "exit_code": 0, "evidence": "原生资格函数四种状态通过"},
+    {"level": "automated_tests", "status": "passed", "command": "python -m unittest discover -s tools -p test_probe_deployment_state.py -v", "exit_code": 0, "evidence": "现有探针测试通过"},
+    {"level": "runtime_integration", "status": "failed", "command": "diagnose_base_palette.py first attempt", "exit_code": null, "evidence": "客户端进程退出，没有生成结果；重新进入后重试"},
+    {"level": "runtime_integration", "status": "passed", "command": "guarded live palette/letter/permission/time experiments", "exit_code": 0, "evidence": "原生canChoose=1，selectedMechReady=1，己方baseEligible=1；用户确认可选择并确认"},
+    {"level": "native_client_e2e", "status": "not_run", "command": null, "exit_code": null, "evidence": "仅完成临时选择交互，未验证重启持久化与实体出击"}
+  ],
+  "findings": [],
+  "remaining": ["地图自动挂接", "UI默认配色加载", "基地实体字母与出击许可正常初始化", "实际战斗实体出击"],
+  "next_steps": ["从原生初始化与消息处理追溯各缺失字段，再先写失败回归测试后实现永久修复"]
+}

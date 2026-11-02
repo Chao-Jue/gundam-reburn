@@ -23,6 +23,42 @@ def snapshot(r):
                     'flags': list(raw[84:92]), 'raw': raw.hex()})
     table = r.u32(0x117B654) or 0
     result['minimap_table'] = table
+    registry = r.u32(0x1162000) or 0
+    result['base_characters'] = []
+    if registry:
+        header = r.u32(registry + 4) or 0
+        for post in result['posts']:
+            entity_id = struct.unpack_from('<I', bytes.fromhex(post['raw']), 0x38)[0]
+            node = r.u32(header + 4) if header else 0
+            seen = set()
+            found = {'entity_id': entity_id, 'actor': None}
+            while node and node != header and node not in seen and len(seen) < 64:
+                seen.add(node)
+                if r.u8(node + 0x15):
+                    break
+                key = r.u32(node + 12)
+                if key == entity_id:
+                    ref = r.u32(node + 16) or 0
+                    actor = r.u32(ref) or 0 if ref else 0
+                    found['actor'] = actor
+                    if actor:
+                        definition = r.u32(actor + 0xd8) or 0
+                        if definition:
+                            found['team'] = r.u32(actor + 0xf4)
+                            found['value_dc'] = r.u32(actor + 0xdc)
+                            found['value_e0'] = r.u32(actor + 0xe0)
+                            found['actor_flags'] = r.u32(actor + 0xc)
+                            found['minimap_category'] = r.u32(definition + 0x150)
+                        vt = r.u32(actor) or 0
+                        col = r.u32(vt - 4) or 0 if vt else 0
+                        desc = r.u32(col + 12) or 0 if col else 0
+                        found['class'] = ((r.read(desc + 8, 96) or b'').split(b'\0')[0].decode('ascii', 'replace')
+                                          if desc else None)
+                    break
+                if key is None:
+                    break
+                node = r.u32(node + (0 if entity_id < key else 8))
+            result['base_characters'].append(found)
     if table:
         result['minimap_rows'] = r.u32(table + 12)
         header = r.u32(table + 8) or 0

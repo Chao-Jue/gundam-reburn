@@ -40,7 +40,10 @@ class LocalBattleTest(unittest.TestCase):
             kind, owner, troops, name, gauge, chara = struct.unpack_from(
                 '<IHH13sII', body, 130 + 42 * index)
             self.assertEqual(kind, 0, 'fixed home bases must use home-base post type')
-            self.assertGreater(chara, 0, 'a spawn location alone cannot create a fixed-base marker')
+            self.assertEqual(chara, 0, 'network bases must not also create incomplete local-only actors')
+            reservation = self.backend.reserve('a', 77, self.record)
+            packet = local_battle.base_entity_replies(reservation)[index][1]
+            chara = struct.unpack_from('<I', packet, 13 + 8)[0]
             self.assertIn(chara, definitions)
             self.assertEqual(definitions[chara][7], 'EX_STRONGHOLD')
             self.assertEqual(owner, team)
@@ -84,10 +87,10 @@ class LocalBattleTest(unittest.TestCase):
         reservation.started = reservation.connected = True
         self.backend.replies(reservation, 0xE041, b'')
         first = self.backend.replies(reservation, 0xE650, bytes.fromhex('00000000ffffffffffffffff0000ffff'))
-        self.assertEqual(first[0][0], 0x640D)
+        self.assertEqual([op for op, _ in first], [0x717D] * 4 + [0x640D])
         self.assertIsNone(reservation.deployment_at)
         selected = self.backend.replies(reservation, 0xE650, bytes.fromhex('0000000000000000ffffffff0000ffff'))
-        self.assertEqual(selected[0][0], 0x640D)
+        self.assertEqual(selected[-1][0], 0x640D)
         self.assertEqual(reservation.selected_post, 0)
 
     def test_unselected_or_enemy_post_does_not_start_deployment_clock(self):
@@ -116,16 +119,15 @@ class LocalBattleTest(unittest.TestCase):
         replies = self.backend.replies(reservation, 0xE041, b'')
         self.assertEqual(replies[-1][0], 0x640D)
         selected = self.backend.replies(reservation, 0xE650, struct.pack('<IIIBBH', 0, 0, 0xffffffff, 0, 0, 0xffff))
-        self.assertEqual(selected[0][0], 0x640D)
+        self.assertEqual([op for op, _ in selected], [0x717D] * 4 + [0x640D])
         self.now[0] += 59
         self.assertEqual(self.backend.tick(reservation), [])
         self.now[0] += 1
-        self.assertEqual(self.backend.tick(reservation), [])
-        self.assertFalse(reservation.round_active)
-        reservation.entities_ready = True  # Simulated future entity backend, not production readiness.
         ended = self.backend.tick(reservation)
-        self.assertEqual([op for op, _ in ended], [0x640D, 0x3E23])
-        self.assertEqual(ended[1][1][21], 0)
+        self.assertEqual([op for op, _ in ended], [0x7621, 0x86B2, 0x640D, 0x3E23])
+        self.assertTrue(reservation.round_active)
+        self.assertEqual(ended[-1][1][21], 0)
+        self.assertEqual(self.backend.tick(reservation), [])
 
     def test_countdown_task_flag_is_not_hidden(self):
         import csv, io

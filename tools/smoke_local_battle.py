@@ -78,7 +78,7 @@ def main():
         with socket.socket() as probe:
             probe.bind(('127.0.0.1', 0))
             port = probe.getsockname()[1]
-        bootstrap = ("import sys, fake_auth; fake_auth.PILOT_STORE=sys.argv[1]; "
+        bootstrap = ("import sys, fake_auth, local_battle; local_battle.DEPLOYMENT_SECONDS=1; fake_auth.PILOT_STORE=sys.argv[1]; "
                      "fake_auth.log=lambda message: print(message,flush=True); "
                      "sys.argv=['fake_auth.py',*sys.argv[2:]]; "
                      "raise SystemExit(fake_auth.main())")
@@ -149,13 +149,26 @@ def main():
             assert battle.expect(0x1E2F) == bytes(4) + local_battle.spawn_unit_body(spawn_unit, 0)
             assert battle.expect(0xAB6F) == b''
             assert battle.expect(0xD1B3) == local_battle.deployment_post_states_body()
-            assert battle.expect(0x640D) == local_battle.prestart_body(60)
-            battle.send(0xE650, struct.pack('<IIIBBH', 0, 0, 0xffffffff, 0, 0, 0xffff))
-            assert battle.expect(0x640D) == local_battle.prestart_body(60, 0, 0)
+            assert battle.expect(0x640D) == local_battle.prestart_body(1)
+            battle.send(0xE650, struct.pack('<IIIBBH', 0, 0xffffffff, 0xffffffff, 0, 0, 0xffff))
+            for i, (team, _) in enumerate(local_battle.deployment_points()):
+                packet = battle.expect(0x717D)
+                assert packet[0] == team
+                assert struct.unpack_from('<H', packet, 13 + 175)[0] == local_battle.BASE_ENTITY_START + i
+            assert battle.expect(0x640D) == local_battle.prestart_body(1, 0)
+            battle.send(0xE650, struct.pack('<IIIBBH', 0, 0xffffffff, 0xffffffff, 0, 0, 100))
+            assert battle.expect(0x640D) == local_battle.prestart_body(1, 0, 0xffff, 100)
+            own = battle.expect(0x7621)
+            assert struct.unpack_from('<H', own, 2 + 175)[0] == 1
+            assert struct.unpack_from('<i', battle.expect(0x86B2))[0] == 0
+            assert battle.expect(0x640D) == local_battle.prestart_body(0)
+            assert battle.expect(0x3E23)[21] == 0
+            battle.send(0xCB97, struct.pack('<IB', 1, 0) + b'\0')
+            assert battle.expect(0x8297) == b''
             battle.send(0xD97D, b'')
             assert battle.expect(0x14C5) == b''
             battle.close()
-            print('PASS: isolated service startup; encrypted auth/lounge; formal booking and handoff; battle auth/member/ready/exit')
+            print('PASS: isolated service startup; encrypted formal handoff; fixed-base entities; base selection/count echo; timed player entity and round transition; exit')
             print('Native game UI and map resource loading were not exercised.')
         except Exception:
             # Keep failures diagnosable without exposing the generated OTP.

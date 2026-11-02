@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0", "operation": "handoff", "status": "passed",
+  "repository": null, "branch": null, "commit": null, "issue": null, "pr": null,
+  "summary": "完成战场武器模型、动作及移动表现的交接记录；passed仅指文档交接完成，不表示功能已修复。",
+  "changed_files": ["server/AGENT交接-战场武器模型与动作-2026-11-02.md", "docs/RESEARCH_INDEX.md", "docs/agent-results/2026-11-02-battle-weapon-handoff.json"],
+  "acceptance": [{"criterion": "记录用户现象、当前关联、证据边界、接续顺序与遗留问题", "status": "passed", "evidence": "交接文档及研究索引已写入。"}],
+  "verification": [
+    {"level": "source_inspection", "status": "passed", "command": null, "exit_code": null, "evidence": "核对hangar_experiment武器配置、spawn_unit_body装备字段及既有武器动作研究记录。"},
+    {"level": "compile_build", "status": "not_applicable", "command": null, "exit_code": null, "evidence": "本轮只修改Markdown与JSON，没有修改代码。"},
+    {"level": "native_client_e2e", "status": "not_run", "command": null, "exit_code": null, "evidence": "本轮未运行客户端；用户此前已确认吉姆可见，新反馈的移动与武器问题未修复。"}
+  ],
+  "findings": [],
+  "remaining": ["战场武器模型与挂点", "移动和持械动作映射", "攻击事件及状态同步", "基地悬空和出击计数"],
+  "next_steps": ["从真实出击装备ID追通一把武器的实例、资源、挂点及可见性", "分状态核对移动与武器动作"]
+}
