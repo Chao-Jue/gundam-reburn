@@ -1,0 +1,346 @@
+{
+  "schema_version": 1,
+  "kind": "current_unit_association",
+  "retrieved_at": "2026-11-02",
+  "subject": "gm_identity_experiment",
+  "status": "local_experiment",
+  "canonical_sources": [
+    "server/hangar_experiment.py",
+    "server/hangar.py",
+    "server/reference/gm_starter_weapons.json",
+    "server/reference/gm_test_weapons.json",
+    "server/reference/model_matches.json"
+  ],
+  "narrative": "docs/CURRENT_UNIT_ASSOCIATION.md",
+  "warnings": [
+    "uniqid、msma_id、model_id、item_id、Wiki revision_id 互不等价，禁止互换或拼接。",
+    "本文件描述代码种子与下载表生成规则。saved_hangar.gm.json 可能已被换装或解锁改写，不在本快照内。",
+    "性能数字来自 BWIKI 吉姆 revision 103423 再按当前 UI 倍率换算，不是已恢复的原版战斗参数。",
+    "模型能显示、图标能显示、换装能持久化，都不等于战斗、强化结算或完整出击已完成。"
+  ],
+  "id_layers": [
+    {
+      "layer": "instance",
+      "field": "uniqid",
+      "value": 777000000001,
+      "role": "这一台持有机体。A832 299B 记录偏移 0，u64。"
+    },
+    {
+      "layer": "unit_definition",
+      "field": "msma_id",
+      "value": 777001,
+      "role": "机型定义主键。A832 偏移 8。msma_settings.csv 第 0 列。"
+    },
+    {
+      "layer": "model",
+      "field": "model_id",
+      "value": 101010101,
+      "role": "模型参数与 DXG 资源号。msma_settings 第 1 列。不出现在 299B 实例记录里。"
+    },
+    {
+      "layer": "wiki_reference",
+      "field": "revision_id",
+      "value": 103423,
+      "role": "BWIKI 吉姆页面修订。只标注平衡参考来源，客户端不读取这个号。"
+    }
+  ],
+  "joins": [
+    {
+      "from": "instance.msma_id",
+      "to": "msma_settings.col0",
+      "equals": 777001,
+      "evidence": "hangar_experiment.table_body msma/msma_settings.csv；客户端 0x5DEB20 用 msma_id 查定义后复制 row+4 到持有对象。"
+    },
+    {
+      "from": "msma_settings.col1",
+      "to": "msma_model.col0",
+      "equals": 101010101,
+      "evidence": "同一函数写入模型号。msma/msma_model.csv 第 0 列。"
+    },
+    {
+      "from": "model_id",
+      "to": "dxg_path",
+      "equals": "chara/01/01/0101/model/MSM_0101_0101_01.dxg",
+      "encoding": "(目录前两段合并为 101) * 1000000 + 中间四位 0101 * 100 + 变体 01 = 101010101",
+      "evidence": "用户确认资源组 01/01/0101；model_matches.json status=manually_confirmed。"
+    },
+    {
+      "from": "msma_settings.col38",
+      "to": "msma_weapon_set.col0",
+      "equals": 777001,
+      "then": "msma_weapon_set.col2 = item_id",
+      "role": "可装备集合。七把实验武器都在此组，不等于已经持有。"
+    },
+    {
+      "from": "instance.weapons[].item_id",
+      "to": "item.csv.col0",
+      "then": "weapon_settings.col0",
+      "role": "持有/解锁列表。种子只有 777101、777102、777103。"
+    },
+    {
+      "from": "instance.equipped_weapons[0..2]",
+      "to": "instance.weapons[].item_id",
+      "role": "当前三个 MAIN 槽。必须属于持有列表。种子为三把初始武器。"
+    },
+    {
+      "from": "instance.shield",
+      "to": "item 777104",
+      "also": "msma_settings.col44",
+      "role": "盾牌不占三个 MAIN 槽，也不进 msma_weapon_set 的 SHIELD 分组。wire 偏移 114 写装备 ID，不写耐久。"
+    },
+    {
+      "from": "weapon_settings.col2",
+      "to": "interface/icon/item/d/d%08d.dds",
+      "role": "图标。col3 与 col4 当前重复 col2，供不同武器状态取 VRA。"
+    },
+    {
+      "from": "weapon_settings.col2",
+      "to": "item/%02d/%04d/attr/EZ_%02d_%04d_%02d.vra",
+      "example": "resource 2010501 → 02010501 → item/02/0105/attr/EZ_02_0105_01.vra"
+    },
+    {
+      "from": "msma_settings 性能列",
+      "to": "msma_battle_detail 模板名 GM_REF_*",
+      "columns": {
+        "56": "RESPAWN_TIME",
+        "58": "WARP_TIME",
+        "60": "COST",
+        "62": "MAX_HP",
+        "64": "ENERGY",
+        "67": "MOVE",
+        "69": "BOOST_GAUGEMAX",
+        "71": "BOOST_GAUGEHEAL",
+        "73": "BOOST_SPEED"
+      }
+    },
+    {
+      "from": "weapon_settings 性能列",
+      "to": "weapon_battle_detail 模板名 GM_WEAPON_{item_id}_{KIND}",
+      "columns": {
+        "74": "POWER",
+        "77": "RANGE",
+        "81": "STABILITY",
+        "88": "RELOAD",
+        "90": "LOCKON_CAM",
+        "97": "SHIELD"
+      }
+    },
+    {
+      "from": "weapon_settings.col64",
+      "to": "develop/buildup_weapon.csv col0",
+      "role": "决定详情面板显示哪些强化属性。有性能模板不会自动显示。"
+    },
+    {
+      "from": "weapon_settings.col68",
+      "to": "item/bullet.csv col0",
+      "role": "仅有弹数的武器。当前只填详情用的效果范围元数据。"
+    }
+  ],
+  "instance": {
+    "store": "server/saved_hangar.gm.json",
+    "store_note": "仅 --hangar-experiment gm。普通 saved_hangar.json 不包含这台机体。本快照是 gm_unit() 经 upgrade_unarmed_unit 后的种子，不是某次运行中的存档。",
+    "wire": {
+      "opcode": "0xA832",
+      "unit_bytes": 299,
+      "weapon_bytes": 30,
+      "reader": "0xA96070",
+      "weapon_reader": "0xA964D0"
+    },
+    "fields": {
+      "uniqid": 777000000001,
+      "msma_id": 777001,
+      "nickname": "吉姆关联实验",
+      "energy": 100,
+      "cost": 200,
+      "mission_cost": 0,
+      "deckslots": [0, 0],
+      "deckslots_meaning": "地面编队槽 0 与宇宙编队槽 0。255 表示未编入。不是同一编队占两槽。",
+      "equipped_weapons": [777101, 777102, 777103],
+      "shield": 777104,
+      "special": 0,
+      "blueprint_grade": "silver",
+      "blueprint_grade_on_wire": false,
+      "buildup_count": 0,
+      "up_params": [0, 0, 0, 0, 0, 0, 0],
+      "develop_params": [0, 0, 0, 0, 0, 0, 0],
+      "buildup_note": "299B 偏移 190/192/206。7 个 u16 不等于界面六项强化属性，索引未恢复。",
+      "weapons_owned": [777101, 777102, 777103],
+      "weapons_defined_but_locked": [777105, 777106, 777107, 777108]
+    }
+  },
+  "unit_definition": {
+    "table": "msma/msma_settings.csv",
+    "parser": "0x54EF50",
+    "columns_emitted": 92,
+    "identity_columns": {
+      "0": 777001,
+      "1": 101010101,
+      "4": "RANK1",
+      "5": "吉姆（关联实验）",
+      "6": "GM identity experiment",
+      "7": "ASSAULT_A",
+      "8": "GM",
+      "9": 1,
+      "10": 0,
+      "11": 1,
+      "terrain_note": "col9/10/11 = 地面/水中/宇宙。当前支持地面和宇宙。",
+      "38": 777001,
+      "44": 777104,
+      "52": 1450
+    },
+    "payload_note": "col52 是直接整数 PAYLOAD，不走模板名。",
+    "battle_detail": {
+      "table": "msma/msma_battle_detail.csv",
+      "loader": "0x9B1B30",
+      "row_callback": "0x9AC5F0",
+      "templates": [
+        {"kind": "RESPAWN_TIME", "name": "GM_REF_RESPAWN_TIME", "values": [50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50], "display_note": "11 档均为 50。档位规则未恢复。"},
+        {"kind": "WARP_TIME", "name": "GM_REF_WARP_TIME", "values": [10], "display_note": "诊断占位。不是 Wiki 归投性能 682。"},
+        {"kind": "COST", "name": "GM_REF_COST", "values": [200], "display_note": "单机 COST。编队容量另在 pilot_detail，实验值 1200。"},
+        {"kind": "MAX_HP", "name": "GM_REF_MAX_HP", "values": [3425], "wiki_panel": 3425},
+        {"kind": "ENERGY", "name": "GM_REF_ENERGY", "values": [100, 0], "display_note": "第一个整数是容量。第二个整数语义未恢复。实例当前电量在 wire 偏移 81。"},
+        {"kind": "MOVE", "name": "GM_REF_MOVE", "values": [843.36], "formula": "1004 * 1680 / 2000", "wiki_panel_speed": 1004},
+        {"kind": "BOOST_SPEED", "name": "GM_REF_BOOST_SPEED", "values": [1, 0, 0, 0, 1, 0, 0, 0, 0, 0], "display_note": "中性倍率。加速度等仍为 0。"},
+        {"kind": "BOOST_GAUGEMAX", "name": "GM_REF_BOOST_GAUGEMAX", "values": [1000], "wiki_panel": 1000},
+        {"kind": "BOOST_GAUGEHEAL", "name": "GM_REF_BOOST_GAUGEHEAL", "values": [200], "wiki_panel": 200}
+      ]
+    }
+  },
+  "model": {
+    "model_id": 101010101,
+    "table": "msma/msma_model.csv",
+    "parser": "0x53FA30",
+    "columns_emitted": 32,
+    "scale_status": "diagnostic_placeholder",
+    "path": "chara/01/01/0101/model/MSM_0101_0101_01.dxg",
+    "sha256": "cabf65db215269dfb5f57d7fc95ed8e6e525346999649c2a72676b6f778c56e6",
+    "match_status": "manually_confirmed",
+    "wiki_title": "高达OL吉姆",
+    "textures": {
+      "Hand_01": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+      "Hand_02": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+      "Hand_03": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+      "Hand_04": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+      "MSM_0101_0101_01_GM_00": "chara/01/01/0101/tex/MST_0101_0101_01C.dds",
+      "MSM_0101_0101_01_GM_01": "chara/01/01/0101/tex/MST_0101_0101_01C.dds"
+    },
+    "hidden_meshes": ["MS_decal", "Hand_03", "Hand_04"],
+    "shared_animation_pattern": "chara/01/01/anim/MSA_0101_%05d.mrb",
+    "animation_note": "公共动画不一定在 0101/anim。挂点、命中窗、枪口和爆炸未恢复。"
+  },
+  "weapons": [
+    {
+      "item_id": 777101,
+      "grant": "starter",
+      "db_index": 0,
+      "name": "光束喷枪",
+      "kind": "BEAM_SPRAYGUN",
+      "category_enum": "SHOTGUN",
+      "action_enum": "GUN_SINGLE",
+      "resource": 2010501,
+      "icon": "interface/icon/item/d/d02010501.dds",
+      "vra": "item/02/0105/attr/EZ_02_0105_01.vra",
+      "wiki_attributes": {"重量": 320, "弹数": "5/20", "威力": 1000, "集弹性能": 800, "射程距离": 300, "装填性能": 680, "锁定": 780},
+      "internal_templates": {"POWER": [100], "RANGE": [30.0], "RELOAD": [3.2], "STABILITY": [1.0, 1.0], "LOCKON_CAM": [78.0]}
+    },
+    {
+      "item_id": 777102,
+      "grant": "starter",
+      "db_index": 1,
+      "name": "光束军刀",
+      "kind": "WRESTLE",
+      "category_enum": "WRESTLE",
+      "action_enum": "WRESTLE",
+      "resource": 4010101,
+      "icon": "interface/icon/item/d/d04010101.dds",
+      "vra": "item/04/0101/attr/EZ_04_0101_01.vra",
+      "wiki_attributes": {"重量": 240, "威力": 3500, "锁定": 740},
+      "internal_templates": {"POWER": [350], "LOCKON_CAM": [74.0]}
+    },
+    {
+      "item_id": 777103,
+      "grant": "starter",
+      "db_index": 2,
+      "name": "手雷",
+      "kind": "HAND_THROW",
+      "category_enum": "HAND_THROW",
+      "action_enum": "HAND_THROW",
+      "resource": 10020101,
+      "icon": "interface/icon/item/d/d10020101.dds",
+      "vra": "item/10/0201/attr/EZ_10_0201_01.vra",
+      "wiki_attributes": {"重量": 130, "弹数": "1/7", "威力": 6500, "装填性能": 760, "效果范围": 5000},
+      "internal_templates": {"POWER": [650], "RELOAD": [2.4]},
+      "bullet_col11": 600.0,
+      "bullet_note": "显示效果范围 = raw/1200*10000。5000 对应内部 600。"
+    },
+    {
+      "item_id": 777105,
+      "grant": "defined_locked",
+      "db_index": 3,
+      "name": "光束喷枪·改",
+      "kind": "SHOTGUN",
+      "category_enum": "SHOTGUN",
+      "action_enum": "GUN_SINGLE",
+      "resource": 2010301,
+      "balance": "local_experiment_not_wiki"
+    },
+    {
+      "item_id": 777106,
+      "grant": "defined_locked",
+      "db_index": 4,
+      "name": "光束军刀·改",
+      "kind": "WRESTLE",
+      "category_enum": "WRESTLE",
+      "action_enum": "WRESTLE",
+      "resource": 4010301,
+      "balance": "local_experiment_not_wiki"
+    },
+    {
+      "item_id": 777107,
+      "grant": "defined_locked",
+      "db_index": 5,
+      "name": "手雷·改",
+      "kind": "HAND_THROW",
+      "category_enum": "HAND_THROW",
+      "action_enum": "HAND_THROW",
+      "resource": 10090101,
+      "balance": "local_experiment_not_wiki"
+    },
+    {
+      "item_id": 777108,
+      "grant": "defined_locked",
+      "db_index": 6,
+      "name": "散弹枪",
+      "kind": "SHOTGUN",
+      "category_enum": "SHOTGUN",
+      "action_enum": "GUN_SINGLE",
+      "resource": 2010601,
+      "balance": "local_experiment_not_wiki"
+    },
+    {
+      "item_id": 777104,
+      "grant": "shield",
+      "name": "吉姆盾牌",
+      "category_enum": "SHIELD",
+      "action_enum": "SHIELD",
+      "resource": 12010101,
+      "durability_template": "GM_SHIELD_HP",
+      "durability_display": 990,
+      "durability_note": "面板直接显示 990，不乘 10。重量列当前为 0，未臆造。",
+      "in_weapon_set": false
+    }
+  ],
+  "panel_conversion": [
+    {"stat": "POWER", "direction": "wiki_to_internal", "formula": "威力 // 10"},
+    {"stat": "RANGE", "direction": "wiki_to_internal", "formula": "射程距离 / 10"},
+    {"stat": "RELOAD", "direction": "wiki_to_internal", "formula": "10 - 装填性能 / 100"},
+    {"stat": "STABILITY", "direction": "wiki_to_internal", "formula": "(1000 - 集弹性能) / 200，两列相同"},
+    {"stat": "LOCKON_CAM", "direction": "wiki_to_internal", "formula": "锁定 / 10"},
+    {"stat": "effect_range", "direction": "wiki_to_bullet_col11", "formula": "效果范围 * 0.12"}
+  ],
+  "do_not_confuse_with": {
+    "base_msma_id": 777201,
+    "base_model_id": 601030301,
+    "reason": "固定基地使用另一套 msma_id 与模型号。"
+  }
+}

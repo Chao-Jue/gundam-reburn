@@ -1,5 +1,9 @@
 # 开发手册
 
+选角成功到进入大规模战准备房间的完整链路见[专题技术文档](HALL_TO_BATTLE_ROOM.md)。
+
+格纳库与机体、武器、编队及存储的完整关联见[格纳库与机体系统](HANGAR_AND_UNITS.md)。当前实验吉姆的实例、机型、模型与武器 ID 链见[当前机体关联](CURRENT_UNIT_ASSOCIATION.md)。
+
 ## 当前架构
 
 原版客户端 → 本地HTTP清单与资源入口(fake_http.py) → 加密TCP认证/选区/休息室(fake_auth.py) → 机库(hangar.py) → 预约(xwar_entry.py) → 准备房间与初始场景(local_battle.py)。目前同一认证监听端口按F24B正文路由不同会话；不要将历史30100或早期cn_server网关方案当作当前唯一入口。

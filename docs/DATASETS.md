@@ -21,6 +21,8 @@
 
 Wiki页ID、分类序号、模型ID、msma_id、武器item_id、资产uniqid互不等价。Wiki的client_unit_id未确认时保持null。模型与Wiki身份可能多对多；同目录多模型既可能是同机体状态，也可能不同机体，必须依据人工证据。
 
+当前实验吉姆这五层 ID 的对照表在 [CURRENT_UNIT_ASSOCIATION.json](CURRENT_UNIT_ASSOCIATION.json)。日文攻略站的开发/强化规则译文在 [gow_develop_enhance_status.md](../server/reference/wiki/gow_develop_enhance_status.md)，只作外部参考，不是本客户端已还原的强化公式。
+
 ## 模型和贴图规则
 
 MSM_0101_0101_01.dxg对应模型编号101010101；通用编码为(前两段合并)*1000000 + 中间四位*100 + 变体。基地BAM_0601_0303_01为601030301，错误的601010303会指向不存在资源。模型ID不能通过简单拼接目录数字取得。

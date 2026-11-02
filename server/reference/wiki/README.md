@@ -13,3 +13,5 @@
 Wiki序号和页面ID不是当前客户端的机型/武器ID。client_unit_id目前为null，不能直接拿这些记录组游戏数据表；数值还存在版本和平衡调整差异。
 
 重新抓取：`python tools/crawl_gundam_wiki.py`。仅抓前若干页可加`--max-pages N`，建议使用另一个`--out`目录以免覆盖完整缓存产物。遇到失败的单页会记录后继续，其余响应缓存复用。
+
+[gow_develop_enhance_status.md](gow_develop_enhance_status.md) 是 2026-11-02 从日文超攻略 Wiki「開発・強化・ステータス」手工整理的开发、机体强化和武器强化参考，配套 JSON 同名。它不属于 `units.json` 抓取结果，也不能当作当前客户端强化公式。

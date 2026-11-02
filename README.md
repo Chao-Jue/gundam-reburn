@@ -8,7 +8,10 @@
 
 - [使用手册](docs/USER_GUIDE.md)：安装、启动、匹配、实验与排错。
 - [开发手册](docs/DEVELOPMENT.md)：架构、代码作用、协议与开发步骤。
+- [选角到大规模战准备房间](docs/HALL_TO_BATTLE_ROOM.md)：协议通路、初始化闸门、任务资源、房间凭据与关键包结构。
+- [格纳库与机体系统](docs/HANGAR_AND_UNITS.md)：资产预加载、机型与模型、性能模板、武器盾牌、编队和换装持久化。
 - [数据集说明](docs/DATASETS.md)：数据来源、版本、ID关系、资源规则与可信度。
+- [当前实验机体关联](docs/CURRENT_UNIT_ASSOCIATION.md)：实例、机型、模型、武器的 ID 链。机器可读表在同目录 JSON。
 - [代码索引](docs/CODE_INDEX.md)：逐文件作用、入口及导入依赖。
 - [历史研究索引](docs/RESEARCH_INDEX.md)：全部本地研究记录，旧结论需按最新纠错复核。
 - [Agent协作规范](docs/AGENT_WORKFLOW.md) / [AGENTS.md](AGENTS.md)：Issue、分支、提交、MR/PR、审查、交接的机器可读约定。

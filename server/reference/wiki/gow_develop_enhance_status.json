@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "kind": "external_wiki_reference",
+  "applies_to_current_client": false,
+  "source_url": "https://gow.swiki.jp/index.php?%E9%96%8B%E7%99%BA%E3%83%BB%E5%BC%B7%E5%8C%96%E3%83%BB%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9",
+  "source_fragment": "m063d682",
+  "source_title": "開発・強化・ステータス",
+  "retrieved_at": "2026-11-02",
+  "narrative": "server/reference/wiki/gow_develop_enhance_status.md",
+  "warnings": [
+    "日文超攻略 Wiki 的玩家整理，不是当前中国客户端反编译结果。",
+    "空单元格保持 null，不补推测值。",
+    "页面自标「要验证」的句子在 verification 里标明。",
+    "不能把这里的比例、概率或 GP 写进 msma_battle_detail、mechanic_weapon 或强化回包。"
+  ],
+  "development": {
+    "consumes": ["blueprint", "material", "mechanic_ticket"],
+    "blueprint_consumed_per_develop": 1,
+    "outcomes": ["success", "great_success"],
+    "great_success_effect": "初始性能略高于成功。强化重置不会清掉这份初始性能。",
+    "trait_on_develop": "从该机种特性池随机赋予 1 种。",
+    "blueprints": [
+      {"grade": "silver", "max_unit_enhance_count": 20, "trait_level_at_develop": 1, "advanced_custom": false, "material_price": "low"},
+      {"grade": "gold", "max_unit_enhance_count": 30, "trait_level_at_develop": 3, "advanced_custom": true, "material_price": "high"},
+      {"grade": "extra", "max_unit_enhance_count": null, "trait_level_at_develop": null, "advanced_custom": null, "material_price": null, "note": "源表该行空白。另见 extra_blueprint。"}
+    ]
+  },
+  "enhance_common": {
+    "consumes": ["material", "ticket"],
+    "unit_level_rises_with_unit_stats": true,
+    "weapon_enhance_affects_unit_level": false,
+    "success_rate_falls_as_gauge_rises": true,
+    "internal_fractions_exist": true,
+    "displayed_plus_zero_can_still_increase_fraction": true,
+    "minimum_increase": 1,
+    "result_fraction_of_remaining_gap": {
+      "great_success": [0.85, 1.0],
+      "success": [0.40, 0.55],
+      "failure": [0.05, 0.15],
+      "verification": "wiki_says_needs_verification",
+      "payload_exception": "搭载量随机更差，大成功有时只走完约 70% 的缺口。"
+    },
+    "cannot_enhance_stat_already_at_cap": true,
+    "great_success_is_clamped_to_cap": true,
+    "clamp_example": {"cap": 1195, "current": 1160, "uncapped_great_success": 50, "actual_gain": 35}
+  },
+  "unit_stats": [
+    {"name": "装甲", "cap": "115%", "effect": "归零则故障/大破。小数点以下舍去。"},
+    {"name": "最高速度", "cap": null, "effect": "影响喷射时的加速度和最高速度。源表上限格空白。"},
+    {"name": "喷射容量", "cap": null, "effect": "喷射槽最大值。源表上限格空白。"},
+    {"name": "喷射充能", "cap": null, "effect": "喷射槽恢复速度。源表上限格空白。"},
+    {"name": "搭载量", "cap": "130%", "effect": "剩余搭载 = 搭载量 - 装备总重。剩余 50–149 为喷射效率 +1%，每再 100 剩余 +1%，上限 +20%。超载每 10 点 -1%。伤害减轻为每 100 剩余 +1%，上限 +20%；超载每 200 点 -1%，对盾牌无效。与连射一样按含小数判定。"},
+    {"name": "紧急归投性能", "cap": "取决于初始值", "effect": "强化到上限可把紧急归投时间缩短 25%。不能把显示值直接乘 1.25。"}
+  ],
+  "trait_enhance": {
+    "material": "blueprint",
+    "requires_existing_trait": true,
+    "starter_units_have_no_trait": true,
+    "levels": [
+      {"level": 1, "exp_to_next": 0, "total_exp": 0},
+      {"level": 2, "exp_to_next": 100, "total_exp": 100},
+      {"level": 3, "exp_to_next": 200, "total_exp": 300},
+      {"level": 4, "exp_to_next": 400, "total_exp": 700},
+      {"level": 5, "exp_to_next": 800, "total_exp": 1500}
+    ],
+    "exp_items": [
+      {"item": "rental_request", "exp": 5},
+      {"item": "silver_blueprint", "exp": 50},
+      {"item": "event_trait_chip", "exp": 50, "sell_gp": 5250, "scope": "仅活动获得的机体。活动结束次维护删除。"},
+      {"item": "gold_blueprint", "exp": 100},
+      {"item": "extra_blueprint", "exp": 200}
+    ],
+    "overflow": "特性等级 ≤3 且距下一级只差 50 EXP 时使用金图纸，多余 50 EXP 结转。"
+  },
+  "unit_level": {
+    "minimum": 1,
+    "one_stat_maxed_from_level_1": 16,
+    "formula": "未给出。页面称未观察到有的属性更容易升级。",
+    "legendary_rental_max_observed": 91,
+    "also_changes": "能量回复费用随等级上升。"
+  },
+  "weapon_stats": [
+    {"name": "威力", "cap": "110%", "effect": "造成 1/10 伤害，进位方式为向上取整。"},
+    {"name": "集弹性能", "cap": "初始值+(1000-初始值)*0.1 或 *0.2", "cap_0_2": ["beam_rifle", "machine_gun"], "cap_0_1": ["bazooka", "shotgun", "sweep", "long_beam"], "effect": "最大射程处弹着相对瞄准点的集中程度。"},
+    {"name": "射程距离", "cap": "110%", "exceptions": [{"item": "repair_torch", "cap": "120%"}], "unit": "m"},
+    {"name": "连射速度", "cap": "随武器变化", "effect": "发射间隔。越高间隔越短。帧表见 rapid_fire_frames。"},
+    {"name": "装填", "cap": "初始值+(1000-初始值)*0.1 或 *0.2", "cap_0_1": ["grenade", "incendiary_grenade", "camera_gun", "some_other_weapons"], "seconds": "(1000-装填值)/100"},
+    {"name": "锁定", "cap": "110% 或 120%", "cannot_enhance_if_base": 1000, "long_beam_factor": 0.1, "effect": "锁定时准星与敌机的距离。越高越不容易脱离。"},
+    {"name": "回复量", "cap": "110% 或 135%", "exceptions": [{"item": "repair_pod", "cap": "110%"}, {"item": "ammo_box", "cap": "135%", "note": "回复量/10%"}], "effect": null},
+    {"name": "效果范围", "cap": "110%", "exceptions": [{"item": "placed_aa_gun", "cap": "120%", "meaning": "拦截范围"}], "effect": "雷达半径为值的 1/10 m。爆风伤害范围按 110%。"},
+    {"name": "效果时间", "cap": "110%", "seconds": "值/1000"},
+    {"name": "运转时间", "cap": "110%", "exceptions": [{"item": "placed_aa_gun", "cap": "120%"}], "seconds": "值/10"},
+    {"name": "耐久", "cap": "120%", "effect": "设置式对空炮的装甲值。"},
+    {"name": "锁定范围", "cap": "110%", "effect": "导弹发射器锁定框大小。"}
+  ],
+  "weapon_enhance_count": {
+    "initial_max": 10,
+    "extended_max": 15,
+    "extend_item": "master_device",
+    "extends_all_weapons_on_unit": true,
+    "includes_shield": true,
+    "reset_does_not_clear_extension": true,
+    "steps": [
+      {"max_count": 10, "devices": 0, "cumulative": 0},
+      {"max_count": 11, "devices": 3, "cumulative": 3},
+      {"max_count": 12, "devices": 4, "cumulative": 7},
+      {"max_count": 13, "devices": 5, "cumulative": 12},
+      {"max_count": 14, "devices": 6, "cumulative": 18},
+      {"max_count": 15, "devices": 7, "cumulative": 25}
+    ]
+  },
+  "rapid_fire_frames": {
+    "fps": 60,
+    "note": "页面后记称阈值与实机不一致的报告变多，阈值附近须再测。问号表示源表不确定边界。",
+    "bands": [
+      {"rapid": "1355?~1367", "frames": 17},
+      {"rapid": "1368~1380?", "frames": 16},
+      {"rapid": "1381~1393", "frames": 15},
+      {"rapid": "1394~1406", "frames": 14},
+      {"rapid": "1407~1419", "frames": 13},
+      {"rapid": "1420~1432", "frames": 12},
+      {"rapid": "1433~1445", "frames": 11},
+      {"rapid": "1446~1458", "frames": 10},
+      {"rapid": "1459~1471", "frames": 9},
+      {"rapid": "1472~1484", "frames": 8},
+      {"rapid": "1485~1497", "frames": 7},
+      {"rapid": "1498~1510?", "frames": 6}
+    ]
+  },
+  "two_stage_lockon": {
+    "implemented": "2019-12-18",
+    "stage2_distance_not_increased_by_enhance": true,
+    "stage2_does_not_raise_spread_grouping": true,
+    "excluded": ["sniper", "melee"]
+  },
+  "reset": {
+    "unit": {
+      "returns_to": "开发完成时的初始状态，不是空白图纸。",
+      "keeps": ["初始性能", "机体特性"],
+      "refunds_materials_or_tickets": false,
+      "gp_by_cost": [
+        {"cost": 160, "silver": 5400, "gold": 8100},
+        {"cost": 180, "silver": 6000, "gold": 9000},
+        {"cost": 200, "silver": 6600, "gold": 9900},
+        {"cost": 220, "silver": 7200, "gold": 10800},
+        {"cost": 240, "silver": 7800, "gold": 11700},
+        {"cost": 260, "silver": 8400, "gold": 12600},
+        {"cost": 280, "silver": 9000, "gold": 13500},
+        {"cost": 300, "silver": 9600, "gold": 14400},
+        {"cost": 320, "silver": 10200, "gold": 15300},
+        {"cost": 340, "silver": 10800, "gold": 16200},
+        {"cost": 360, "silver": 11400, "gold": 17100},
+        {"cost": 380, "silver": 12000, "gold": 18000},
+        {"cost": 400, "silver": 12600, "gold": 18900}
+      ]
+    },
+    "weapon": {"gp": 1000, "certainty": "wiki_says_appears_flat", "refunds": false}
+  },
+  "extra_blueprint": {
+    "trait_exp": 200,
+    "tickets_that_force_great_success": ["master", "section_beta", "extra_beta"],
+    "tickets_that_do_not": ["mechanic", "section_alpha", "extra_alpha"],
+    "bonus_after_unit_enhance_count": 30,
+    "advanced_custom_counts_toward_30": false,
+    "choices": 1,
+    "cost": "none",
+    "formula": "未强化值 * 比例，加到性能上，面板不单独显示。",
+    "changeable_only_by_enhance_reset": true,
+    "bonuses": [
+      {"stat": "最大装甲", "bonus": "3%"},
+      {"stat": "最高速度", "bonus": "1%"},
+      {"stat": "喷射容量", "bonus": "3%"},
+      {"stat": "喷射充能", "bonus": "3%"},
+      {"stat": "紧急归投性能", "bonus": "5%"}
+    ]
+  },
+  "tickets": {
+    "sell_prices_gp": [
+      {"name": "mechanic", "sell_gp": 250},
+      {"name": "master", "sell_gp": 3500, "stack": "可多张。每多 1 张大成功 +8%，最多 5 张，额外最多 +32%。"},
+      {"name": "extra_alpha", "sell_gp": 1000, "scope": "仅额外图纸。大成功率比普通票高 20%。活动结束删除。"},
+      {"name": "extra_beta", "sell_gp": 2000, "scope": "仅额外图纸。相当于大师票。活动结束删除。"},
+      {"name": "section_alpha", "sell_gp": 1000, "scope": "大成功率比普通票高 20%。新赛季开始删除。"},
+      {"name": "section_beta", "sell_gp": 2000, "scope": "相当于大师票。新赛季开始删除。"}
+    ],
+    "shop_buy_note": "概率表另写普通票商店 500GP、大师票 200BC。与卖价不是同一列。",
+    "base_rates": [
+      {"ticket": "mechanic", "develop": {"great": 0.30, "success": 0.70, "fail": 0.0}, "enhance": {"great": 0.40, "success": 0.60, "fail": 0.0}},
+      {"ticket": "extra_alpha", "develop": {"great": 0.50, "success": 0.50, "fail": 0.0}, "enhance": {"great": 0.60, "success": 0.40, "fail": 0.0}},
+      {"ticket": "section_alpha", "develop": null, "enhance": null, "note": "开发栏标为不可使用。强化栏在源表同一合并格，未单列数字。"},
+      {"ticket": "master", "develop": {"great": 0.80, "success": 0.20, "fail": 0.0}, "enhance": {"great": 0.90, "success": 0.10, "fail": 0.0}},
+      {"ticket": "extra_beta", "develop": {"great": 1.0, "success": 0.0, "fail": 0.0}, "enhance": null, "note": "强化三列在源表空白。"},
+      {"ticket": "section_beta", "develop": null, "enhance": null, "note": "源表标为不可使用。"}
+    ],
+    "enhance_rates_by_gauge": {
+      "note": "页面写明只是武器强化的参考，随强化程度变化。100% 行源表写成 100?%。",
+      "columns": ["great", "success", "fail"],
+      "mechanic": {
+        "0": [0.40, 0.60, 0.0],
+        "10": [0.36, 0.64, 0.0],
+        "20": [0.32, 0.64, 0.04],
+        "30": [0.28, 0.56, 0.16],
+        "40": [0.24, 0.48, 0.28],
+        "50": [0.20, 0.40, 0.40],
+        "60": [0.16, 0.32, 0.52],
+        "70": [0.12, 0.24, 0.64],
+        "80": [0.10, 0.16, 0.74],
+        "90": [0.10, 0.10, 0.80],
+        "100": [0.10, 0.10, 0.80]
+      },
+      "alpha": {
+        "0": [0.60, 0.40, 0.0],
+        "10": [0.56, 0.44, 0.0],
+        "20": [0.52, 0.48, 0.0],
+        "30": [0.48, 0.52, 0.0],
+        "40": [0.44, 0.48, 0.12],
+        "50": [0.40, 0.40, 0.20],
+        "60": [0.36, 0.32, 0.32],
+        "70": [0.32, 0.24, 0.44],
+        "80": [0.28, 0.16, 0.56],
+        "90": [0.24, 0.10, 0.66],
+        "100": [0.20, 0.10, 0.70]
+      },
+      "master_family": {
+        "0": [0.90, 0.10, 0.0],
+        "10": [0.86, 0.14, 0.0],
+        "20": [0.82, 0.18, 0.0],
+        "30": [0.78, 0.22, 0.0],
+        "40": [0.74, 0.26, 0.0],
+        "50": [0.70, 0.30, 0.0],
+        "60": [0.66, 0.32, 0.02],
+        "70": [0.62, 0.24, 0.14],
+        "80": [0.58, 0.16, 0.26],
+        "90": [0.54, 0.10, 0.36],
+        "100": [0.50, 0.10, 0.40]
+      }
+    },
+    "old_rates_before_adjustment": {
+      "mechanic": {
+        "0": [0.30, 0.70, 0.0],
+        "10": [0.26, 0.62, 0.12],
+        "20": [0.22, 0.54, 0.24],
+        "30": [0.18, 0.46, 0.36],
+        "40": [0.14, 0.38, 0.48],
+        "50": [0.10, 0.30, 0.60],
+        "60": [0.06, 0.22, 0.72],
+        "70": [0.05, 0.14, 0.81],
+        "80": [0.05, 0.06, 0.89],
+        "90": [0.05, 0.05, 0.90],
+        "100": [0.03, 0.03, 0.94]
+      },
+      "master": {
+        "0": [0.80, 0.20, 0.0],
+        "10": [0.76, 0.24, 0.0],
+        "20": [0.72, 0.28, 0.0],
+        "30": [0.68, 0.32, 0.0],
+        "40": [0.64, 0.36, 0.0],
+        "50": [0.60, 0.30, 0.10],
+        "60": [0.56, 0.22, 0.22],
+        "70": [0.52, 0.14, 0.34],
+        "80": [0.48, 0.06, 0.46],
+        "90": [0.44, 0.05, 0.51],
+        "100": [0.40, 0.03, 0.57]
+      }
+    },
+    "level_anecdote": "金图只用大师票：开发成功大约 Lv55–70，开发大成功大约 Lv60–75。银图加普通票、开发成功再强化 20 次，大约 Lv20–30。页面称只是大致印象。"
+  }
+}
