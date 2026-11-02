@@ -1,0 +1,512 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": null,
+  "branch": "main",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "用户实机确认武器模型与切换、持枪候选、普通/冲刺军刀、光束刀刃及切换清理、左右交替步行。保存当前落地改动检查点；举盾及射击/手雷投射物仍未完成。",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "tools/probe_battle_entities.py",
+    "tools/probe_battle_weapons.py",
+    "tools/test_battle_weapon_probe.py",
+    "tools/test_battle_entities_native.py",
+    "tools/test_battle_weapon_factory_native.py",
+    "server/战场武器只读基线-2026-11-02.md",
+    "docs/RESEARCH_INDEX.md",
+    "server/local_battle.py",
+    "server/test_battle_weapon_switch.py",
+    "tools/test_battle_room_native.py",
+    "tools/smoke_local_battle.py",
+    "tools/test_weapon_motion_class_native.py",
+    "server/reference/gm_starter_weapons.json",
+    "server/reference/gm_test_weapons.json",
+    "tools/inspect_mrb_cycle.py",
+    "tools/test_mrb_cycle.py",
+    "tools/test_melee_presentation_native.py",
+    "tools/test_walk_cycle_native.py",
+    "tools/test_weapon_effect_native.py",
+    "tools/test_melee_input_native.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "实验武器和盾牌选择原生模型派生工厂",
+      "status": "passed",
+      "evidence": "先复现8条行列11为空导致CB5ECC，修复后得到CB5E54；不覆盖渲染。"
+    },
+    {
+      "criterion": "真实客户端一号武器与盾牌显示",
+      "status": "passed",
+      "evidence": "用户完整重启后确认盾牌和一号位武器已经出现。"
+    },
+    {
+      "criterion": "真实客户端武器切换",
+      "status": "passed",
+      "evidence": "用户重启后确认切换已可用；动作仍不可用。"
+    },
+    {
+      "criterion": "真实客户端盾牌不再抢占枪刀动作",
+      "status": "passed",
+      "evidence": "用户确认现在不举盾了，步枪和刀都不举盾了；不扩展为攻击通过。"
+    },
+    {
+      "criterion": "当前实验举枪射击动作播放",
+      "status": "passed",
+      "evidence": "用户实机确认正常播放，同时指出并非该机体原版动作。"
+    },
+    {
+      "criterion": "军刀单段动作实机播放",
+      "status": "passed",
+      "evidence": "用户完整重启后确认军刀能挥动并恢复持械；首轮失败历史保留于verification。"
+    },
+    {
+      "criterion": "原生步态选择连续半步",
+      "status": "passed",
+      "evidence": "先复现生成行解析为mode0得到3重复，列45=2后真实48CC30得到2/3/4/3/4；不等于视觉验收。"
+    },
+    {
+      "criterion": "连续步行左右脚交替实机验收",
+      "status": "passed",
+      "evidence": "用户完整重启后确认步行左右脚交替。"
+    },
+    {
+      "criterion": "光束刀刃实机显示",
+      "status": "passed",
+      "evidence": "修正重复fx路径后，用户完整重启确认刀刃出现、切换后无残留；首轮失败历史保留。"
+    },
+    {
+      "criterion": "普通与冲刺格斗独立输入入口和应答",
+      "status": "passed",
+      "evidence": "原生选择片段及服务端/TCP区分880002/880012；用户重启确认普通与冲刺格斗均正常。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_battle_weapon_factory_native.py -q",
+      "exit_code": 1,
+      "evidence": "修改前8个装备行子测试因无外观基类失败，零挂点负例通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/probe_battle_weapons.py tools/test_battle_weapon_factory_native.py",
+      "exit_code": 0,
+      "evidence": "相关新增/修改模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "121项通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "49项通过；另5项武器探针和2项渲染探针通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动与加密TCP冒烟通过，不含原版UI。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "修复前UAC只读采样成功；修复后尚待完整重启客户端验证渲染和切换。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户仅确认枪盾显示；切换和射击未通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_battle_weapon_switch.py -q",
+      "exit_code": 1,
+      "evidence": "实现前合法切换和非法槽应答测试均因返回空数组失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "补充切换后125项通过；50项native和7项探针通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/local_battle.py server/test_battle_weapon_switch.py tools/smoke_local_battle.py tools/test_battle_room_native.py",
+      "exit_code": 0,
+      "evidence": "修改模块编译通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务与加密TCP含B334切换应答通过，不含原版UI。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户确认切换可用；二号位触发只转向准星，尚无挥刀动作。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_battle_weapon_switch.py -q",
+      "exit_code": 1,
+      "evidence": "新增近战事件测试先复现2ADC被忽略。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_motion_class_native.py -q",
+      "exit_code": 1,
+      "evidence": "最初夹具字符串布局错误导致COMMON对照也失败；修正夹具后空值/COMMON对照通过，8个生成行仍返回FFFFFFFF，才改实现。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "53项native通过；127项server和7项探针通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/local_battle.py server/hangar_experiment.py server/test_battle_weapon_switch.py tools/test_battle_room_native.py tools/smoke_local_battle.py tools/test_weapon_motion_class_native.py",
+      "exit_code": 0,
+      "evidence": "本轮修改模块编译通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务加密TCP含B334及D725通过，不含实际动画。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户看到手雷近似正常，但枪/刀触发盾牌姿态，盾牌横置穿模；步行始终左脚起步闪回。此为列15修复后的真实反证。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_motion_class_native.py -q",
+      "exit_code": 1,
+      "evidence": "新增盾牌分层回归先复现native_layer=1，预期停用独立覆盖得到0。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "盾牌列14=-1后54项native通过；127项server、7项探针通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/probe_battle_weapons.py tools/test_weapon_motion_class_native.py",
+      "exit_code": 0,
+      "evidence": "本轮变更模块编译通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务加密TCP冒烟通过；不覆盖盾牌渲染或步态。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_motion_class_native.py -q",
+      "exit_code": 1,
+      "evidence": "持枪类别回归先复现3条GUN_SINGLE行解析COMMON后找不到00101动画。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_weapon_motion_class_native.py tools/inspect_mrb_cycle.py tools/test_mrb_cycle.py",
+      "exit_code": 0,
+      "evidence": "本轮修改模块通过编译。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "55项native、127项server、7项探针、3项MRB测试通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动和TCP链路通过；不覆盖新持枪分类渲染。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "server/reference/gm_starter_weapons.json仅新增实验姿态分类及说明；bytes=2197 sha256=f111a931fc30ce378686fc75b2e2763439d830cd588db5d10b4d0fcfca038581"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "server/reference/gm_test_weapons.json仅新增实验姿态分类及说明；bytes=2574 sha256=71a19e418f51af1bdbc6dc4adff296951caf082de3abfb17694005f76999910a"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_motion_class_native.py -q",
+      "exit_code": 1,
+      "evidence": "军刀链接动作表回归先复现表不存在。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户首轮军刀仍不挥刀，仅有切换限制；不能视作动作播放成功。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "只读采样第1次OpenProcess错误87；第2次尚无实体render_state；第3次PID38560成功。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_walk_cycle_native.py -v",
+      "exit_code": 1,
+      "evidence": "生成GM缺列45，原生选择3/3/3/3/3，预期2/3/4/3/4；mode对照及预览通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_battle_weapon_switch.py -q",
+      "exit_code": 1,
+      "evidence": "实机零动作请求回归返回[]，预期当前军刀880002事件。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py server/local_battle.py server/test_battle_weapon_switch.py tools/smoke_local_battle.py tools/test_walk_cycle_native.py tools/test_melee_presentation_native.py",
+      "exit_code": 0,
+      "evidence": "变更Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "128项server通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "59项native通过；另7项探针、3项MRB通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实验服务启动通过；非用户客户端进程重启。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP含零近战请求映射到500ms/880002 D725通过；不覆盖渲染、命中或伤害。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "最新零请求映射尚待重启实机；步行mode2采样已加载，视觉连续性仍待用户反馈。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "server/reference/gm_starter_weapons.json 当前实验定义 bytes=2460 sha256=c999bc8fa9e78bfb456476f07fbf0fa3ca446e3430457205e4b693cca7bec620"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "server/reference/gm_test_weapons.json 当前实验定义 bytes=3015 sha256=150e9b6d0788e97d1ceec3fa5d1f4c474ee958d887b431b80d3f4099e06cd914"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户确认普通军刀挥动恢复持械，步行左右脚连续交替；刀柄存在。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_effect_native.py -v",
+      "exit_code": 1,
+      "evidence": "先复现两把军刀两状态共4个空特效字段失败；添加后字段选择通过。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "首轮特效配置后用户确认无刀刃。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "PID12232只读采样确认刀柄已加载、附加效果为空、特效路径重复fx；普通734=0而738=880002。原始数据仅hook_runs。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "一次Ghidra只读命令创建临时数据库文件失败，未获得反编译结果。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "为该命令指定hook_runs/ghidra_tmp后只读重跑成功。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_effect_native.py -v",
+      "exit_code": 1,
+      "evidence": "新增真实5440D0前缀回归先解析到fx/fx/02，文件不存在；4个资源读取也因该路径失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_melee_input_native.py -v",
+      "exit_code": 1,
+      "evidence": "真实选择片段普通入口读0，两个军刀子测试失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_battle_weapon_switch.py -q",
+      "exit_code": 1,
+      "evidence": "当前军刀独立冲刺880012请求先返回空响应。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py server/local_battle.py server/test_battle_weapon_switch.py tools/smoke_local_battle.py tools/test_melee_input_native.py tools/test_melee_presentation_native.py tools/test_weapon_effect_native.py",
+      "exit_code": 0,
+      "evidence": "本轮全部变更Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "129项server通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "63项native通过，含原生FX前缀、状态字段选择、普通/冲刺入口及四条攻击行解析。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实验服务启动通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP含普通/冲刺两个独立D725通过，不覆盖最新FX或冲刺的渲染。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "修正后的刀刃路径与独立冲刺候选待用户完整重启复验；举盾与投射物未完成。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "server/reference/gm_starter_weapons.json 当前实验定义 bytes=2881 sha256=b2731e31d05945211dea2c11e15935be0fab7d7f357ab5cc1887ac7b53e64b22"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "server/reference/gm_test_weapons.json 当前实验定义 bytes=3436 sha256=f3260e8b514ae6fd856bb8a0b25dab3c1d6f0e1eb55ae4b7d4b84bbff722cbb7"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户完整重启后确认刀刃出现、换枪无残留、普通格斗与冲刺格斗都正常。仅验收实验表现，未验收命中/伤害。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "举盾独立通道、动作适配与触发条件",
+    "枪口/弹道表现及手雷投出物",
+    "原版机体动作适配、命中/伤害与完整战斗"
+  ],
+  "next_steps": [
+    "提交并推送本阶段已验收表现与测试检查点",
+    "继续核对盾牌姿态、独立通道及攻击时收盾条件",
+    "恢复投射物事件与bullet物理/表现参数"
+  ]
+}

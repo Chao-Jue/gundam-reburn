@@ -13,6 +13,28 @@ import local_battle
 
 
 class BattleRoomNativeTest(unittest.TestCase):
+    def test_melee_presentation_event_current_native_reader(self):
+        body = struct.pack('<HI3HIB', 1, 777106, 238, 1, 0, 0, 0)
+        accepted, consumed, output = self.parse(body, 0xA81128, 0x40, 0xA8127B,
+                                               {0xA81157, 0xA81264})
+        self.assertTrue(accepted)
+        self.assertEqual(consumed, 17)
+        self.assertEqual(output[:17], body)
+        for invalid in (body[:-1], body+b'\0'):
+            self.assertFalse(self.parse(invalid, 0xA81128, 0x40, 0xA8127B,
+                                        {0xA81157, 0xA81264})[0])
+
+    def test_weapon_switch_reply_current_native_reader(self):
+        body = struct.pack('<HiBIB', 1, 0, 2, 777103, 0)
+        accepted, consumed, output = self.parse(body, 0xA7DBA5, 0x10, 0xA7DCA8,
+                                               {0xA7DBD4, 0xA7DC91})
+        self.assertTrue(accepted)
+        self.assertEqual(consumed, len(body))
+        self.assertEqual(output[:len(body)], body)
+        for invalid in (body[:-1], body+b'\0'):
+            self.assertFalse(self.parse(invalid, 0xA7DBA5, 0x10, 0xA7DCA8,
+                                        {0xA7DBD4, 0xA7DC91})[0])
+
     def test_linked_base_definition_maps_to_native_stronghold_category(self):
         import csv, io, hangar_experiment, battlefield_bases
         rows = csv.reader(io.StringIO(hangar_experiment.table_body('msma/msma_settings.csv').decode()))

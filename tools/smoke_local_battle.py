@@ -73,7 +73,9 @@ def main():
         store.write_text(json.dumps({'battle-smoke': {'slots': {'0:0': record.hex()}}}), encoding='utf-8')
         from hangar import HangarStore
         spawn_unit = {'uniqid': 123, 'msma_id': 777001, 'deckslots': [0, 0],
-                      'equipped_weapons': [0, 0, 0], 'weapons': [], 'cost': 200}
+                      'equipped_weapons': [777108, 777106, 777103],
+                      'weapons': [{'item_id': item, 'db_index': index} for index, item in
+                                  enumerate((777108, 777106, 777103))], 'cost': 200}
         HangarStore(directory / 'hangar.gm.json').replace_units('battle-smoke', 1, [spawn_unit])
         with socket.socket() as probe:
             probe.bind(('127.0.0.1', 0))
@@ -165,10 +167,17 @@ def main():
             assert battle.expect(0x3E23)[21] == 0
             battle.send(0xCB97, struct.pack('<IB', 1, 0) + b'\0')
             assert battle.expect(0x8297) == b''
+            battle.send(0xEA5A, struct.pack('<IBH', 0, 1, 0))
+            assert battle.expect(0xB334) == struct.pack('<HiBIB', 1, 0, 1,
+                                                       spawn_unit['equipped_weapons'][1], 0)
+            battle.send(0x2ADC, struct.pack('<I3HIBH', 0, 238, 1, 0, 0, 0, 0))
+            assert battle.expect(0xD725) == struct.pack('<HI3HIB', 1, 777106, 238, 1, 500, 880002, 0)
+            battle.send(0x2ADC, struct.pack('<I3HIBH', 0, 238, 1, 0, 880012, 0, 0))
+            assert battle.expect(0xD725) == struct.pack('<HI3HIB', 1, 777106, 238, 1, 366, 880012, 0)
             battle.send(0xD97D, b'')
             assert battle.expect(0x14C5) == b''
             battle.close()
-            print('PASS: isolated service startup; encrypted formal handoff; fixed-base entities; base selection/count echo; timed player entity and round transition; exit')
+            print('PASS: isolated service startup; encrypted formal handoff; fixed-base entities; base selection/count echo; timed player entity; weapon switch response; exit')
             print('Native game UI and map resource loading were not exercised.')
         except Exception:
             # Keep failures diagnosable without exposing the generated OTP.

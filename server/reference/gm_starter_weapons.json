@@ -6,6 +6,8 @@
     {
       "item_id": 777101,
       "kind": "BEAM_SPRAYGUN",
+      "motion_class": "ONEHAND_SHOT",
+      "motion_note": "实验持枪分类：原生3，GM存在3101等姿态；未验收为原版动作配置。",
       "resource": 2010501,
       "name": "光束喷枪",
       "gold_only": false,
@@ -29,6 +31,12 @@
     {
       "item_id": 777102,
       "kind": "WRESTLE",
+      "attached_effect": "02/PP_02_001_01.vra",
+      "effect_note": "实验光束刀刃：资源含saber_body并挂到刀柄s_shot01；未证明原版吉姆刀刃颜色/长度。",
+      "melee_presentation": {"attack_id": 880001, "base_motion": 30, "duration_ms": 500},
+      "melee_dash_presentation": {"attack_id": 880011, "base_motion": 36, "duration_ms": 366},
+      "melee_dash_note": "独立冲刺入口的实验候选20036，motionlist时长366ms；未验收原版冲刺动作或位移/伤害。",
+      "melee_note": "本地单段挥刀候选：WRESTLE20+基础30对应现有20030；500ms来自资源时间表。不是原版攻击ID，不定义命中窗或伤害。",
       "resource": 4010101,
       "name": "光束军刀",
       "gold_only": false,

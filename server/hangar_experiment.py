@@ -125,6 +125,23 @@ def csv_rows(rows):
 
 def weapon_tables(name):
     definitions = all_definitions()
+    if name == 'item/wrestle.csv':
+        rows = []
+        for w in definitions:
+            for field in ('melee_presentation', 'melee_dash_presentation'):
+                presentation = w.get(field)
+                if not presentation:
+                    continue
+                # 53DEB0: col8 -> row+14 (*0.001), read as seconds by 4D8E50;
+                # col27 -> row+64 -> move+67C -> class*1000 + base motion.
+                # Remaining physical/hit/effect fields are diagnostic zeros.
+                row = [0] * 31
+                row[0] = presentation['attack_id']
+                row[7] = row[17] = row[28] = row[29] = ''
+                row[8] = presentation['duration_ms']
+                row[27] = presentation['base_motion']
+                rows.append(row)
+        return csv_rows(rows)
     if name == 'develop/mechanic_weapon.csv':
         # Detail preview 0x7A6810 unconditionally reads ticket key2 bounds.
         # 0x548820 reads 20 alternating min/max columns, each multiplied by10.
@@ -187,9 +204,33 @@ def weapon_tables(name):
             # Reuse the verified existing base model in alternate states until
             # distinct drawn/stowed variants are recovered. Not original poses.
             row[3] = row[4] = row[2]
+            # 55C3E0 col11 -> definition+20 -> 4E1F00. Zero selects a
+            # non-rendering base object (CB5ECC); a socket selects CB5E54.
+            # GM DXG contains S_wpn_01 under T_R_Hand. Experimental mount,
+            # not a recovered original drawn/stowed weapon configuration.
+            row[11] = 1
+            # 55B060: blank -> FFFFFFFF, then 48E710 uses class*1000+motion.
+            # Explicit experimental pose candidates may select native ranged
+            # groups with existing GM aim clips (3101/8101). Preserve COMMON
+            # for throwables; class selection does not restore attack timing.
+            row[15] = w.get('motion_class') or ('WRESTLE' if w['kind'] == 'WRESTLE' else 'COMMON')
             # Native enum55B240 has SHOTGUN, not BEAM_SPRAYGUN.
             row[21] = category_of(w)
             row[30] = action_of(w)
+            if w.get('attached_effect'):
+                # 55C3E0 col60/62 -> wide-string arrays +528/+624;
+                # 4E2A40 selects these two states then 4E20A0 loads the FX.
+                # 5440D0 prepends fx/ after CSV path normalization: the token
+                # must be relative to fx/, or it resolves to fx/fx/... .
+                # The chosen saber FX targets the hilt's existing s_shot01.
+                row[60] = row[62] = w['attached_effect']
+            if w.get('melee_presentation'):
+                # 4BC8A0 selects +734 normally and +738 for boost predicates.
+                # 55C3E0 maps col69/70 and one-segment counts col113/114.
+                row[69] = w['melee_presentation']['attack_id']
+                row[113] = 1
+                row[70] = w['melee_dash_presentation']['attack_id']
+                row[114] = 1
             if '弹数' in w['attributes']:
                 row[101], row[102] = map(int, w['attributes']['弹数'].split('/'))
                 row[68] = w['item_id']  # bullet table -> weapon+970, bound55E1C0
@@ -202,6 +243,14 @@ def weapon_tables(name):
         shield = [''] * 134
         shield[0] = SHIELD_ITEM_ID
         shield[2] = shield[3] = shield[4] = 12010101
+        # Existing GM S_wpn_04 socket (T_L_Hand); experimental shield mount.
+        shield[11] = 4
+        # 55C51A adds1 to col14. Native channel0 makes 48E0E0 skip a
+        # separate overlay, preserving the current weapon's channel1.
+        # Until a shield-only bone mask is recovered, follow the left-hand
+        # socket rather than playing class30 over the weapon's upper body.
+        shield[14] = -1
+        shield[15] = 'SHIELD'  # native class30, GM has 30xxx motions
         shield[21] = shield[30] = 'SHIELD'
         shield[97] = 'GM_SHIELD_HP'
         shield[109] = 0  # separate shield equipment, no invented weapon weight
@@ -312,6 +361,12 @@ def table_body(name):
         # Column14 -> model+32 -> 474670: owned actors require this flag
         # to enter the native visibility refresh rather than stay camera-hidden.
         row[14] = 1
+        # 53FA30 col45 -> model+10C; 48CC30 mode2 selects the native
+        # non-looping start2 then half-steps3/4. Missing col45 parsed as0
+        # loops only3, whose end does not join its own start. Keep bases
+        # on their existing row and let the client advance its own gait.
+        row.extend(['0'] * (46 - len(row)))
+        row[45] = 2
         return csv_table(row) + (','.join(str(v) for v in base_model) + '\r\n').encode('utf-8')
     return weapon_tables(name)
 

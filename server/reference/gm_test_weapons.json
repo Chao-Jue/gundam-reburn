@@ -8,6 +8,8 @@
       "category": "SHOTGUN",
       "action": "GUN_SINGLE",
       "name": "光束喷枪·改",
+      "motion_class": "ONEHAND_SHOT",
+      "motion_note": "实验持枪分类：原生3，GM存在3101等姿态；未验收为原版动作配置。",
       "resource": 2010301,
       "attributes": {
         "武器名称": "光束喷枪·改",
@@ -25,10 +27,17 @@
     {
       "item_id": 777106,
       "kind": "WRESTLE",
+      "attached_effect": "02/PP_02_001_01.vra",
+      "effect_note": "实验光束刀刃：资源含saber_body并挂到刀柄s_shot01；未证明原版吉姆刀刃颜色/长度。",
+      "melee_presentation": {"attack_id": 880002, "base_motion": 30, "duration_ms": 500},
+      "melee_dash_presentation": {"attack_id": 880012, "base_motion": 36, "duration_ms": 366},
+      "melee_dash_note": "独立冲刺入口的实验候选20036，motionlist时长366ms；未验收原版冲刺动作或位移/伤害。",
+      "melee_note": "本地单段挥刀候选：WRESTLE20+基础30对应现有20030；500ms来自资源时间表。不是原版攻击ID，不定义命中窗或伤害。",
       "category": "WRESTLE",
       "action": "WRESTLE",
       "name": "光束军刀·改",
-      "resource": 4010301,
+      "resource": 4010101,
+      "resource_note": "按用户要求改用基础联邦光束军刀外观候选，与777102同资源；保留777106物品和配装，不代表原版吉姆变体已核准。",
       "attributes": {
         "武器名称": "光束军刀·改",
         "重量": "250",
@@ -61,6 +70,8 @@
       "category": "SHOTGUN",
       "action": "GUN_SINGLE",
       "name": "散弹枪",
+      "motion_class": "TWOHAND_SHOT2",
+      "motion_note": "当前实验长枪外观的双手持枪候选：原生8，GM存在8101等姿态；不证明Wiki武器或原版变体匹配。",
       "resource": 2010601,
       "attributes": {
         "武器名称": "散弹枪",

@@ -30,7 +30,7 @@ class EntityWireNativeTest(unittest.TestCase):
         u.emu_start(0x44e120, stop, count=1000)
         self.assertEqual(u.reg_read(UC_X86_REG_EAX), game + 0x11098 + 0x188)
 
-    def parse(self, body, own):
+    def parse(self, body, own, *, capture=False):
         image = (ROOT / 'server/img_dump/main_GundamOnline_CHINA.exe').read_bytes()
         u = Uc(UC_ARCH_X86, UC_MODE_32)
         u.mem_map(0x400000, (len(image) + 4095) & ~4095)
@@ -53,7 +53,8 @@ class EntityWireNativeTest(unittest.TestCase):
         u.emu_start(0xa7596b if own else 0xa7408e, 0xa85797, count=50000)
         self.assertEqual(len(reached), 1)
         consumed = struct.unpack('<I', u.mem_read(sp + 0x14, 4))[0] - source
-        return reached[0] == success, consumed
+        result = (reached[0] == success, consumed)
+        return (*result, bytes(u.mem_read(arena, 512))) if capture else result
 
     def test_base_appear_packet_full_native_cursor(self):
         desc = local_battle.spawn_unit_body({'uniqid': 900000000, 'msma_id': 777201}, 255)
@@ -70,3 +71,15 @@ class EntityWireNativeTest(unittest.TestCase):
         self.assertEqual(self.parse(body, True), (True, len(body)))
         self.assertFalse(self.parse(body[:-1], True)[0])
         self.assertFalse(self.parse(body + b'\0', True)[0])
+
+    def test_self_packet_preserves_all_equipment_in_native_descriptor(self):
+        unit = {'uniqid': 123, 'msma_id': 777001,
+                'equipped_weapons': [777108, 777106, 777103], 'shield': 777104}
+        body = battle_entities.appear_self_body(local_battle.spawn_unit_body(unit, 0),
+                1, (0, 0, 0), team=0, troops=0, hp=3425, shield_hp=990)
+        accepted, consumed, output = self.parse(body, True, capture=True)
+        self.assertTrue(accepted)
+        self.assertEqual(consumed, 244)
+        # Native descriptor begins at output+2; A604E0 names witem_id at +3C.
+        self.assertEqual(struct.unpack_from('<5I', output, 2+0x3c),
+                         (777108, 777106, 777103, 777104, 0))

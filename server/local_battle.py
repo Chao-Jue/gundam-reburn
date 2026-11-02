@@ -23,6 +23,27 @@ BASE_ENTITY_START = 100  # Server-owned fixed-base IDs, separate from native loc
 
 
 @lru_cache(maxsize=1)
+def experimental_weapon_kinds():
+    from hangar_experiment import all_definitions
+    return {w['item_id']: w['kind'] for w in all_definitions()}
+
+
+@lru_cache(maxsize=1)
+def experimental_melee_presentations():
+    from hangar_experiment import all_definitions
+    result = {}
+    for w in all_definitions():
+        normal = w.get('melee_presentation')
+        if normal:
+            actions = {0: normal, normal['attack_id']: normal}
+            dash = w.get('melee_dash_presentation')
+            if dash:
+                actions[dash['attack_id']] = dash
+            result[w['item_id']] = actions
+    return result
+
+
+@lru_cache(maxsize=1)
 def deployment_points():
     data = json.loads((Path(__file__).parent / 'reference/odessa_home_bases.json').read_text(encoding='utf-8'))
     return tuple(sorted(((p['team'], tuple(p['position_cm'])) for p in data['points']), key=lambda p: p[0]))
@@ -168,6 +189,8 @@ class Reservation:
     deployment_available: bool = False
     entities_ready: bool = False
     bases_sent: bool = False
+    spawned_weapon_ids: tuple = ()
+    active_weapon_index: int = 0
 
 
 class LocalBattleBackend:
@@ -250,6 +273,42 @@ class LocalBattleBackend:
     def replies(self, reservation, opcode, body):
         if not self.valid(reservation):
             return []
+        if opcode == 0x2ADC:
+            # Local experimental presentation only, without hits or damage.
+            if (len(body) != 17 or not reservation.round_active
+                    or not reservation.entities_ready or len(reservation.spawned_weapon_ids) != 3):
+                return []
+            _, dir_h, dir_v, msec, wrestle_id, charge, ai = struct.unpack('<I3HIBH', body)
+            item = reservation.spawned_weapon_ids[reservation.active_weapon_index]
+            presentation = experimental_melee_presentations().get(item, {}).get(wrestle_id)
+            if (ai != 0 or charge != 0 or not presentation
+                    or experimental_weapon_kinds().get(item) != 'WRESTLE'):
+                return []
+            # D725 has no result/hit fields: entity, item, directions, duration,
+            # configured local presentation ID and charge. No hit acceptance.
+            # Current client sends0 for basic clicks even with the configured
+            # attack base. Map only this observed case to the selected saber;
+            # never resolve another item's or an arbitrary nonzero action ID.
+            return [(0xD725, struct.pack('<HI3HIB', 1, item, dir_h, dir_v,
+                                        presentation['duration_ms'], presentation['attack_id'], charge))]
+        if opcode == 0xEA5A:
+            # Current sender: frame_count u32, equip_index u8, AI entity u16.
+            # Only the local human (AI=0) is implemented. Use the spawned
+            # loadout, not a subsequently edited persistent hangar record.
+            if (len(body) != 7 or not reservation.round_active
+                    or not reservation.entities_ready or len(reservation.spawned_weapon_ids) != 3):
+                return []
+            _, index, ai_entity = struct.unpack('<IBH', body)
+            if ai_entity != 0:
+                return []
+            accepted = index < 3 and reservation.spawned_weapon_ids[index] != 0
+            if accepted:
+                reservation.active_weapon_index = index
+            current = reservation.active_weapon_index
+            # B334 current reader: ent u16, result i32, index u8, item u32,
+            # force u8. A nonnegative result invokes the native switch path.
+            return [(0xB334, struct.pack('<HiBIB', 1, 0 if accepted else -1,
+                     current, reservation.spawned_weapon_ids[current], 0))]
         if opcode == 0xCB97 and reservation.round_active:
             # A87750: is_initial u32, script_thread u8, NUL source <=64.
             # 8297 has an empty body and invokes the native game-resume callback.
@@ -351,6 +410,8 @@ class LocalBattleBackend:
                     if reservation.selected_index >= len(units):
                         return []
                     unit = units[reservation.selected_index]
+                    reservation.spawned_weapon_ids = tuple(unit.get('equipped_weapons', [0, 0, 0]))
+                    reservation.active_weapon_index = 0
                     own = battle_entities.appear_self_body(spawn_unit_body(unit, unit['deckslots'][0]),
                             1, deployment_points()[reservation.selected_post][1], team=0,
                             troops=reservation.record[29], hp=unit.get('hp', 3425),
