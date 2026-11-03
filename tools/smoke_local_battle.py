@@ -174,10 +174,20 @@ def main():
             assert battle.expect(0xD725) == struct.pack('<HI3HIB', 1, 777106, 238, 1, 500, 880002, 0)
             battle.send(0x2ADC, struct.pack('<I3HIBH', 0, 238, 1, 0, 880012, 0, 0))
             assert battle.expect(0xD725) == struct.pack('<HI3HIB', 1, 777106, 238, 1, 366, 880012, 0)
+            battle.send(0xEA5A, struct.pack('<IBH', 0, 2, 0))
+            assert battle.expect(0xB334) == struct.pack('<HiBIB', 1, 0, 2, 777103, 0)
+            battle.send(0x7C0C, struct.pack('<I8HBBIBHB', 0, 124, 65521, 147,
+                        93, 65527, 165, 0, 0, 0, 0, 0, 0, 0, 255))
+            assert battle.expect(0x1A13) == struct.pack('<HII8H3B', 1, 777103, 1,
+                        124, 65521, 147, 93, 65527, 165, 0, 1500, 0, 0, 0)
+            battle.send(0x7C0C, struct.pack('<I8HBBIBHB', 0, 105, 65520, 160,
+                        105, 65520, 160, 0, 0, 1, 0, 1, 0, 0, 255))
+            assert battle.expect(0x1A13) == struct.pack('<HII8H3B', 1, 777103, 1,
+                        105, 65520, 160, 105, 65520, 160, 0, 0, 1, 0, 0)
             battle.send(0xD97D, b'')
             assert battle.expect(0x14C5) == b''
             battle.close()
-            print('PASS: isolated service startup; encrypted formal handoff; fixed-base entities; base selection/count echo; timed player entity; weapon switch response; exit')
+            print('PASS: isolated service startup; encrypted formal handoff; fixed-base entities; base selection/count echo; timed player entity; weapon switch; grenade release/impact responses; exit')
             print('Native game UI and map resource loading were not exercised.')
         except Exception:
             # Keep failures diagnosable without exposing the generated OTP.

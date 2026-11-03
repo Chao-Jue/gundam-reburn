@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "main",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "单手候选的资源合同通过，但用户实机仍见头部转向、枪口朝躯干前方而光束飞向准星；实时瞄准跟随未通过，待地图内只读状态对照。",
+  "changed_files": [
+    "server/reference/gm_test_weapons.json",
+    "tools/test_weapon_motion_class_native.py",
+    "server/战场武器只读基线-2026-11-02.md",
+    "docs/agent-results/2026-11-02-onehand-shield-shot.json"
+  ],
+  "acceptance": [
+    {
+      "criterion": "当前持枪候选只覆盖右臂，留左手盾牌给独立通道",
+      "status": "passed",
+      "evidence": "新增测试先在777108的8101因覆盖躯干/左臂失败，换ONEHAND_SHOT后3101仅含右肩/臂/手，原生枚举解析和生成行回归通过。"
+    },
+    {
+      "criterion": "实机持盾单手开火、准星跟随及恢复正常",
+      "status": "failed",
+      "evidence": "用户反馈侧向观察时头部转侧，开火枪口仍朝躯干前方、光束飞向准星；不将动画资源骨名合同视为跟随问题修复。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_motion_class_native.py -v",
+      "exit_code": 1,
+      "evidence": "新增单手持枪回归在777108因two-hand ready pose also drives torso and shield arm失败。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_weapon_motion_class_native.py",
+      "exit_code": 0,
+      "evidence": "修改的Python模块编译通过，JSON由测试实际加载。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q; C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "129项server、74项native通过，包含同一持枪回归。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实验服务启动通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP预约/出击/切换/普通及冲刺格斗冒烟通过，不覆盖新单手姿态渲染。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "单手候选姿态与准星跟随待用户重启反馈。"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移，不改存档。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户实机确认枪口模型朝向与准星/弹体飞行方向仍分离。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "4F33F0弹体方向来自目标点与发射点之差，可独立于持枪模型；根因尚未确定。Get-Process及Win32_Process当前未发现游戏进程，实时采样未执行。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "实时右臂姿态混合与开火转向条件缺陷待定位；现有测试未复现完整实时瞄准问题",
+    "枪械动作组其他姿态/骨骼适配",
+    "手雷投出物、打靶目标、命中和伤害"
+  ],
+  "next_steps": [
+    "用户进入地图并保持运行后，做UAC只读状态采样，对照正面/侧向与待机/开火",
+    "确认触发条件后新增失败回归，再修改相关配置或服务实现"
+  ]
+}

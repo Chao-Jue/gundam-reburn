@@ -1,0 +1,18 @@
+{
+  "note": "Checked subset of live client fx.hed entries, read-only capture 2026-11-03. No asset content. Availability is not rendering validation.",
+  "archive_sha256": "d89dbca05fe37876135123e54340ce7513673d679e858194bd9ee19a4adc904f",
+  "available": [
+    "01/PP_01_011_01.vra",
+    "01/attr/PZ_01_011_01.vra",
+    "01/model/PM_01_011_01.dxg",
+    "01/tex/PT_01_011_01.dds",
+    "03/PP_03_001_01.vra",
+    "image/PT_01_006_02.png",
+    "image/PT_01_100_01.png",
+    "image/PT_03_003_09.png",
+    "image/PT_03_004_05.png"
+  ],
+  "unavailable": [
+    "01/PP_01_011_31.vra"
+  ]
+}

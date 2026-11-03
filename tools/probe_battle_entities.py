@@ -1,10 +1,60 @@
 """Read-only entity registry snapshot, including the player and network bases."""
 import argparse
 import json
+import math
+import struct
 from datetime import datetime, timezone
 from pathlib import Path
 from probe_pilot_state import Reader, find_pid
 from probe_battle_weapons import weapon_state, weapon_visuals
+
+
+def floats(r, pointer, count):
+    data = r.read(pointer, count*4) if pointer else None
+    if data is None or len(data) != count*4:
+        return None
+    values = struct.unpack('<'+'f'*count, data)
+    return list(values) if all(math.isfinite(v) for v in values) else None
+
+
+def aim_bone_rotations(r, model):
+    if not model:
+        return None
+    # A3A110 traverses model+244/+24C and reads each node's name from
+    # +C (pointer) or +18 (inline), with the length including its NUL at+14.
+    begin, count = r.u32(model+0x244), r.u32(model+0x24c)
+    if count is None or count > 512 or (count and not begin):
+        return None
+    selected = {'T_head', 'C_Spine', 'C_Spine01', 'T_R_Clavicle',
+                'T_R_UpperArm', 'T_R_Forearm', 'T_R_Hand'}
+    result = []
+    for index in range(count):
+        node = r.u32(begin+index*4)
+        if not node:
+            continue
+        length = r.u32(node+0x14)
+        if length is None or not 1 <= length <= 128:
+            continue
+        address = r.u32(node+0xc) or node+0x18
+        raw = r.read(address, length)
+        if raw is None:
+            continue
+        name = raw.split(b'\0')[0].decode('utf8', 'replace')
+        if name not in selected:
+            continue
+        vtable = r.u32(node)
+        # Do not assume every skeleton node has the model's field layout.
+        # Only expose offsets when its actual getter matches the known one.
+        local_getter = r.u32(vtable+0x5c) if vtable else None
+        world_getter = r.u32(vtable+0x60) if vtable else None
+        result.append({'name': name, 'node': node,
+                       'local_rotation_getter': local_getter,
+                       'world_rotation_getter': world_getter,
+                       'local_rotation_xyzw': (floats(r, node+0x54, 4)
+                                               if local_getter == 0x50f6d0 else None),
+                       'world_rotation_xyzw': (floats(r, node+0x7c, 4)
+                                               if world_getter == 0x50f700 else None)})
+    return result
 
 
 def render_state(r, actor):
@@ -21,6 +71,16 @@ def render_state(r, actor):
     root_raw = r.read(root, 0x200) if root else None
     return {'controller': controller, 'movement': movement, 'render_object': render_object,
             'render_raw': raw.hex() if raw is not None else None,
+            # Native model vtable+5C/+60 -> 50F6D0/50F700. These are
+            # model transforms, not the actor+4C fallback or joint angles.
+            'local_rotation_xyzw': floats(r, render_object+0x54, 4) if render_object else None,
+            'world_rotation_xyzw': floats(r, render_object+0x7c, 4) if render_object else None,
+            # 4D41D0 reads model+354+layer*160. Zero is an empty layer;
+            # None is unreadable. IDs alone do not prove rendered blending.
+            'motion_layers': ([r.u32(render_object+0x354+i*0x160) for i in range(4)]
+                              if render_object else None),
+            'weapon_pose_hold_seconds': floats(r, actor+0x154, 2),
+            'aim_bones': aim_bone_rotations(r, render_object),
             'model_parameters': parameters,
             'model_parameters_raw': parameter_raw.hex() if parameter_raw is not None else None,
             'model_root': root, 'model_root_raw': root_raw.hex() if root_raw is not None else None}

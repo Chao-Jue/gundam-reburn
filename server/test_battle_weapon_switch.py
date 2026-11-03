@@ -16,6 +16,63 @@ class BattleWeaponSwitchTest(unittest.TestCase):
     def request(self, index, ai=0):
         return self.backend.replies(self.room, 0xea5a, struct.pack('<IBH', 0, index, ai))
 
+    def test_grenade_release_has_owned_item_and_unique_presentation_identity(self):
+        self.request(2)
+        body = struct.pack('<I8HBBIBHB', 0, 124, 65521, 147, 93, 65527, 165,
+                           0, 0, 0, 0, 0, 0, 0, 255)
+        replies = [self.backend.replies(self.room, 0x7c0c, body) for _ in range(2)]
+        for index, reply in enumerate(replies, 1):
+            self.assertEqual(reply, [(0x1a13, struct.pack('<HII8H3B', 1, 777103, index,
+                             124, 65521, 147, 93, 65527, 165, 0, 1500, 0, 0, 0))])
+        for invalid in (body[:-1], body+b'\0', body[:20]+b'\x01'+body[21:]):
+            self.assertEqual(self.backend.replies(self.room, 0x7c0c, invalid), [])
+        fields = list(struct.unpack('<I8HBBIBHB', body))
+        for field, invalid_value in ((7, 100), (8, 10001), (10, 1), (11, 1), (12, 1), (13, 100), (14, 2)):
+            invalid = fields.copy()
+            invalid[field] = invalid_value
+            self.assertEqual(self.backend.replies(self.room, 0x7c0c,
+                             struct.pack('<I8HBBIBHB', *invalid)), [])
+        self.room.entities_ready = False
+        self.assertEqual(self.backend.replies(self.room, 0x7c0c, body), [])
+        self.room.entities_ready = True
+        self.request(0)
+        self.assertEqual(self.backend.replies(self.room, 0x7c0c, body), [])
+
+    def test_grenade_impact_is_once_for_an_issued_grenade_even_after_switch(self):
+        self.request(2)
+        release = struct.pack('<I8HBBIBHB', 0, 124, 65521, 147, 93, 65527, 165,
+                              0, 0, 0, 0, 0, 0, 0, 255)
+        self.backend.replies(self.room, 0x7c0c, release)
+        self.request(0)
+        fields = [0, 105, 65520, 160, 105, 65520, 160, 0, 0, 1, 0, 1, 0, 0, 255]
+        impact = struct.pack('<I8HBBIBHB', *fields)
+        for field, value in ((9, 2), (10, 1), (11, 999), (12, 1), (13, 100), (7, 100)):
+            invalid = fields.copy()
+            invalid[field] = value
+            self.assertEqual(self.backend.replies(self.room, 0x7c0c,
+                             struct.pack('<I8HBBIBHB', *invalid)), [])
+        self.assertEqual(self.backend.replies(self.room, 0x7c0c, impact),
+                         [(0x1a13, struct.pack('<HII8H3B', 1, 777103, 1,
+                          105, 65520, 160, 105, 65520, 160, 0, 0, 1, 0, 0))])
+        self.assertEqual(self.backend.replies(self.room, 0x7c0c, impact), [])
+
+    def test_grenade_pending_presentations_are_bounded_and_expire(self):
+        self.request(2)
+        now = self.backend.clock()
+        self.backend.clock = lambda: now
+        release = struct.pack('<I8HBBIBHB', 0, 124, 65521, 147, 93, 65527, 165,
+                              0, 0, 0, 0, 0, 0, 0, 255)
+        for _ in range(64):
+            self.assertTrue(self.backend.replies(self.room, 0x7c0c, release))
+        self.assertEqual(self.backend.replies(self.room, 0x7c0c, release), [])
+        self.assertEqual(len(self.room.pending_grenades), 64)
+        self.backend.clock = lambda: now + 31
+        impact = struct.pack('<I8HBBIBHB', 0, 105, 65520, 160, 105, 65520, 160,
+                             0, 0, 1, 0, 1, 0, 0, 255)
+        self.assertEqual(self.backend.replies(self.room, 0x7c0c, impact), [])
+        self.assertEqual(self.room.pending_grenades, {})
+        self.assertTrue(self.backend.replies(self.room, 0x7c0c, release))
+
     def test_switch_replies_with_owned_entity_slot_and_item(self):
         self.assertEqual(self.request(1), [(0xb334, struct.pack('<HiBIB', 1, 0, 1, 777106, 0))])
         self.assertEqual(self.request(2), [(0xb334, struct.pack('<HiBIB', 1, 0, 2, 777103, 0))])

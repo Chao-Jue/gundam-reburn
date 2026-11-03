@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "main",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "举盾独立通道2与SHIELD2候选通过用户实机验收：朝向合理、无穿模、挥刀不受影响；枪械动作与机设不符按用户要求暂缓。",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "tools/test_weapon_motion_class_native.py",
+    "tools/test_shield_presentation_native.py",
+    "server/战场武器只读基线-2026-11-02.md",
+    "docs/agent-results/2026-11-02-shield-presentation.json"
+  ],
+  "acceptance": [
+    {
+      "criterion": "盾牌使用独立于武器的非零通道，候选骨名匹配GM骨架",
+      "status": "passed",
+      "evidence": "先复现channel0!=2及30101引用缺失UpperArm2z，改后原生解析通道2、SHIELD2=31且31101目标骨名均存在。"
+    },
+    {
+      "criterion": "实机举盾朝向合理、无穿模，格斗不受影响",
+      "status": "passed",
+      "evidence": "用户完整重启后确认朝向合理、无穿模、挥刀无影响；枪械穿模归于当前射击动作候选，用户要求暂缓，不列为通过。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_shield_presentation_native.py -v",
+      "exit_code": 1,
+      "evidence": "修改前两个测试因盾牌动作停用、旧姿态含GM缺失骨名失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_shield_presentation_native.py -v",
+      "exit_code": 0,
+      "evidence": "修改后同一测试2项通过，挂点4保持不变。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_shield_presentation_native.py tools/test_weapon_motion_class_native.py",
+      "exit_code": 0,
+      "evidence": "全部本轮修改的Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "129项server通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "65项native通过；只覆盖原生解析、协议和静态资产合同，不覆盖渲染。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实验服务启动通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP预约/出击/切换/普通与冲刺事件冒烟通过；无游戏渲染。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户反馈验收当前举盾朝向、穿模和挥刀配合。枪械动作适配暂缓；未验收自动防御、伤害抵挡或全部通道优先级。"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "本项目无数据库迁移，本轮不改存档。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "静态DXG预览器不支持该盾牌网格流而数据越界；一次A3A510未建立函数，无反编译结果。未修改源资产和永久解析器。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "核对DXG名称/挂点、MRB骨名和实际控制器到移动对象的查询链；纠正混淆两类vtable的早期解释。原始数据仅hook_runs。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "自动防御/攻击收盾语义及优先级仍未全部还原",
+    "枪械动作与机设适配暂缓",
+    "枪口/弹道和手雷投出物、打靶目标、命中与伤害"
+  ],
+  "next_steps": [
+    "先接枪口闪光和弹体表现，再处理手雷投出物",
+    "表现验收后接打靶目标和伤害判定"
+  ]
+}

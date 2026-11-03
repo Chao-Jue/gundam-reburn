@@ -1,0 +1,662 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "main",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "用户对1800实验速度版本反馈效果可以、先通过。手雷表现阶段验收：右手投出、模型/拖尾、当前弹道手感、终点爆炸及无残留；原版参数/权威判定、打靶AI与伤害仍未完成。",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "tools/test_projectile_presentation_native.py",
+    "server/手雷投掷链路调查-2026-11-03.md",
+    "docs/RESEARCH_INDEX.md",
+    "server/local_battle.py",
+    "server/test_battle_weapon_switch.py",
+    "tools/smoke_local_battle.py",
+    "server/reference/grenade_fx_availability.json",
+    "tools/test_muzzle_socket_native.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "手雷进入本地投出/发送循环",
+      "status": "passed",
+      "evidence": "真实4D74AC门控，旧两把手雷数量0失败，数量1后回归通过。"
+    },
+    {
+      "criterion": "手雷轨迹、落地和爆炸实机显示",
+      "status": "failed",
+      "evidence": "用户重启后明确反馈无手雷飞出、落地或爆炸；本次飞行视觉候选尚待重启复验。"
+    },
+    {
+      "criterion": "投出物与拖尾从右手附近飞出",
+      "status": "passed",
+      "evidence": "用户在右手挂点修正后反馈“可以了”。"
+    },
+    {
+      "criterion": "普通手雷终点爆炸且无残留",
+      "status": "passed",
+      "evidence": "用户确认在投出物终点触发，无残留。"
+    },
+    {
+      "criterion": "1800实验速度与抛物线手感",
+      "status": "passed",
+      "evidence": "用户复验反馈“效果可以，先通过吧”。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "A8B570为7C0C；4D6DB0数量门控绕过本地创建与发送。旧4B8E80实际上是狙击光束入口，未作为手雷实现依据。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "PID15808独立只读180样本无异常，单击/按住松开进入40/41动作，服务日志未见7C0C；只验证诊断采集。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 1,
+      "evidence": "两把手雷0数量均因未进入投出循环而预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 0,
+      "evidence": "同一4项测试通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_projectile_presentation_native.py",
+      "exit_code": 0,
+      "evidence": "修改Python编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "129项通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "78项通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离临时端口与存档实际启动通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP既有出击/切换/退出冒烟通过，不覆盖手雷原版客户端。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "修改后待完整重启实机复验。"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "4ED990的4ED190视觉加载为空将失败；4EE470是位置查询，纠正旧创建函数归属。普通1A13回调648E60与bound648D20分开。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户操作后三次7C0C已进入现有服务日志；msec=0，无手雷应答，不代表表现通过。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户明确反馈数量修复后仍无手雷投出/落地/爆炸。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 1,
+      "evidence": "两把手雷CSV46空，新增视觉配置/本地Model资源合同预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 0,
+      "evidence": "补实验飞行资源后同一5项通过；不模拟完整渲染。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_projectile_presentation_native.py",
+      "exit_code": 0,
+      "evidence": "编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "129项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "79项通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "既有加密TCP冒烟通过，未覆盖手雷客户端"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "PID26704只读单样本bullet+0C=0，服务日志三次7C0C且msec=0。仅诊断读取。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户明确已进地图，补飞行视觉后手雷仍无变化。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 1,
+      "evidence": "新增505DB1原生速度片段回归，两把手雷均零向量预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 0,
+      "evidence": "补速度后相同6项通过，未执行完整渲染或碰撞。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_projectile_presentation_native.py",
+      "exit_code": 0,
+      "evidence": "编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "129项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "80项通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离启动通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "既有加密TCP冒烟通过，不覆盖手雷客户端"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "PID43040只读确认飞行资源已加载但速度0；旧认证PID27576启动早于速度修改。核实命令后重启为39908，HTTP200及32字节认证握手通过；新客户端表尚未重采。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "PID41280实采速度8000/资源；1800个50ms样本manager向量计数均0。仅只读诊断。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "HAND_THROW flags0x340A1含0x80，4F33F0跳过本地预生成。648E60为普通hand_throw_r创建消费者。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_battle_weapon_switch.py -q",
+      "exit_code": 1,
+      "evidence": "新投出应答回归因空回复预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_battle_weapon_switch.py -q",
+      "exit_code": 0,
+      "evidence": "实现后同一9项通过，含装备/唯一ID/非法参数和未就绪拒绝。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/local_battle.py server/test_battle_weapon_switch.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "修改模块均编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "130项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "80项既有原生通过；未新增1A13完整原生解析测试"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "新增7C0C→1A13实际加密TCP收发通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": 0,
+      "evidence": "仅重启已核实的实验认证39908为45372；HTTP200与认证32字节握手通过"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户反馈新应答后仍无模型/轨迹；尚未证实视觉对象创建成功。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "只读PID41736协议回调计数6，speed8000，FX路径存在；只验证诊断字段。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "5ms目标间隔采6433个有效空容器样本；PID退出后Reader返回None导致TypeError中断，不能把之后操作算覆盖。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "AF4E20→A55620→4F40D0；离线ReadProcessMemory复制+Unicorn到A0E370入口，辅助函数有替代，不是实机渲染。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_muzzle_socket_native.py -q",
+      "exit_code": 1,
+      "evidence": "临时手雷挂点扩展发现缺s_shot01，直接照搬枪口假设未成立；已撤销本轮该改动。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_muzzle_socket_native.py -q",
+      "exit_code": 0,
+      "evidence": "恢复原范围后2项通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_muzzle_socket_native.py",
+      "exit_code": 0,
+      "evidence": "相关模块恢复后编译通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "仅诊断采集：PID41532三次投掷使接受计数0至3；VFS缓存前后均161节点，没有手雷候选，枪口和军刀条目存在。并非手雷表现通过。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "只读运行目录5775项与失败缓存交叉核对，旧_31缺失；新_01及几何/纹理依赖存在。记录中count未解码，不作失败次数。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 1,
+      "evidence": "新资源可用性回归：两把手雷旧_31不在实际运行包核对目录，预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 0,
+      "evidence": "替换_01后同一7项通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_projectile_presentation_native.py",
+      "exit_code": 0,
+      "evidence": "修改模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "130项通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "81项通过，包含片段/合同，不代表渲染。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实际服务启动、加密TCP手雷应答通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "服务检查首次使用错误/authsv.csv为404；直接等待认证未发送hello超时；已按正确路径与协议重试。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "实验认证13248更新；HTTP/launcher/authsv.csv 200/199B，发送16B hello后实收32B握手。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "范围仅限用户确认可见手雷投出物与拖尾；用户报告起点疑似不在右手。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "PID23204独立只读骨骼采样actor为None后中断，未取得手部/起点实时对照。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_muzzle_socket_native.py -q",
+      "exit_code": 1,
+      "evidence": "两把手雷搜索范围[0]而持械挂点[1]，预期失败；无s_shot原生回退控制例通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_muzzle_socket_native.py -q",
+      "exit_code": 0,
+      "evidence": "列7/8修正后同一4项通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_muzzle_socket_native.py",
+      "exit_code": 0,
+      "evidence": "编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "130项通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "83项通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动与加密TCP冒烟通过；未运行原版手雷画面。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "实验认证38772更新，HTTP清单200/199B与真实认证32B握手通过。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "范围仅右手投出物/拖尾起点，用户确认可以了；爆炸尚未验收。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_battle_weapon_switch.py -q",
+      "exit_code": 1,
+      "evidence": "合法已发手雷编号的碰撞回报返回空，应答复现失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 1,
+      "evidence": "两把手雷普通爆炸CSV48空，资源合同预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_battle_weapon_switch.py -q",
+      "exit_code": 0,
+      "evidence": "修复后同一碰撞用例通过；另在全量覆盖编号一次性/未知/过期/切换及数量上限。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py server/local_battle.py server/test_battle_weapon_switch.py tools/test_projectile_presentation_native.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "全部修改Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "132项通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "85项通过，包括A55620碰撞入口/坐标还原离线片段；未执行完整渲染。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实际服务启动、加密TCP投出及碰撞应答通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "认证40128更新；HTTP清单200/199B、真实认证握手32B通过。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "范围仅普通手雷终点爆炸及无残留，用户明确确认；新低速弹道尚未验收。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "PID42008独立UAC只读确认原生上抛Y偏置10度、重力常量980，仅诊断参数采集。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 1,
+      "evidence": "两把手雷8000在真实积分片段1.5秒水平位移12000，超过本地实验验收3500，预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_projectile_presentation_native.py -q",
+      "exit_code": 0,
+      "evidence": "1800后同一10项通过；原生重力积分片段，不包含碰撞/渲染。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_projectile_presentation_native.py",
+      "exit_code": 0,
+      "evidence": "修改模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "132项通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "86项通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实际服务启动、加密TCP投出/碰撞应答通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "认证44760更新，HTTP200/199B，真实认证32B握手通过。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户确认1800版本效果可以、先通过；仅当前手雷表现阶段，不含伤害、AI或原版参数还原。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "权威碰撞/保险时间、其他爆炸变体未还原",
+    "打靶AI、命中与伤害判定未完成"
+  ],
+  "next_steps": [
+    "保持已验收的手雷实验参数",
+    "下一阶段调查并开发打靶目标，再接命中/伤害判定"
+  ]
+}

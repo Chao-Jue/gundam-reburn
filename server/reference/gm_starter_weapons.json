@@ -6,7 +6,11 @@
     {
       "item_id": 777101,
       "kind": "BEAM_SPRAYGUN",
+      "projectile_presentation": {"count": 1, "speed": 30000, "muzzle_effect": "01/PP_01_100_01.vra", "projectile_effect": "01/PP_01_001_01.vra", "scale": 1},
+      "projectile_note": "本地单弹体表现原型：粉红闪光候选PP_01_100_01（短暂非循环，无旧喷流外层90度俯仰）；一次消耗1发、生成1条轨迹；速度为实验世界单位/秒，非原版散射数量或弹速，不代表命中/伤害。",
       "motion_class": "ONEHAND_SHOT",
+      "aim_category": "ONEHAND",
+      "aim_note": "实验关节跟随分类：CSV13原生2，选择GM MSJ的右上臂/脊柱路线；与CSV15射击动作组独立，实机瞄准跟随待验收。",
       "motion_note": "实验持枪分类：原生3，GM存在3101等姿态；未验收为原版动作配置。",
       "resource": 2010501,
       "name": "光束喷枪",

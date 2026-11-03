@@ -27,12 +27,12 @@ class MotionClassNativeTest(unittest.TestCase):
         u.emu_start(0x55c51a, 0x55c52d, count=20)
         return struct.unpack('<I', u.mem_read(0x20001030, 4))[0]
 
-    def test_unrecovered_shield_animation_does_not_overwrite_weapon_layer(self):
+    def test_shield_animation_does_not_overwrite_weapon_layer(self):
         rows = list(csv.reader(io.StringIO(hangar_experiment.weapon_tables(
             'item/weapon_settings.csv').decode())))[2:]
         shield = next(r for r in rows if int(r[0]) == hangar_experiment.SHIELD_ITEM_ID)
-        self.assertEqual(self.native_layer(int(shield[14] or 0)), 0,
-                         '48E0E0 skips channel0; current shield overwrites weapon channel1')
+        self.assertNotEqual(self.native_layer(int(shield[14] or 0)), 1,
+                            'shield must not replace the weapon channel1')
 
     def resolve(self, token):
         image = (ROOT / 'server/img_dump/main_GundamOnline_CHINA.exe').read_bytes()
@@ -87,6 +87,28 @@ class MotionClassNativeTest(unittest.TestCase):
                 path = ROOT / ('GundamOnline_CHINA_已解密/decrypted/chara/01/01/anim/'
                                f'MSA_0101_{motion:05d}.mrb')
                 self.assertTrue(path.is_file(), 'COMMON has no GM aimed gun pose101')
+
+    def test_gun_ready_pose_leaves_left_shield_arm_to_guard_layer(self):
+        rows = list(csv.reader(io.StringIO(hangar_experiment.weapon_tables(
+            'item/weapon_settings.csv').decode())))[2:]
+        for row in rows:
+            if row[30] != 'GUN_SINGLE':
+                continue
+            with self.subTest(item=row[0]):
+                group = self.resolve(row[15])
+                path = ROOT / ('GundamOnline_CHINA_已解密/decrypted/chara/01/01/anim/'
+                               f'MSA_0101_{group*1000+101:05d}.mrb')
+                data = path.read_bytes()
+                self.assertEqual(data[:8], b'MRB\0\0\0\1\0')
+                first, second = struct.unpack_from('<2I', data, 0x38)
+                self.assertIn(1, (first, second))
+                length = second if first == 1 else first
+                self.assertLessEqual(0x40+length, len(data))
+                bones = {name.decode('utf8') for name in
+                         data[0x40:0x40+length].split(b'\0') if name}
+                self.assertIn('T_R_Hand', bones)
+                self.assertTrue(all(b.startswith('T_R_') for b in bones),
+                                'two-hand ready pose also drives torso and shield arm')
 
     def test_melee_has_a_linked_presentation_row_and_existing_motion(self):
         body = hangar_experiment.weapon_tables('item/wrestle.csv')

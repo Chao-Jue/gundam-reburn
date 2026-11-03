@@ -1,0 +1,231 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "passed",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "main",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "射击关节路线修复完成：用户重启复验反馈“动作非常完美，切换军刀没有问题”。此前编译、129服务端/77原生/12探针及隔离TCP通过；实机验收为用户反馈，未追加改后骨骼采样。",
+  "changed_files": [
+    "tools/probe_battle_entities.py",
+    "tools/test_battle_render_probe.py",
+    "docs/RESEARCH_INDEX.md",
+    "server/射击朝向与动作跟随-只读采样-2026-11-03.md",
+    "docs/agent-results/2026-11-03-aim-tracking-investigation.json",
+    "server/hangar_experiment.py",
+    "server/reference/gm_starter_weapons.json",
+    "server/reference/gm_test_weapons.json",
+    "tools/test_weapon_aim_route_native.py",
+    "server/战场武器只读基线-2026-11-02.md"
+  ],
+  "acceptance": [
+    {
+      "criterion": "只读采集实际地图内一号枪及主体/动作状态",
+      "status": "passed",
+      "evidence": "独立UAC Python读取PID9768，共120有效样本，当前777108/class3/layer1；用户完成正面、两侧与高低射击操作。无注入/写入。"
+    },
+    {
+      "criterion": "新探针命名字段与缺失值处理",
+      "status": "passed",
+      "evidence": "12项探针测试通过，240有效操作样本实机取得7个目标骨骼变换；节点getter均匹配，主体变换与骨骼变换分开。"
+    },
+    {
+      "criterion": "侧向/俯仰射击时枪口与准星模型跟随正常",
+      "status": "passed",
+      "evidence": "用户针对完整重启后的左右/高低瞄准及恢复/切刀检查回复：动作非常完美，切换军刀没有问题。属于用户实机验收，无修改后自动逐骨骼采样。"
+    },
+    {
+      "criterion": "三把实验枪在瞄准时选择右上臂/脊柱路线",
+      "status": "passed",
+      "evidence": "55AF70与50A900真实机器码：旧表三个子例0!=2失败，补列13 ONEHAND后同一测试通过；默认/待机、MODELORIGIN和越界控制例通过。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "只读采样得到120有效样本，动作3101与盾31101在样本点互斥，持枪保持计时29样本为正；此为诊断采集，非战斗端到端通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_battle_render_probe.py -v",
+      "exit_code": 1,
+      "evidence": "新诊断字段尚不存在，先以KeyError复现探针缺失。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*probe*.py -q",
+      "exit_code": 1,
+      "evidence": "实现后测试夹具只返回一个float而要求两个，hold字段None导致失败；修正夹具后重跑。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile tools/probe_battle_entities.py tools/test_battle_render_probe.py",
+      "exit_code": 0,
+      "evidence": "本轮修改Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*probe*.py -q",
+      "exit_code": 0,
+      "evidence": "全部11项探针测试通过。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "核对实际CB4564控制器、50F6D0/50F700变换getter、4D41D0动作通道读取。部分其他控制器同偏移含义不同，未套用为本机修复。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "枪口模型跟随问题未修复；新探针字段未在客户端重采，后续进程检查客户端已退出。"
+    },
+    {
+      "level": "service_startup",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "本轮不改战斗服务，只读采集现有客户端并改进诊断工具，未重新启动服务。"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移，不改存档。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_battle_render_probe.py -q",
+      "exit_code": 1,
+      "evidence": "新增逐骨骼诊断测试在实现前因aim_bone_rotations不存在而失败。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile tools/probe_battle_entities.py tools/test_battle_render_probe.py",
+      "exit_code": 0,
+      "evidence": "追加逐骨骼读取后再次编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*probe*.py -q",
+      "exit_code": 0,
+      "evidence": "追加逐骨骼已知/未知getter用例后全部12项探针测试通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "PID4356独立UAC只读采样，首120样本全待机，不算操作验证；另240样本覆盖用户射击操作，7个目标骨骼均读取成功，无异常。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "完整消费者55C4FE/55C50A/55C512将CSV13解析入definition+28；50A900选路线，50B970执行关节跟随，GM本地路线2包含右上臂和脊柱。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_aim_route_native.py -v",
+      "exit_code": 1,
+      "evidence": "初次三枪断言预期失败，另资产检查因编码名utf8-sig误写报错；编码错误不作为Bug复现证据。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_aim_route_native.py -v",
+      "exit_code": 1,
+      "evidence": "仅修正编码夹具后未修改配置，三把枪仍各因0!=2失败，另两项控制/资产路线测试通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_aim_route_native.py -v",
+      "exit_code": 0,
+      "evidence": "补列13 ONEHAND后相同3项回归通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_weapon_aim_route_native.py tools/probe_battle_entities.py tools/test_battle_render_probe.py",
+      "exit_code": 0,
+      "evidence": "修改Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "129项测试通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "77项测试通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*probe*.py -q",
+      "exit_code": 0,
+      "evidence": "12项测试通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离临时端口和存档实际服务启动通过；用户30000端口服务未重启。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP认证至正式战准备、基地实体、出击选择、玩家实体、武器切换、退出通过；合成协议客户端，未跑原版UI/地图。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "本次关节路线修复后尚待用户重启复验；旧配置操作样本仅诊断证据。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户针对本轮重启验证请求反馈“动作非常完美，切换军刀没有问题”。只验收射击动作/瞄准跟随及切刀，不代表伤害、完整战斗或每个关节边界。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "原版武器平衡/动作身份、关节极限数值未还原；非本次缺陷验收范围",
+    "手雷抛出、打靶AI、命中与伤害仍待后续"
+  ],
+  "next_steps": [
+    "调查手雷投掷模型、轨迹及落地表现的配置与协议链路",
+    "武器表现稳定后接入打靶目标，再实现命中与伤害"
+  ]
+}

@@ -161,14 +161,23 @@ def weapon_tables(name):
             rows.append(row)
         return csv_rows(rows)
     if name == 'item/bullet.csv':
-        # 53F1F0 reads through col31. UI metadata only: physical flight,
-        # collision and effect resources remain unrecovered, not battle ready.
+        # 53F1F0 reads through col31. Presentation speed below is an explicit
+        # local prototype; collision/damage parameters remain unrecovered.
         rows = []
         for w in definitions:
             if '弹数' not in w['attributes']:
                 continue
             row = [0] * 32
             row[0] = w['item_id']
+            if action_of(w) == 'HAND_THROW':
+                # Local lob-speed tuning (world units/second), not recovered
+                # GM balance. 53F1F0 CSV5 -> bullet+0C -> 505BD0 velocity.
+                # 8000 hid native980 gravity curvature;1800 preserves the
+                # native upward bias/gravity and makes the arc observable.
+                row[5] = 1800
+            if w.get('projectile_presentation'):
+                # col5 -> bullet+0C: native53F110 divides distance by speed.
+                row[5] = w['projectile_presentation']['speed']
             # 7A39D1: raw radius /1200 *10000 -> displayed effect range.
             row[11] = float(w['attributes'].get('效果范围', 0)) * 0.12
             # col24 optional special projectile enum: empty -> ordinary(0).
@@ -209,6 +218,11 @@ def weapon_tables(name):
             # GM DXG contains S_wpn_01 under T_R_Hand. Experimental mount,
             # not a recovered original drawn/stowed weapon configuration.
             row[11] = 1
+            # CSV13 -> 55AF70 -> definition+28 -> 50A900 joint route.
+            # Empty selects route0 (head/spine), even while 3101 holds the gun.
+            # GM ONEHAND route2 includes right upper arm/spine. This is separate
+            # from CSV15's animation group and only activates in aiming states.
+            row[13] = w.get('aim_category', '')
             # 55B060: blank -> FFFFFFFF, then 48E710 uses class*1000+motion.
             # Explicit experimental pose candidates may select native ranged
             # groups with existing GM aim clips (3101/8101). Preserve COMMON
@@ -217,6 +231,38 @@ def weapon_tables(name):
             # Native enum55B240 has SHOTGUN, not BEAM_SPRAYGUN.
             row[21] = category_of(w)
             row[30] = action_of(w)
+            if row[30] == 'HAND_THROW':
+                # 49B180 uses CSV7/8 to select the throw-origin mount. With
+                # no s_shot sockets in the grenade it falls back to the body's
+                # S_wpn_NN. Search the same right-hand mount as the held model.
+                row[7], row[8] = row[11], 0
+                # Experimental one-grenade release. 4D74AC reads +7B0:
+                # zero skips both local creation and the 7C0C request loop.
+                # This only opens release; fuse/physics/replies remain separate.
+                row[103], row[104] = 1, 1
+                # Experimental model/trail candidate verified in live fx.hed,
+                # including its geometry/texture dependencies. The decrypted
+                # tree's _31 variant is absent from this client's archive and
+                # enters its failed-path cache, aborting 4ED990 initialization.
+                # Availability is not original GM attribution or render proof.
+                row[46], row[47] = '01/PP_01_011_01.vra', 1
+                # 4F2520 normal impact consumes CSV48/49 (+23C/+290).
+                # Generic explosion and image dependencies are in live fx.hed.
+                # Experimental presentation, no original fuse or damage claim.
+                row[48], row[49] = '03/PP_03_001_01.vra', 1
+            if w.get('projectile_presentation'):
+                presentation = w['projectile_presentation']
+                # CSV7/8 -> +18/+1C: 49B180 searches S_wpn_NN for
+                # the weapon's shot sockets. Zero searches S_wpn_00 and
+                # falls back to the actor root. End0 means start only.
+                row[7], row[8] = row[11], 0
+                # Native4F0F10 muzzle FX +134 / scale+188; 4ED190 uses
+                # the moving projectile FX +1E4 / scale+238.
+                row[42], row[43] = presentation['muzzle_effect'], presentation['scale']
+                row[46], row[47] = presentation['projectile_effect'], presentation['scale']
+                # col103 -> +7AC ammo cost; col104 -> protected +7B0.
+                # Native4F33F0 skips the entire spawn loop when count is0.
+                row[103], row[104] = 1, presentation['count']
             if w.get('attached_effect'):
                 # 55C3E0 col60/62 -> wide-string arrays +528/+624;
                 # 4E2A40 selects these two states then 4E20A0 loads the FX.
@@ -245,12 +291,13 @@ def weapon_tables(name):
         shield[2] = shield[3] = shield[4] = 12010101
         # Existing GM S_wpn_04 socket (T_L_Hand); experimental shield mount.
         shield[11] = 4
-        # 55C51A adds1 to col14. Native channel0 makes 48E0E0 skip a
-        # separate overlay, preserving the current weapon's channel1.
-        # Until a shield-only bone mask is recovered, follow the left-hand
-        # socket rather than playing class30 over the weapon's upper body.
-        shield[14] = -1
-        shield[15] = 'SHIELD'  # native class30, GM has 30xxx motions
+        # 55C51A adds1 to col14: use overlay2, separate from weapon1.
+        # Experimental SHIELD2=31 candidate: 31101 references only existing
+        # GM left-arm/spine/head bones; old30101 includes absent UpperArm2z.
+        # This is a candidate for the prior sideways pose. Attack blending
+        # and recovery still require client validation; keep socket4 fixed.
+        shield[14] = 1
+        shield[15] = 'SHIELD2'
         shield[21] = shield[30] = 'SHIELD'
         shield[97] = 'GM_SHIELD_HP'
         shield[109] = 0  # separate shield equipment, no invented weapon weight

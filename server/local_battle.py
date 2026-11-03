@@ -3,7 +3,7 @@
 Uses the formal xwar booking path and the current native battle protocol.
 The caller supplies the existing encrypted transport and validated pilot records.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import secrets
 import struct
 import time
@@ -191,6 +191,9 @@ class Reservation:
     bases_sent: bool = False
     spawned_weapon_ids: tuple = ()
     active_weapon_index: int = 0
+    next_grenade_id: int = 1
+    # Presentation only: issued item and expiry, not authoritative hit state.
+    pending_grenades: dict = field(default_factory=dict)
 
 
 class LocalBattleBackend:
@@ -273,6 +276,43 @@ class LocalBattleBackend:
     def replies(self, reservation, opcode, body):
         if not self.valid(reservation):
             return []
+        if opcode == 0x7C0C:
+            # A8B570: 30B hand_throw, distinct from the bound variant.
+            # Release/impact presentation only; no authoritative hits/damage.
+            if (len(body) != 30 or not reservation.round_active
+                    or not reservation.entities_ready or len(reservation.spawned_weapon_ids) != 3):
+                return []
+            fields = struct.unpack('<I8HBBIBHB', body)
+            _, lx, ly, lz, tx, ty, tz, target, msec, impact, fx, impact_id, charge, ai, salvo = fields
+            if (impact not in (0, 1) or fx or charge or ai or salvo not in (0, 255)
+                    or target not in (0, 0xffff) or msec > 10000):
+                return []
+            now = self.clock()
+            reservation.pending_grenades = {
+                gid: entry for gid, entry in reservation.pending_grenades.items()
+                if entry[1] > now}
+            if impact:
+                issued = reservation.pending_grenades.get(impact_id)
+                if issued is None:
+                    return []
+                item, _ = reservation.pending_grenades.pop(impact_id)
+                # Keep the issued item even if the pilot has since switched.
+                # Client callback A55620 selects 4F2520 when impact=1.
+                return [(0x1A13, struct.pack('<HII8H3B', 1, item, impact_id,
+                         lx, ly, lz, tx, ty, tz, target, msec, 1, 0, 0))]
+            item = reservation.spawned_weapon_ids[reservation.active_weapon_index]
+            if (experimental_weapon_kinds().get(item) != 'HAND_THROW' or impact_id
+                    or len(reservation.pending_grenades) >= 64):
+                return []
+            grenade_id = reservation.next_grenade_id
+            if grenade_id > 0xffffffff:
+                return []
+            reservation.next_grenade_id += 1
+            reservation.pending_grenades[grenade_id] = (item, now + 30)
+            # Explicit 1.5s local presentation fallback for observed msec=0;
+            # not an original fuse or authoritative trajectory/hit calculation.
+            return [(0x1A13, struct.pack('<HII8H3B', 1, item, grenade_id,
+                     lx, ly, lz, tx, ty, tz, target, msec or 1500, 0, 0, 0))]
         if opcode == 0x2ADC:
             # Local experimental presentation only, without hits or damage.
             if (len(body) != 17 or not reservation.round_active

@@ -1,0 +1,235 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "main",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "用户实机确认当前闪光位置和弹体飞行方向正常；颜色满意度与切换清理未单独确认。后续按用户要求试持盾单手枪动作。",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "server/reference/gm_starter_weapons.json",
+    "server/reference/gm_test_weapons.json",
+    "tools/test_projectile_presentation_native.py",
+    "server/战场武器只读基线-2026-11-02.md",
+    "docs/agent-results/2026-11-02-projectile-presentation.json",
+    "tools/test_muzzle_socket_native.py",
+    "tools/test_muzzle_effect_native.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "生成枪械行可进入原生生成循环，具有有效资源与有限飞行时间",
+      "status": "passed",
+      "evidence": "修改前3把枪因列104为0失败；改后同测试通过。执行4F34FD计数分支、55D312解析和53F110浮点公式；5440D0拼接后的文件存在。"
+    },
+    {
+      "criterion": "实机枪口闪光、飞行弹道与切换清理",
+      "status": "failed",
+      "evidence": "用户完整重启后看到闪光与弹体，但从两脚中间地面发出；朝向/切换清理未通过，不以生成成功代表枪口表现完成。"
+    },
+    {
+      "criterion": "发射搜索使用持械挂点并存在枪口节点",
+      "status": "passed",
+      "evidence": "先执行CSV7/8解析与49B180范围设置，三枪均因[0]!=[1]失败；修复列7=模型挂点1后同测试通过，GM挂点和三枪s_shot01存在。实际矩阵和渲染待复验。"
+    },
+    {
+      "criterion": "粉红短闪光候选无旧外层俯仰，原生朝向矩阵前向跟随目标",
+      "status": "passed",
+      "evidence": "先复现旧候选三枪各2个子用例失败，再替换资源后同3项测试通过。目视确认PT_01_100_01白芯粉红光晕；真实B324B0第三行在4种水平/俯仰目标下匹配输入。未证明实际渲染。"
+    },
+    {
+      "criterion": "粉红候选配置下闪光位置与弹体飞行方向正常",
+      "status": "passed",
+      "evidence": "用户完整重启后明确反馈闪光位置和弹体飞行方向正常；未把此反馈扩展为颜色、切换清理、命中或伤害验收。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe tools/test_projectile_presentation_native.py -v",
+      "exit_code": 1,
+      "evidence": "实现前3个枪械子测试因zero count skips whole spawn loop失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/test_projectile_presentation_native.py -v",
+      "exit_code": 0,
+      "evidence": "修改后同一3项测试通过，包括原生浮点飞行时间计算。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_projectile_presentation_native.py tools/test_shield_presentation_native.py tools/test_weapon_motion_class_native.py",
+      "exit_code": 0,
+      "evidence": "本轮Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q; C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "129项服务端、68项原生测试通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实验服务启动成功。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP预约、出击、切换、普通/冲刺格斗冒烟通过；未覆盖射击渲染。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "枪口/弹道本轮候选待用户重启反馈。"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移，不改存档。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户看到闪光/弹体，但起点在脚下，首轮渲染验收失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_muzzle_socket_native.py -v",
+      "exit_code": 1,
+      "evidence": "新挂点复现测试三枪均得到搜索0而非模型挂点1。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_muzzle_socket_native.py -v",
+      "exit_code": 0,
+      "evidence": "修复后同一2项测试通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_muzzle_socket_native.py",
+      "exit_code": 0,
+      "evidence": "本轮修改模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q; C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "129项server、70项native通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实验服务启动通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP预约/出击/切换/格斗冒烟通过，不包含枪口渲染。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "修正发射搜索后已请求完整重启复验位置和高低瞄准方向，当前待反馈。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户反馈旧枪口特效不合适且垂直向上，要求粉红色；本轮未明确验收起点及弹体方向。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_muzzle_effect_native.py -v",
+      "exit_code": 1,
+      "evidence": "旧候选三枪均缺粉红Flash贴图且带外层90度俯仰，共6个子用例失败；原生朝向控制通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_muzzle_effect_native.py -v",
+      "exit_code": 0,
+      "evidence": "资源替换后同3项测试通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_muzzle_effect_native.py",
+      "exit_code": 0,
+      "evidence": "本轮Python模块编译通过，修改JSON已由测试加载。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q; C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "129项server和73项native通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP预约/出击/切换/格斗冒烟通过，不覆盖新特效渲染。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "新粉红候选颜色、位置、朝向及清理待重启实机反馈。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户实机确认闪光位置和弹体飞行方向正常。提出后续单手持枪动作请求，另轮验证。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "闪光颜色满意度、停火/切枪清理未单独确认",
+    "手雷投出物",
+    "打靶目标与命中/伤害"
+  ],
+  "next_steps": [
+    "先按用户新要求试持盾单手射击动作，再继续手雷投出物",
+    "继续还原手雷请求与投出物表现，再接打靶目标和伤害"
+  ]
+}
