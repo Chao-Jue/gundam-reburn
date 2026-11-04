@@ -818,8 +818,14 @@ def _req_u32(rest, off, default=1):
 #
 # ★容量护栏：客户端 0x02EE 单栏物品数组容量 = 100，第 101 个元素溢出
 #   覆写内存导致客户端白屏卡死（二分实证 90✓/100✓/101✗，与包体大小无关）。
-#   MSGO_ITEM_MAX（默认 100）做硬截断。图标链路见
+#   无条件硬上限100；MSGO_ITEM_MAX只能收紧，不能取消或抬高上限。图标链路见
 #   server/强化券面板与物品图标-数据链接破译-2026-11-03.md。
+# DEVELOPMENT ONLY / 临时调试发放：按项目维护者决定暂时对所有账号启用。
+# 这些正式物品ID的数量是人工固定值，不代表账号真实库存；每次初始化重发，
+# 不提供库存持久化、发放幂等、扣券或负载保证。禁止据此宣称经济系统完成。
+# TODO(inventory-rebuild): 重构时替换为按账号库存查询/发放/原子消耗，并迁移
+# 调试开关及容量分页策略；在库存实现前保留本段醒目说明。
+ITEM_TICKET_HARD_LIMIT = 100
 ITEM_TICKETS = [
     # (uniqid u64, item_id u32, stack u16) —— stack 互异便于从面板持有数反查
     (0x5000000000000001, 80100001, 777),   # 强化券
@@ -846,9 +852,14 @@ def item_init_body(items=None):
     券同时写进 main 与 consume 两栏（面板与「券」页签分别读不同栏）。
     """
     items = ITEM_TICKETS if items is None else items
-    max_items = int(os.environ.get('MSGO_ITEM_MAX', '100'))
-    if max_items > 0:
-        items = items[:max_items]
+    try:
+        max_items = int(os.environ.get('MSGO_ITEM_MAX', str(ITEM_TICKET_HARD_LIMIT)))
+    except ValueError:
+        max_items = ITEM_TICKET_HARD_LIMIT
+    # Legacy zero/negative values no longer disable the client's safety bound.
+    if max_items <= 0:
+        max_items = ITEM_TICKET_HARD_LIMIT
+    items = items[:min(max_items, ITEM_TICKET_HARD_LIMIT)]
     main_items = [(uid | 0x0100000000000000, iid, st) for uid, iid, st in items]
 
     def elem(it):
