@@ -809,6 +809,78 @@ def _req_u32(rest, off, default=1):
     return int.from_bytes(rest[off:off + 4], 'little')
 
 
+# ---------------------------------------------------------------------------
+# 0x02EE 物品栏注入（2026-11-03，强化券面板研究）
+#
+# 作者原实现为空仓库（bytes(64)，四类 count 全 0），导致强化券面板四行
+# 全「0个」、券名空白、0x9883 ticket_id 恒 0。这里注入 11 张强化券
+# （item_type=MECHANIC_TICKET）到消耗品栏，物品栏「券」页签与面板持有数即可恢复。
+#
+# ★容量护栏：客户端 0x02EE 单栏物品数组容量 = 100，第 101 个元素溢出
+#   覆写内存导致客户端白屏卡死（二分实证 90✓/100✓/101✗，与包体大小无关）。
+#   无条件硬上限100；MSGO_ITEM_MAX只能收紧，不能取消或抬高上限。图标链路见
+#   server/强化券面板与物品图标-数据链接破译-2026-11-03.md。
+# DEVELOPMENT ONLY / 临时调试发放：按项目维护者决定暂时对所有账号启用。
+# 这些正式物品ID的数量是人工固定值，不代表账号真实库存；每次初始化重发，
+# 不提供库存持久化、发放幂等、扣券或负载保证。禁止据此宣称经济系统完成。
+# TODO(inventory-rebuild): 重构时替换为按账号库存查询/发放/原子消耗，并迁移
+# 调试开关及容量分页策略；在库存实现前保留本段醒目说明。
+ITEM_TICKET_HARD_LIMIT = 100
+ITEM_TICKETS = [
+    # (uniqid u64, item_id u32, stack u16) —— stack 互异便于从面板持有数反查
+    (0x5000000000000001, 80100001, 777),   # 强化券
+    (0x5000000000000002, 80200001, 22),    # 大师级强化券
+    (0x5000000000000003, 80300001, 23),    # 成功券
+    (0x5000000000000004, 80400001, 24),    # 大成功强化券
+    (0x5000000000000005, 80500001, 25),    # 活动券·粉
+    (0x5000000000000006, 80600001, 26),    # 活动券·粉金
+    (0x5000000000000007, 80700001, 27),    # 失败保护券
+    (0x5000000000000008, 80800001, 28),    # 失败保护券·金
+    (0x5000000000000009, 80900001, 29),    # 武器强化券
+    (0x500000000000000a, 81000001, 30),    # 武器强化券·金
+    (0x500000000000000b, 81100001, 31),    # 整备师强化券（icon.hed 内无图，官方未做）
+]
+
+
+def item_init_body(items=None):
+    """0x02EE item_init_get_r 正文（按 SC-0x02EE 逐字段拼）。
+
+    布局 = slot u16×4 | 排序时间 u32×6 | count_main u32 | 22B×N
+           | count_consume u32 | 22B×N | count_trash u32 | count_plan u32
+           | 方案排序 u32×4。
+    元素线长 22 = uniqid u64 | item_id u32 | tm_sec u32 | tm_usec u32 | stack u16。
+    券同时写进 main 与 consume 两栏（面板与「券」页签分别读不同栏）。
+    """
+    items = ITEM_TICKETS if items is None else items
+    try:
+        max_items = int(os.environ.get('MSGO_ITEM_MAX', str(ITEM_TICKET_HARD_LIMIT)))
+    except ValueError:
+        max_items = ITEM_TICKET_HARD_LIMIT
+    # Legacy zero/negative values no longer disable the client's safety bound.
+    if max_items <= 0:
+        max_items = ITEM_TICKET_HARD_LIMIT
+    items = items[:min(max_items, ITEM_TICKET_HARD_LIMIT)]
+    main_items = [(uid | 0x0100000000000000, iid, st) for uid, iid, st in items]
+
+    def elem(it):
+        uid, iid, st = it
+        return struct.pack('<QIIIH', uid, iid, 0, 0, st)
+
+    out = bytearray()
+    out += struct.pack('<4H', 300, 100, 1300, 900)   # slot_num_*
+    out += struct.pack('<6I', 0, 0, 0, 0, 0, 0)      # sort_tm_*
+    out += struct.pack('<I', len(main_items))
+    for it in main_items:
+        out += elem(it)
+    out += struct.pack('<I', len(items))
+    for it in items:
+        out += elem(it)
+    out += struct.pack('<I', 0)                      # count_trash
+    out += struct.pack('<I', 0)                      # count_plan
+    out += struct.pack('<4I', 0, 0, 0, 0)            # 方案排序尾
+    return bytes(out)
+
+
 def hall_reply(op, rest, account):
     """返回 (应答操作码, 正文)。正文目前是占位。"""
     pilot_id = _req_u32(rest, 0)
@@ -884,9 +956,10 @@ def hall_reply(op, rest, account):
         body[8:12] = world_id.to_bytes(4, 'little')
         return 0xDC47, bytes(body)
     if op == 0x947E:
-        # 0x02EE：空仓库 64B。四类物品 count 都是 0，没有 22B 物品元素。
-        # slot u16×4 | 排序时间 u32×6 | count u32×4 | 方案排序 u32×4
-        return 0x02EE, bytes(64)
+        # 0x02EE：物品栏。注入 11 张强化券（原空仓库 bytes(64) 会导致
+        # 强化券面板全 0、0x9883 ticket_id=0）。单栏容量上限 100（见
+        # item_init_body 的 MSGO_ITEM_MAX 护栏与研究文档）。
+        return 0x02EE, item_init_body()
     if op == 0x9A9D:
         # 0x356F：count u32 = 0。以后每套机体追加一条记录。
         return 0x356F, bytes(4)
