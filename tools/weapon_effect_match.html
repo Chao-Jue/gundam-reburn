@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>武器特效匹配</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --panel:#ffffff; --line:#d8dee8; --text:#1f2733; --muted:#63707f;
+    --accent:#2f6fd0; --accent-soft:#e8f0fc; --warn:#a4590a; --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+       font:13px/1.5 "Microsoft YaHei","Segoe UI",system-ui,sans-serif}
+  header{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line);
+         padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  h1{font-size:15px;margin:0 12px 0 0;font-weight:600}
+  .field{display:flex;align-items:center;gap:6px}
+  .field label{color:var(--muted);white-space:nowrap}
+  input[type=text],select{background:#fff;border:1px solid var(--line);border-radius:6px;
+       padding:5px 8px;color:var(--text);font:inherit}
+  input[type=text]{width:190px}
+  select{max-width:340px}
+  button{background:#fff;border:1px solid var(--line);border-radius:6px;padding:5px 10px;
+         color:var(--text);cursor:pointer;font:inherit}
+  button:hover{border-color:var(--accent);color:var(--accent)}
+  button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  button.primary:hover{background:#255cb0;color:#fff}
+  button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  main{display:grid;grid-template-columns:210px 1fr 330px;gap:14px;padding:14px 16px 40px;
+       align-items:start}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+  .side{padding:10px}
+  .chip{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;
+        border:1px solid transparent;background:transparent;border-radius:6px;padding:5px 8px;
+        cursor:pointer;color:var(--text);font:inherit}
+  .chip:hover{background:var(--accent-soft)}
+  .chip.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+  .chip small{color:var(--muted);font-weight:400}
+  .searchbox{width:100%;margin-bottom:8px}
+  #grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;
+        cursor:pointer;display:flex;flex-direction:column}
+  .card:hover{border-color:var(--accent);box-shadow:0 2px 10px rgba(47,111,208,.12)}
+  .card.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+  .card img{width:100%;height:148px;object-fit:cover;background:#1b2430;display:block}
+  .card .body{padding:7px 9px 9px}
+  .card .name{font-weight:600;word-break:break-all}
+  .card .meta{color:var(--muted);font-size:12px;margin-top:2px;word-break:break-all}
+  .tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:4px;
+       padding:0 5px;margin:2px 4px 0 0;font-size:11px}
+  .detail{position:sticky;top:74px;padding:10px}
+  .detail img{width:100%;border-radius:8px;background:#1b2430;display:block}
+  .slots{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+  .slots button.have{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+  .saved{font-size:12px;color:var(--muted);margin-top:6px;word-break:break-all}
+  .note{color:var(--muted);font-size:12px;line-height:1.6}
+  .bar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+  .pill{background:var(--accent-soft);color:var(--accent);border-radius:99px;padding:2px 9px;font-size:12px}
+  .warn{color:var(--warn)}
+  code{background:#eef2f7;border-radius:4px;padding:0 4px}
+  @media (max-width:1200px){main{grid-template-columns:1fr} .detail{position:static}}
+</style>
+</head>
+<body>
+<header>
+  <h1>武器特效匹配</h1>
+  <div class="field">
+    <label>武器</label>
+    <input type="text" id="wsearch" placeholder="资源号 / 名称 / 网格">
+    <select id="wselect"></select>
+  </div>
+  <div class="field">
+    <label>时间 t</label>
+    <input type="range" id="t" min="0" max="1" step="0.02" value="0.3" style="width:110px">
+    <span id="tval" class="pill">0.30</span>
+  </div>
+  <div class="field">
+    <button id="export">导出人工指派</button>
+    <span class="note" id="status"></span>
+  </div>
+</header>
+
+<main>
+  <aside class="panel side">
+    <input type="text" class="searchbox" id="fsearch" placeholder="搜特效路径 / 挂点">
+    <div id="cats"></div>
+  </aside>
+
+  <section>
+    <div class="bar">
+      <span class="pill" id="counts">—</span>
+      <button id="more">显示更多</button>
+      <span class="note" id="hint"></span>
+    </div>
+    <div id="grid"></div>
+  </section>
+
+  <aside class="panel detail" id="detail">
+    <div class="note">在左侧选分类或搜路径，点一张卡片看「武器 + 特效」的合成效果。</div>
+  </aside>
+</main>
+
+<script>
+const state = {index:null, weapon:'', category:'all', text:'', limit:60, selected:null, saved:{}};
+const PAGE = 60;
+
+async function boot(){
+  state.index = await (await fetch('/api/index')).json();
+  state.saved = state.index.saved.assignments || {};
+  buildWeapons();
+  buildCategories();
+  const first = state.index.weapons.find(w => w.name) || state.index.weapons[0];
+  if(first){ state.weapon = first.path; document.getElementById('wselect').value = first.path; }
+  render();
+}
+
+function buildWeapons(){
+  const sel = document.getElementById('wselect');
+  sel.innerHTML = '';
+  for(const w of state.index.weapons){
+    const o = document.createElement('option');
+    o.value = w.path;
+    o.textContent = (w.name ? w.name + ' · ' : '') + w.resource + ' · ' + (w.sockets.join('/') || '无挂点');
+    o.dataset.search = ((w.name||'') + ' ' + w.resource + ' ' + w.mesh + ' ' + w.path).toLowerCase();
+    sel.appendChild(o);
+  }
+  sel.onchange = () => { state.weapon = sel.value; render(); };
+}
+
+function buildCategories(){
+  const box = document.getElementById('cats');
+  box.innerHTML = '';
+  for(const c of state.index.categories){
+    const b = document.createElement('button');
+    b.className = 'chip' + (c.key === state.category ? ' on' : '');
+    b.innerHTML = '<span>' + c.label + '</span><small>' + c.count + '</small>';
+    b.onclick = () => { state.category = c.key; state.limit = PAGE; buildCategories(); render(); };
+    box.appendChild(b);
+  }
+}
+
+function filtered(){
+  const text = state.text.toLowerCase();
+  return state.index.effects.filter(e => {
+    if(state.category !== 'all' && !e.tags.includes(state.category)) return false;
+    if(text && !(e.path + ' ' + e.owner + ' ' + e.kinds.join(',')).toLowerCase().includes(text)) return false;
+    return true;
+  });
+}
+
+function previewURL(effect, w, h, t){
+  const ratio = (t === undefined) ? document.getElementById('t').value : t;
+  return '/api/preview?weapon=' + encodeURIComponent(state.weapon) +
+         '&effect=' + encodeURIComponent(effect) + '&t=' + ratio +
+         '&w=' + w + '&h=' + h;
+}
+
+function render(){
+  const list = filtered();
+  document.getElementById('counts').textContent = list.length + ' 个特效';
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  for(const e of list.slice(0, state.limit)){
+    const card = document.createElement('div');
+    card.className = 'card' + (state.selected === e.path ? ' sel' : '');
+    card.innerHTML =
+      '<img loading="lazy" alt="" src="' + previewURL(e.path, 260, 148, e.t) + '">' +
+      '<div class="body"><div class="name">' + e.name + '</div>' +
+      '<div class="meta">' + e.signature + '</div>' +
+      '<div>' + e.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div></div>';
+    card.onclick = () => select(e);
+    grid.appendChild(card);
+  }
+  document.getElementById('more').style.display = list.length > state.limit ? '' : 'none';
+  document.getElementById('hint').textContent =
+    '预览是离线近似合成：混合模式/粒子发射/轨迹为近似，不替代实机验收。';
+  updateDetail();
+}
+
+function select(e){
+  state.selected = e.path;
+  document.getElementById('t').value = e.t;
+  document.getElementById('tval').textContent = Number(e.t).toFixed(2);
+  for(const card of document.querySelectorAll('.card')) card.classList.remove('sel');
+  render();
+}
+
+function currentWeapon(){
+  return state.index.weapons.find(w => w.path === state.weapon) || {};
+}
+
+function updateDetail(){
+  const box = document.getElementById('detail');
+  if(!state.selected){
+    box.innerHTML = '<div class="note">在左侧选分类或搜路径，点一张卡片看「武器 + 特效」的合成效果。</div>';
+    return;
+  }
+  const e = state.index.effects.find(x => x.path === state.selected);
+  const w = currentWeapon();
+  const saved = (state.saved[state.weapon] || {}).slots || {};
+  const have = Object.entries(saved).find(([k,v]) => v === e.path);
+  box.innerHTML =
+    '<div style="font-weight:600;word-break:break-all;margin-bottom:6px">' + e.name + '</div>' +
+    '<img id="big" src="' + previewURL(e.path, 330, 205, e.t) + '">' +
+    '<div class="note" style="margin-top:6px">' + e.signature + '</div>' +
+    '<div style="margin-top:4px">' + e.tags.map(t => '<span class="tag">' + t + '</span>').join('') + '</div>' +
+    '<div class="note" style="margin-top:6px">' + e.path + '</div>' +
+    '<div style="margin-top:10px;font-weight:600">指派到 ' + (w.name || w.resource) + '</div>' +
+    '<div class="slots" id="slots"></div>' +
+    '<div class="saved" id="savedline"></div>' +
+    '<div class="note" style="margin-top:8px">槽位含义：枪口=muzzle_effect，弹体=projectile_effect，' +
+    '命中=impact，刀刃=attached_effect，挂载=其他挂点效果。写进的是本工具自己的复核 JSON。</div>';
+  const slots = document.getElementById('slots');
+  for(const s of state.index.slots){
+    const b = document.createElement('button');
+    b.textContent = s + (saved[s] ? ' ✓' : '');
+    if(saved[s]) b.className = 'have';
+    b.onclick = () => assign(s, e.path);
+    slots.appendChild(b);
+  }
+  const line = document.getElementById('savedline');
+  line.textContent = Object.keys(saved).length
+    ? '当前已指派：' + Object.entries(saved).map(([k,v]) => k + '=' + v.split('/').pop()).join('，')
+    : '当前还没有指派。';
+}
+
+async function assign(slot, effect){
+  const body = {weapon: state.weapon, slots: {[slot]: effect}};
+  const response = await fetch('/api/assign', {method:'POST', headers:{'Content-Type':'application/json'},
+                                               body: JSON.stringify(body)});
+  const data = await response.json();
+  if(data.error){ document.getElementById('status').textContent = '保存失败：' + data.error; return; }
+  state.saved = data.assignments;
+  document.getElementById('status').textContent = '已保存 ' + slot;
+  render();
+}
+
+document.getElementById('t').oninput = () => {
+  document.getElementById('tval').textContent = Number(document.getElementById('t').value).toFixed(2);
+  const img = document.getElementById('big');
+  if(img && state.selected) img.src = previewURL(state.selected, 330, 205);
+};
+
+document.getElementById('t').onchange = () => render();
+
+document.getElementById('fsearch').oninput = ev => {
+  state.text = ev.target.value.trim(); state.limit = PAGE; render();
+};
+document.getElementById('wsearch').oninput = ev => {
+  const q = ev.target.value.trim().toLowerCase();
+  const sel = document.getElementById('wselect');
+  let first = null;
+  for(const o of sel.options){
+    const hit = !q || o.dataset.search.includes(q);
+    o.hidden = !hit;
+    if(hit && !first) first = o;
+  }
+  if(first){ sel.value = first.value; state.weapon = first.value; render(); }
+};
+document.getElementById('more').onclick = () => { state.limit += PAGE; render(); };
+document.getElementById('export').onclick = async () => {
+  const data = await (await fetch('/api/export')).json();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}));
+  a.download = 'weapon_effect_assignments.json';
+  a.click();
+};
+
+boot();
+</script>
+</body>
+</html>

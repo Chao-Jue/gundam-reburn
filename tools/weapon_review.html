@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>武器复核台 · 骨架</title>
+<style>
+  :root{
+    --bg:#f5f7fa; --panel:#fff; --line:#d8dee8; --text:#1f2733; --muted:#63707f;
+    --accent:#2f6fd0; --accent-soft:#e8f0fc; --ok:#2c7a4b; --ok-soft:#e6f4ec;
+    --warn:#a4590a; --warn-soft:#fdf0e0; --bad:#a32d2d; --bad-soft:#fbeaea;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:13px/1.55 "Microsoft YaHei","Segoe UI",system-ui,sans-serif}
+  header{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  h1{font-size:15px;font-weight:600;margin:0 10px 0 0}
+  button{background:#fff;border:1px solid var(--line);border-radius:6px;padding:5px 11px;color:var(--text);cursor:pointer;font:inherit}
+  button:hover{border-color:var(--accent);color:var(--accent)}
+  button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+  input[type=text]{border:1px solid var(--line);border-radius:6px;padding:5px 9px;font:inherit;width:220px}
+  main{display:grid;grid-template-columns:250px minmax(0,1fr) 240px;gap:12px;padding:12px 16px 40px;align-items:start}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+  .list{max-height:calc(100vh - 150px);overflow:auto;padding:8px}
+  .item{display:flex;gap:8px;align-items:center;padding:5px 8px;border-radius:6px;cursor:pointer;border:1px solid transparent}
+  .item:hover{background:var(--accent-soft)}
+  .item.on{background:var(--accent-soft);border-color:var(--accent)}
+  .item .n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .item small{color:var(--muted)}
+  .detail{padding:12px}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th,td{text-align:left;padding:5px 7px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:500;white-space:nowrap}
+  tr:hover td{background:#fafcff}
+  .dots{display:flex;gap:4px}
+  .dot{width:9px;height:9px;border-radius:50%;border:1px solid var(--line);display:inline-block}
+  .dot.unknown{background:#eef1f5}
+  .dot.have{background:var(--ok)}
+  .tag{display:inline-block;border-radius:4px;padding:0 5px;font-size:11px;background:#eef1f5;color:var(--muted)}
+  .tag.ok{background:var(--ok-soft);color:var(--ok)}
+  .tag.warn{background:var(--warn-soft);color:var(--warn)}
+  .kv{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;border-bottom:1px dashed #e7ebf1}
+  .kv b{font-weight:500}
+  .note{color:var(--muted);font-size:12px;line-height:1.6}
+  h2{font-size:13px;font-weight:600;margin:0 0 8px}
+  .bar{height:6px;background:#e9edf3;border-radius:99px;overflow:hidden;margin-top:4px}
+  .bar i{display:block;height:100%;background:var(--accent)}
+  code{background:#eef2f7;border-radius:4px;padding:0 4px}
+  .cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+  .cand{border:1px solid var(--line);border-radius:8px;padding:6px;cursor:pointer;background:#fff;text-align:center}
+  .cand:hover{border-color:var(--accent)}
+  .cand.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+  .cand img{width:100%;height:56px;object-fit:contain;background:#1b2430;border-radius:4px;display:block}
+  .cand small{display:block;font-size:11px;color:var(--muted);word-break:break-all;margin-top:3px}
+  .wikiimg{width:192px;height:96px;object-fit:contain;background:#1b2430;border-radius:8px}
+  .split{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start}
+  .act{display:flex;gap:8px;align-items:center;margin:10px 0}
+  .badge-ok{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok)}
+  .badge-warn{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn)}
+</style>
+</head>
+<body>
+<header>
+  <h1>武器复核台 <span class="tag">骨架 / 只读</span></h1>
+  <button data-view="unit" class="on">按机体</button>
+  <button data-view="icon">按图标组</button>
+  <button data-view="model">按模型</button>
+  <button data-view="table">清单</button>
+  <button data-view="gap">缺口</button>
+  <input type="text" id="search" placeholder="搜武器名 / 机体 / 图片名称">
+  <button id="onlycand">只看有候选</button>
+  <span class="note" id="hint"></span>
+</header>
+
+<main>
+  <aside class="panel list" id="left"></aside>
+  <section class="panel detail" id="center"><div class="note">载入中…</div></section>
+  <aside class="panel detail" id="right"></aside>
+</main>
+
+<script>
+const state = {data:null, summary:null, view:'unit', selected:null, text:'', limit:200,
+               pickHangar:null, pickBattle:null, onlyCandidates:false, flash:''};
+
+async function refresh(){
+  state.data = await (await fetch('/api/review')).json();
+  state.summary = await (await fetch('/api/summary')).json();
+  render();
+}
+const $ = id => document.getElementById(id);
+
+async function boot(){
+  state.data = await (await fetch('/api/review')).json();
+  state.summary = await (await fetch('/api/summary')).json();
+  document.querySelectorAll('header button').forEach(b => b.onclick = () => {
+    state.view = b.dataset.view; state.selected = null; state.limit = 200;
+    document.querySelectorAll('header button').forEach(x => x.classList.toggle('on', x === b));
+    render();
+  });
+  $('search').oninput = ev => { state.text = ev.target.value.trim().toLowerCase(); state.limit = 200; render(); };
+  $('onlycand').onclick = () => {
+    state.onlyCandidates = !state.onlyCandidates; state.selected = null;
+    $('onlycand').classList.toggle('on', state.onlyCandidates);
+    render();
+  };
+  render();
+}
+
+function rows(){ return Object.values(state.data.weapon_data); }
+
+function groupByUnit(){
+  const map = new Map();
+  for(const row of rows()){
+    const t = row.source.wiki_title || '(无标题)';
+    if(!map.has(t)) map.set(t, []);
+    map.get(t).push(row);
+  }
+  return [...map.entries()].sort((a,b) => b[1].length - a[1].length);
+}
+
+function groupByIcon(){
+  const map = new Map();
+  for(const row of rows()){
+    const key = row.icon_pair || '(无图片名称)';
+    if(!map.has(key)) map.set(key, []);
+    map.get(key).push(row);
+  }
+  return [...map.entries()].sort((a,b) => b[1].length - a[1].length);
+}
+
+function match(row){
+  if(!state.text) return true;
+  const hay = (row.name + ' ' + row.source.wiki_title + ' ' + (row.source.image_name||'')).toLowerCase();
+  return hay.includes(state.text);
+}
+
+function dot(kind){ return '<span class="dot ' + (kind ? 'have' : 'unknown') + '" title="' + (kind?'已定':'未定') + '"></span>'; }
+
+function rowTable(list){
+  const shown = list.filter(match).slice(0, state.limit);
+  const head = '<div class="note" style="margin-bottom:6px">共 ' + list.length + ' 行，显示前 ' + shown.length +
+               ' 行（可搜索缩小）</div>';
+  if(!shown.length) return head + '<div class="note">没有匹配的行。</div>';
+  const body = shown.map((r,i) => {
+    const a = r.attributes;
+    return '<tr><td>' + (i+1) + '</td><td><b>' + esc(r.name) + '</b></td><td>' + esc(a['射击模式'] || '—') + '</td>' +
+           '<td>' + esc(a['威力'] || '—') + '</td><td>' + esc(a['弹数'] || '—') + '</td>' +
+           '<td>' + (r.client_id ? '<code>' + esc(r.client_id) + '</code>' : '—') + '</td>' +
+           '<td>' + esc(r.source.image_name || '—') + '</td>' +
+           '<td><div class="dots" title="模型 / 图标 / 特效">' + dot(r.model) + dot(r.icon_pair) + dot(r.effect_groups.length) + '</div></td></tr>';
+  }).join('');
+  return head + '<table><thead><tr><th>#</th><th>武器</th><th>射击模式</th><th>威力</th><th>弹数</th><th>客户端号</th><th>图片名称</th><th>模型/图标/特效</th></tr></thead><tbody>' + body + '</tbody></table>';
+}
+
+function esc(v){ return String(v).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+function render(){
+  const d = state.data;
+  if(!d){ return; }
+  const left = $('left'), center = $('center');
+
+  if(state.view === 'unit'){
+    const units = groupByUnit();
+    left.innerHTML = units.map(([t,list],i) =>
+      '<div class="item ' + (state.selected===i?'on':'') + '" data-k="' + i + '">' +
+      '<span class="n">' + esc(t) + '</span><small>' + list.length + '</small></div>').join('');
+    left.querySelectorAll('.item').forEach(el => el.onclick = () => {
+      state.selected = Number(el.dataset.k); state.limit = 200; render();
+    });
+    const pick = (state.selected === null) ? 0 : state.selected;
+    center.innerHTML = '<h2>' + esc(units[pick][0]) + '</h2>' + rowTable(units[pick][1]);
+  }
+
+  if(state.view === 'icon'){
+    // 没有图片名称的行不参与图标组决策，单独在清单/缺口里看
+    const groups = groupByIcon().filter(([k]) => d.icon_pairs[k])
+      .filter(([k]) => !state.onlyCandidates || (d.icon_pairs[k].candidates || []).length)
+      .sort((a,b) => {
+        const ca = (d.icon_pairs[a[0]].candidates || []).length ? 1 : 0;
+        const cb = (d.icon_pairs[b[0]].candidates || []).length ? 1 : 0;
+        return cb - ca || b[1].length - a[1].length;
+      });
+    left.innerHTML = groups.map(([k,list],i) => {
+      const ip = d.icon_pairs[k];
+      const label = ip ? ip.evidence.source_ref : '(无图片名称)';
+      const mark = ip && ip.status === 'confirmed' ? ' ✓' : (ip && ip.candidates ? '' : '');
+      return '<div class="item ' + (state.selected===i?'on':'') + '" data-k="' + i + '">' +
+             '<span class="n">' + esc(label) + mark + '</span><small>' + list.length + '</small></div>';
+    }).join('');
+    left.querySelectorAll('.item').forEach(el => el.onclick = () => {
+      state.selected = Number(el.dataset.k); state.limit = 200;
+      state.pickHangar = null; state.pickBattle = null; render();
+    });
+    const pick = (state.selected === null) ? 0 : state.selected;
+    const key = groups[pick][0];
+    const list = groups[pick][1];
+    const ip = d.icon_pairs[key];
+    if(!ip){
+      center.innerHTML = '<h2>(无图片名称)</h2><div class="note">这些行没有 Wiki 图片名称，无法按图标组决策，只能在模型层或特效层单独处理。</div>' + rowTable(list);
+    } else {
+      const cands = ip.candidates || [];
+      const battles = ip.battle_candidates || [];
+      // 默认预选第一个候选：采纳只需要一次点击，减少来回
+      const hangar = state.pickHangar || ip.hangar || (cands[0] ? cands[0].hangar : null);
+      const battle = state.pickBattle || ip.battle || (cands[0] ? cands[0].battle : null);
+      const candHtml = cands.map((c,i) =>
+        '<div class="cand ' + (hangar===c.hangar?'on':'') + '" data-i="' + i + '">' +
+        '<img loading="lazy" src="/api/icon?path=' + encodeURIComponent(c.hangar) + '">' +
+        '<small>' + c.score.toFixed(5) + '</small>' +
+        '<small>' + (c.model || '无模型号') + '</small></div>').join('') ||
+        '<div class="note">还没有候选，先跑 <code>--icons</code>。</div>';
+      const battleHtml = battles.map((c,i) =>
+        '<div class="cand ' + (battle===c.battle?'on':'') + '" data-b="' + i + '">' +
+        '<img loading="lazy" src="/api/icon?path=' + encodeURIComponent(c.battle) + '">' +
+        '<small>' + c.score.toFixed(5) + '</small><small>' + c.name_key + '</small></div>').join('') ||
+        '<div class="note">没有战图标候选。</div>';
+      center.innerHTML =
+        '<div class="split"><div>' +
+        '<img class="wikiimg" src="/api/wiki?pair=' + encodeURIComponent(key) + '">' +
+        '<div class="note" style="margin-top:6px">Wiki 图标<br>' + esc(ip.evidence.source_ref) + '</div>' +
+        '</div><div>' +
+        '<h2>' + esc(ip.evidence.source_ref) + ' <span class="tag">' + list.length + ' 行共用</span> ' +
+        (ip.status === 'confirmed' ? '<span class="tag ok">已确认</span>' : (cands.length ? '<span class="tag warn">有候选</span>' : '')) +
+        (ip.evidence && ip.evidence.source === 'import' ? '<span class="tag">对照表导入</span>' : '') + '</h2>' +
+        '<div class="note">仓图标' + (ip.hangar ? '：' + esc(ip.hangar.split('/').pop()) : '：未定') +
+        ' · 战图标' + (ip.battle ? '：' + esc(ip.battle.split('/').pop()) : '：未定') + '</div>' +
+        '<div class="act"><b style="font-size:12px">格纳库候选</b>' +
+        '<button id="adopt" class="primary">采纳选中</button>' +
+        '<button id="clear">清除</button>' +
+        '<span class="note" id="adoptmsg">' + esc(state.flash || '') + '</span></div>' +
+        '<div class="cands" id="cands">' + candHtml + '</div>' +
+        '<div class="act" style="margin-top:14px"><b style="font-size:12px">战场内候选（按类型编号，独立决策）</b></div>' +
+        '<div class="cands" id="battles">' + battleHtml + '</div>' +
+        '</div></div>' +
+        '<h2 style="margin-top:16px">受影响的武器数据</h2>' + rowTable(list);
+      center.querySelectorAll('#cands .cand').forEach(el => el.onclick = () => {
+        state.pickHangar = cands[Number(el.dataset.i)].hangar;
+        state.pickBattle = cands[Number(el.dataset.i)].battle || state.pickBattle;
+        render();
+      });
+      center.querySelectorAll('#battles .cand').forEach(el => el.onclick = () => {
+        state.pickBattle = battles[Number(el.dataset.b)].battle; render();
+      });
+      const msg = center.querySelector('#adoptmsg');
+      center.querySelector('#adopt').onclick = async () => {
+        if(!state.pickHangar){ msg.textContent = '先选一个格纳库候选'; return; }
+        msg.textContent = '保存中…';
+        const response = await fetch('/api/icon', {method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({pair:key, hangar:state.pickHangar, battle:state.pickBattle || null})});
+        const data = await response.json();
+        if(data.error){ msg.textContent = '失败：' + data.error; return; }
+        state.flash = '已保存：本组 ' + (data.rows_candidate || 0) + ' 行进入候选';
+        state.pickHangar = null; state.pickBattle = null;
+        await refresh();
+      };
+      center.querySelector('#clear').onclick = async () => {
+        await fetch('/api/icon', {method:'POST', headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({pair:key, hangar:null, battle:null})});
+        state.pickHangar = null; state.pickBattle = null;
+        await refresh();
+      };
+    }
+  }
+
+  if(state.view === 'model'){
+    const models = Object.entries(d.models).sort((a,b) => a[0] < b[0] ? -1 : 1);
+    left.innerHTML = models.map(([k,m]) =>
+      '<div class="item ' + (state.selected===k?'on':'') + '" data-k="' + k + '">' +
+      '<span class="n">' + k + '</span><small>' + (m.sockets.length ? m.sockets.length + ' 挂点' : '—') + '</small></div>').join('');
+    left.querySelectorAll('.item').forEach(el => el.onclick = () => { state.selected = el.dataset.k; render(); });
+    const key = state.selected || models[0][0];
+    const m = d.models[key];
+    const owners = rows().filter(r => r.model === key).length;
+    center.innerHTML = '<h2>模型 ' + key + ' <span class="tag">' + (m.dxg_version || '?') + '</span></h2>' +
+      '<div class="kv"><span>DXG</span><b>' + esc(m.dxg) + '</b></div>' +
+      '<div class="kv"><span>网格</span><b>' + esc(m.mesh || '（无）') + '</b></div>' +
+      '<div class="kv"><span>挂点</span><b>' + esc(m.sockets.join(' / ') || '（无）') + '</b></div>' +
+      '<div class="kv"><span>关联武器数据</span><b>' + owners + ' 行</b></div>' +
+      (m.evidence && m.evidence.note ? '<div class="note" style="margin-top:8px">' + esc(m.evidence.note) + '</div>' : '') +
+      '<div class="note" style="margin-top:10px">骨架阶段还没有建立「数据→模型」的边，所以这里恒为 0 行。' +
+      '模型组视图要等图标层（L1）产出候选后才会出现真正的分组。</div>';
+  }
+
+  if(state.view === 'gap'){
+    const all = rows();
+    const noIcon = all.filter(r => !r.source.image_name);
+    const failedModels = Object.entries(d.models).filter(([,m]) => !m.mesh);
+    const block = (title, note, items, total) => {
+      const cap = items.slice(0, 300);
+      total = (total === undefined) ? items.length : total;
+      return '<h2 style="margin-top:14px">' + title + ' <span class="tag">' + total + '</span></h2>' +
+        '<div class="note" style="margin-bottom:6px">' + note +
+        (cap.length < total ? '　（列表只渲染前 ' + cap.length + ' 条）' : '') + '</div>' +
+        '<div style="max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:8px">' +
+        (cap.length ? cap.map(x => '<div class="note" style="padding:2px 0">' + esc(x) + '</div>').join('') : '<div class="note">无</div>') +
+        '</div>';
+    };
+    left.innerHTML = '<div class="note">缺口视图：列出的都是「采集/解析」层面的空洞，不是判定结果。' +
+      '<br><br>这些应当在进入人工复核前补齐或明确接受。</div>';
+    center.innerHTML = '<h2>缺口</h2>' +
+      block('无图片名称的行', '没有 Wiki 图标信息，只能靠同机体近似行继承，或人工补。',
+            noIcon.map(r => r.source.wiki_title + ' · ' + r.name), noIcon.length) +
+      block('解析失败的模型', 'DXG 读不出网格，这些模型不会出现在可选列表里。',
+            failedModels.map(([k,m]) => k + ' ' + m.dxg + '（' + (m.evidence ? m.evidence.note : '') + '）')) +
+      block('空武器表的机体', 'Wiki 模板未覆盖，武器表解析出 0 行；这些机体不进复核队列，但要先补采集。',
+            (state.summary ? state.summary.empty_unit_titles : []).map(t => t + '（未采集到武器）'));
+  }
+
+  if(state.view === 'table'){
+    left.innerHTML = '<div class="note">清单视图：全量 ' + rows().length + ' 行，按搜索过滤后逐页看。' +
+      '<br><br>三列状态点依次是 模型 / 图标 / 特效。</div>';
+    center.innerHTML = '<h2>全部武器数据</h2>' + rowTable(rows());
+  }
+
+  renderStats();
+}
+
+function renderStats(){
+  const d = state.data, all = rows();
+  const rowsWithIcon = all.filter(r => r.source.image_name).length;
+  const models = Object.keys(d.models).length;
+  const su = state.summary || {};
+  const progress = (label, done, total, extra) => {
+    const pct = total ? Math.round(done / total * 100) : 0;
+    return '<div class="note" style="margin-top:8px">' + label + ' ' + done + ' / ' + total +
+      (extra ? '（' + extra + '）' : '') + '</div><div class="bar"><i style="width:' + pct + '%"></i></div>';
+  };
+  const card = (label, value, note) =>
+    '<div style="margin-bottom:10px"><div class="note">' + label + '</div>' +
+    '<div style="font-size:19px;font-weight:600">' + value + '</div>' +
+    (note ? '<div class="note">' + note + '</div>' : '') + '</div>';
+  $('right').innerHTML =
+    '<h2>规模</h2>' +
+    card('武器数据', all.length, 'Wiki 武器行') +
+    card('有图片名称', rowsWithIcon, '可归入图标组') +
+    card('图标组', Object.keys(d.icon_pairs).length, '去重后的图片名称') +
+    card('模型', models, '客户端武器外观') +
+    progress('模型已定', su.rows_with_model, all.length) +
+    progress('图标已确认', su.icons_confirmed, Object.keys(d.icon_pairs).length,
+             '候选 ' + (su.icons_candidate || 0) + ' 组') +
+    progress('特效已确认', 0, all.length, '未开始') +
+    '<div class="note" style="margin-top:12px">行状态：已确认 ' + (su.rows_confirmed || 0) +
+    ' · 候选 ' + (su.rows_candidate || 0) + ' · 未定 ' + (all.length - (su.rows_confirmed || 0) - (su.rows_candidate || 0)) + '</div>';
+  $('hint').textContent = '只读骨架：' + all.length + ' 行 / ' + Object.keys(d.icon_pairs).length + ' 图标组 / ' + models + ' 模型';
+}
+
+boot();
+</script>
+</body>
+</html>

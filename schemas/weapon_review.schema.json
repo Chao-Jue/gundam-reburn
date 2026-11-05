@@ -1,0 +1,420 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gundam-reburn.local/schemas/weapon_review.schema.json",
+  "title": "武器数据 / 模型 / 图标 / 特效 复核数据集",
+  "description": "一条武器数据（Wiki 行）是枢纽：n 条数据共享一个模型，每条数据各有一对图标和最多两组特效。所有边都必须带状态与来源，人工确认后不得被自动覆盖。",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "weapon_data",
+    "models",
+    "icon_pairs",
+    "effect_groups"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "generated_at_utc": {
+      "type": "string"
+    },
+    "source_note": {
+      "type": "string"
+    },
+    "models": {
+      "type": "object",
+      "description": "客户端武器外观（item/NN/MMMM/model/EM_*.dxg），n 条武器数据可指向同一条。",
+      "additionalProperties": {
+        "$ref": "#/definitions/model"
+      }
+    },
+    "icon_pairs": {
+      "type": "object",
+      "description": "格纳库图标与战场内图标，1:1 成对；两者要么都有，要么都没有。",
+      "additionalProperties": {
+        "$ref": "#/definitions/icon_pair"
+      }
+    },
+    "effect_groups": {
+      "type": "object",
+      "description": "一组特效 = 一次开火/挥砍的完整演出（枪口/弹体/命中/刀刃/挂载）。同一武器数据最多两组（F 键切模式）。",
+      "additionalProperties": {
+        "$ref": "#/definitions/effect_group"
+      }
+    },
+    "weapon_data": {
+      "type": "object",
+      "description": "Wiki 武器行，是整个人工复核的主键。",
+      "additionalProperties": {
+        "$ref": "#/definitions/weapon_data"
+      }
+    },
+    "review_log": {
+      "type": "array",
+      "description": "追加式审计：每次人工改边都留一条，便于回滚与追责。",
+      "items": {
+        "type": "object",
+        "required": [
+          "at_utc",
+          "action",
+          "target"
+        ],
+        "properties": {
+          "at_utc": {
+            "type": "string"
+          },
+          "action": {
+            "enum": [
+              "set",
+              "clear",
+              "bulk_set",
+              "confirm",
+              "reject",
+              "note"
+            ]
+          },
+          "target": {
+            "type": "string",
+            "description": "如 weapon_data:wd_0001.model 或 icon_pairs:ip_0007"
+          },
+          "from": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "to": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "status": {
+      "description": "unknown=还没有候选；candidate=机器推荐未确认；confirmed=人工确认；conflict=与同组其他行矛盾；rejected=人工否掉候选。",
+      "enum": [
+        "unknown",
+        "candidate",
+        "confirmed",
+        "conflict",
+        "rejected"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "description": "为什么给这个候选。人工确认时 source 记为 manual。",
+      "properties": {
+        "source": {
+          "enum": [
+            "manual",
+            "icon_similarity",
+            "name_key",
+            "template",
+            "sibling_row",
+            "import"
+          ]
+        },
+        "score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "相似度/距离，越低越像；不是概率"
+        },
+        "note": {
+          "type": "string"
+        },
+        "source_ref": {
+          "type": "string",
+          "description": "候选来源文件或行，如 wiki 图片名称、模板 id"
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": [
+        "dxg",
+        "resource"
+      ],
+      "properties": {
+        "dxg": {
+          "type": "string",
+          "description": "相对 assets 的路径"
+        },
+        "resource": {
+          "type": "integer",
+          "description": "客户端资源号，如 2010601"
+        },
+        "mesh": {
+          "type": "string"
+        },
+        "sockets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dxg_version": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "evidence": {
+          "$ref": "#/definitions/evidence"
+        },
+        "updated_at_utc": {
+          "type": "string"
+        }
+      }
+    },
+    "icon_pair": {
+      "type": "object",
+      "properties": {
+        "hangar": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "interface/icon/item/s/*.dds"
+        },
+        "battle": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "interface/icon/battle/b/*.dds；没有对应战图标时留 null，不要用相近图标凑。"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "evidence": {
+          "$ref": "#/definitions/evidence"
+        },
+        "updated_at_utc": {
+          "type": "string"
+        },
+        "candidates": {
+          "type": "array",
+          "description": "机器候选（不改 hangar/battle，只有人工采纳才写那两个字段）。",
+          "items": {
+            "type": "object",
+            "required": [
+              "hangar",
+              "score"
+            ],
+            "properties": {
+              "hangar": {
+                "type": "string"
+              },
+              "battle": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "score": {
+                "type": "number",
+                "description": "描述子加权 MAE，越低越像，不是概率"
+              },
+              "model": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "从图标文件名反推的模型键，供参考"
+              },
+              "name_key": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "battle_candidates": {
+          "type": "array",
+          "description": "战图标候选（按 wiki 图标描述子排序）。与 candidates 分列，因为两者是独立决策。",
+          "items": {
+            "type": "object",
+            "required": [
+              "battle",
+              "score"
+            ],
+            "properties": {
+              "battle": {
+                "type": "string"
+              },
+              "score": {
+                "type": "number"
+              },
+              "name_key": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "description": "格纳库图标与战场内图标。两者是独立的两层：仓图标 5192 张、战图标只有 1023 张，且战图标按武器类型编号（b01/b02/b03），同号配对只命中 83 个仓图标。因此 battle 允许为空，但一旦填写必须指向真实文件。"
+    },
+    "effect_group": {
+      "type": "object",
+      "description": "mode=normal 为默认形态，mode=alt 为 F 键切换后的形态；同一武器数据两种 mode 各最多一个。",
+      "required": [
+        "mode",
+        "slots"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "normal",
+            "alt"
+          ]
+        },
+        "slots": {
+          "type": "object",
+          "description": "槽位对应 weapon_settings 里不同的列；空字符串表示该槽位无特效（合法，例如纯实弹枪没有刀刃）。",
+          "additionalProperties": false,
+          "properties": {
+            "muzzle": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "projectile": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "impact": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "blade": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "attached": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "evidence": {
+          "$ref": "#/definitions/evidence"
+        },
+        "updated_at_utc": {
+          "type": "string"
+        }
+      }
+    },
+    "weapon_data": {
+      "type": "object",
+      "required": [
+        "id",
+        "source",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^wd_[0-9a-zA-Z_]+$"
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "wiki_title",
+            "row_index"
+          ],
+          "properties": {
+            "wiki_title": {
+              "type": "string"
+            },
+            "revision_id": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "row_index": {
+              "type": "integer",
+              "description": "该机体武器表内的行号，稳定不变"
+            },
+            "source_url": {
+              "type": "string"
+            },
+            "image_name": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Wiki 的「图片名称」，是图标决策的分组键"
+            }
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "attributes": {
+          "type": "object",
+          "description": "Wiki 原始字段（威力/弹数/射击模式/效果范围…），只读展示，不参与匹配打分以外的用途"
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "指向 models 的键；n 条数据可共享"
+        },
+        "icon_pair": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "指向 icon_pairs 的键；1:1"
+        },
+        "effect_groups": {
+          "type": "array",
+          "maxItems": 2,
+          "items": {
+            "type": "string"
+          },
+          "description": "指向 effect_groups 的键；mode 必须互不相同"
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "updated_at_utc": {
+          "type": "string"
+        },
+        "client_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "国服对照表给的客户端号（多为 8 位）。它索引图标 s<号>.dds，约一半同时等于模型号。不等于模型号时不要拿它当模型用。"
+        }
+      }
+    }
+  }
+}

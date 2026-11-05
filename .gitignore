@@ -40,3 +40,6 @@ server/reference/wiki/raw/
 server/reference/wiki/*before*
 server/reference/weapon_icon_match/
 server/_unlock_launcher.py
+server/reference/weapon_review/icons/
+server/reference/weapon_review/*.npz
+server/reference/weapon_review/*.log
