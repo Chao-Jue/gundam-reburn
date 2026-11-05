@@ -203,6 +203,8 @@ class Reservation:
     start_at: float | None = None
     deployment_at: float | None = None
     deployment_release_at: float | None = None
+    return_at: float | None = None
+    returned: bool = False
     round_active: bool = False
     selected_index: int | None = None
     selected_post: int | None = None
@@ -401,6 +403,29 @@ class LocalBattleBackend:
                     and b'\0' not in body[5:-1]):
                 return [(0x8297, b'')]
             return []
+        if opcode == 0x7B52:
+            # A88180 sends one u32 IsCancel. FEBB is i32,u32,u16,u32;
+            # countdown is milliseconds, not the displayed performance rating.
+            if len(body) != 4 or struct.unpack('<I',body)[0] not in (0,1):
+                return []
+            cancel=struct.unpack('<I',body)[0]
+            if not reservation.round_active or not reservation.entities_ready:
+                return [(0xFEBB,struct.pack('<iIHI',-1,cancel,0,0))]
+            if cancel:
+                reservation.return_at=None
+                return [(0xFEBB,struct.pack('<iIHI',0,1,1,0))]
+            units=sorted((u for u in self.units_for_pilot(reservation.account,reservation.pilot_id)
+                          if 0 <= u.get('deckslots',[255])[0] < 4),key=lambda u:u['deckslots'][0])
+            index=reservation.selected_index
+            if index is None or index >= len(units) or units[index].get('msma_id') != 777001:
+                return [(0xFEBB,struct.pack('<iIHI',-1,0,0,0))]
+            import hangar_experiment
+            # Same base WARP_TIME emitted to the native unit table. Enhancements
+            # and special parts require their current-client conversion first.
+            if reservation.return_at is None:
+                reservation.return_at=self.clock()+hangar_experiment.GM_RETURN_SECONDS
+            remaining=max(0,round((reservation.return_at-self.clock())*1000))
+            return [(0xFEBB,struct.pack('<iIHI',0,0,1,remaining))]
         warp_selection = opcode == 0x800A
         if warp_selection:
             # A88330: changing location after selecting a mech is a separate request.
@@ -448,7 +473,7 @@ class LocalBattleBackend:
                     prefix = base_entity_replies(reservation)
                     reservation.bases_sent = True
                 if reservation.deployment_at is None:
-                    reservation.deployment_at = self.clock() + DEPLOYMENT_SECONDS
+                    reservation.deployment_at = self.clock() + (0 if reservation.returned else DEPLOYMENT_SECONDS)
                 remaining = max(0, int(reservation.deployment_at - self.clock() + 0.999))
                 if reservation.deployment_release_at is not None:
                     return prefix + [(0x640D, selected_prestart_body(reservation,0))]
@@ -497,6 +522,20 @@ class LocalBattleBackend:
 
     def tick(self, reservation):
         with self.queue.lock:
+            if (self.valid(reservation) and reservation.connected and reservation.return_at is not None
+                    and self.clock() >= reservation.return_at):
+                reservation.return_at=None
+                reservation.returned=True
+                reservation.round_active=reservation.entities_ready=False
+                reservation.deployment_at=reservation.deployment_release_at=None
+                # Native return map sends800A directly for the current mech;
+                # it need not refetch the list or submit another E650 first.
+                reservation.selected_post=None
+                reservation.selected_entity=0xffff
+                reservation.spawned_weapon_ids=()
+                reservation.active_weapon_index=0
+                reservation.pending_grenades.clear()
+                return [(0xE5FC,struct.pack('<H',1)),(0x130A,struct.pack('<H',1))]
             if (self.valid(reservation) and reservation.connected and reservation.round_active
                     and reservation.training_target is not None):
                 replies = []
@@ -538,6 +577,8 @@ class LocalBattleBackend:
                             shield_hp=990 if unit.get('shield') else 0)
                     reservation.entities_ready = True
                     reservation.round_active = True
+                    was_returned = reservation.returned
+                    reservation.returned = False
                     # Complete selection at the deployment deadline before
                     # creating the owned actor. Prestart previews remain1;
                     # never move this success into the waiting phase.
@@ -546,8 +587,10 @@ class LocalBattleBackend:
                             reservation.selected_post if reservation.selected_entity == 0xffff else 0xffffffff,
                             0xffffffff, reservation.selected_entity) + b'\0'), (0x7621, own),
                             (0x640D, prestart_body(0)), (0x3E23, mission_progress_body(False))]
+                    if was_returned:
+                        replies.insert(2,(0x0120,struct.pack('<H',1)))
                     position = training_target.spawn_position(reservation.selected_post) if self.training_targets_enabled else None
-                    if position is not None:
+                    if position is not None and reservation.training_target is None:
                         reservation.training_target = training_target.Target(position)
                         replies.append((0x717D, battle_entities.appear_body(
                             spawn_unit_body(training_target.UNIT, 255), training_target.ENTITY,

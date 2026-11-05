@@ -291,6 +291,28 @@ def main():
                 bits=fields[15][0]; states.append(bits)
                 if bits == 0: break
             assert 0x30 in states and 0x10 in states and states[-1] == 0, states
+            battle.send(0x7B52,struct.pack('<I',0))
+            assert struct.unpack('<iIHI',battle.expect(0xFEBB)) == (0,0,1,10000)
+            battle.send(0x7B52,struct.pack('<I',1))
+            assert struct.unpack('<iIHI',battle.expect(0xFEBB)) == (0,1,1,0)
+            battle.send(0x7B52,struct.pack('<I',0))
+            assert struct.unpack('<iIHI',battle.expect(0xFEBB)) == (0,0,1,10000)
+            battle.socket.settimeout(15)  # a valid10s return may have no intervening world traffic
+            assert battle.expect(0xE5FC) == struct.pack('<H',1)
+            assert battle.expect(0x130A) == struct.pack('<H',1)
+            battle.socket.settimeout(5)
+            # Captured native return UI keeps the selected machine and sends
+            #800A directly. Do not manufacture E041/E650 to conceal a gap.
+            battle.send(0x800A,struct.pack('<IIBH',0xffffffff,0xffffffff,0,101))
+            battle.expect(0x640D);battle.expect(0x640D)
+            assert struct.unpack_from('<i',battle.expect(0x86B2))[0] == 0
+            own=battle.expect(0x7621)
+            assert struct.unpack_from('<3H',own,2+175+2) == spawn_xyz
+            assert battle.expect(0x0120) == struct.pack('<H',1)
+            battle.expect(0x640D);battle.expect(0x3E23)
+            battle.send(0xCB97,struct.pack('<IB',1,0)+b'\0')
+            battle.expect(0x8297)
+            print('PASS: emergency return start/cancel/10s completion; direct800A B redeployment and self show without duplicate targets',flush=True)
             battle.send(0xD97D, b'')
             assert battle.expect(0x14C5) == b''
             battle.close()

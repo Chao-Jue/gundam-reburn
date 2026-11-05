@@ -16,6 +16,7 @@ DECK_COST_CAPACITY = 1200  # local experiment budget, not recovered rank progres
 ENERGY_CAPACITY = 100
 SHIELD_ITEM_ID = 777104
 SHIELD_HP = 990  # same cached GM Wiki revision103423 as the other reference stats
+GM_RETURN_SECONDS = 10  # archived2022 return table: base GM performance682 ->10s; no upgrade mapping claim
 
 
 
@@ -423,7 +424,7 @@ def table_body(name):
     if name == 'msma/msma_battle_detail.csv':
         # 0x9B1B30 -> 0x9AC5F0 dispatches col0; col1 is the key.
         # 0x55A610 reads scalar col2; 0x549780 reads eleven time values.
-        rows = [('RESPAWN_TIME', *([50] * 11)), ('WARP_TIME', 10),
+        rows = [('RESPAWN_TIME', *([50] * 11)), ('WARP_TIME', GM_RETURN_SECONDS),
                 ('COST', 200), ('MAX_HP', 3425),
                 # 5497B0 parses two ints; first -> msma+A8 -> owned+14 capacity.
                 # Second scalar's economic semantics are not yet recovered.
@@ -497,6 +498,9 @@ def table_body(name):
         # loops only3, whose end does not join its own start. Keep bases
         # on their existing row and let the client advance its own gait.
         row.extend(['0'] * (49 - len(row)))
+        # 53FD3E CSV44 bool -> model+108; 4CDC60 requires it before
+        # return entry4C5AB0 can request the native ground crouch posture.
+        row[44] = 1
         row[45] = 2
         # 53FD96..53FDB8 CSV48 -> model+115. 633CAA requires it to
         # collect this target's render collision shapes for melee overlap.
