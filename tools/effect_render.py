@@ -457,4 +457,3 @@ def compose(assets, weapon_path, effect, ratio, size=(520, 320), background=(24,
             'drawn': drawn, 'skipped': skipped, 'notes': notes,
             'blend_note': '混合模式按 2/3=加算、1=常规近似；粒子只画代表样本，未模拟发射与飞行'}
     return final, meta
-
