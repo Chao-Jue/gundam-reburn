@@ -1,0 +1,7 @@
+{
+  "note": "Experimental entity201 vertical patrol 1500+/-300cm above two sampled ground anchors; after DP break it falls, lands and gets up, without automatic re-flight. Ground heights from explicit terrain DXG triangles, not the map tool's coarse heightfield or an original mission association. No general terrain solver.",
+  "points": [
+    {"post_index": 0, "ground_cm": [24100, -451.93976713130235, 13000], "ground_model": "world/field/F01/model/FM_F01_th_grd01_E.dxg"},
+    {"post_index": 1, "ground_cm": [30250, 0.0004879999905824661, -10500], "ground_model": "world/field/F01/model/FM_F01_th_grd01_S.dxg"}
+  ]
+}

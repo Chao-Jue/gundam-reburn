@@ -45,10 +45,11 @@ class TrainingTargetNativeTest(unittest.TestCase):
             self.assertFalse(self.parse(body+b'\0', mode))
 
     def test_hp_display_initialization_has_full_native_array_cursor(self):
-        body = training_target.hp_display_body()
-        self.assertTrue(self.parse(body, 'show'))
-        self.assertFalse(self.parse(body[:-1], 'show'))
-        self.assertFalse(self.parse(body+b'\0', 'show'))
+        for entities in ((200,), (200,201)):
+            body = training_target.hp_display_body(entities)
+            self.assertTrue(self.parse(body, 'show'))
+            self.assertFalse(self.parse(body[:-1], 'show'))
+            self.assertFalse(self.parse(body+b'\0', 'show'))
 
 
 class TargetAimHeightNativeTest(unittest.TestCase):

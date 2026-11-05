@@ -28,6 +28,8 @@ class TrainingTargetTest(unittest.TestCase):
         queue.register('test', 77, struct.pack('<7I', 0, 4, 0, 0, 0, 0, 0))
         backend = local_battle.LocalBattleBackend(queue, '127.0.0.1', 30000)
         backend.training_targets_enabled = True
+        clock = [100.]
+        backend.clock = lambda: clock[0]
         unit = {'uniqid': 123, 'msma_id': 777001, 'deckslots': [0, 0],
                 'equipped_weapons': [777108, 777106, 777103]}
         backend.units_for_pilot = lambda a, p: [unit]
@@ -35,6 +37,7 @@ class TrainingTargetTest(unittest.TestCase):
         room.connected = room.started = True
         room.selected_index = room.selected_post = 0
         room.deployment_at = backend.clock()-1
+        room.deployment_release_at = backend.clock()-1  # target-only fixture after selection grace
         replies = backend.tick(room)
         appearance = next(body for op, body in replies if op == 0x717d)
         self.assertEqual(appearance[0], 1)  # enemy team
@@ -46,11 +49,22 @@ class TrainingTargetTest(unittest.TestCase):
             self.assertTrue(abs(delta[0]) >= 1000 or abs(delta[1]) >= 1500,
                             'training target is inside the base model bounds')
         with self.subTest(check='hp_visibility'):
-            self.assertIn((0xe4db, struct.pack('<IHI2I', 1, 200, 1, 3425, 10000)), replies,
+            self.assertIn((0xe4db, target.hp_display_body((200, 201))), replies,
                           'enemy target has no explicit HP display initialization')
         self.assertEqual(backend.tick(room), [])
         xyz = (0, 1, 0)  # native victim-relative offset
         self.assertTrue(backend.replies(room, 0x770d, report(xyz=xyz)))
+        self.assertEqual(room.air_training_target.hp, target.HP)
+        self.assertTrue(backend.replies(room, 0x770d, report(entity=201)))
+        self.assertEqual(room.air_training_target.hp, target.HP-100)
+        self.assertEqual(room.training_target.hp, target.HP-100)
+        clock[0] += .5
+        packets = backend.tick(room)
+        frames = [struct.unpack_from('<I', body)[0] for op,body in packets if op == 0x5eea]
+        self.assertEqual(len(frames), 2)
+        self.assertEqual(frames, sorted(set(frames)))
+        clock[0] += .5
+        self.assertGreater(struct.unpack_from('<I',backend.tick(room)[0][1])[0],frames[-1])
         room.round_active = False
         self.assertEqual(backend.replies(room, 0x770d, report(frame=2, xyz=xyz)), [])
 
@@ -70,7 +84,7 @@ class TrainingTargetTest(unittest.TestCase):
         parsed = target.parse_hit(report())
         kwargs = dict(owned_items=(777108, 777106, 777103), kinds={777108: 'SHOTGUN'}, now=1.)
         replies = dummy.hit(parsed, **kwargs)
-        self.assertEqual([op for op, _ in replies], [0xddf7, 0x49c6])
+        self.assertEqual([op for op, _ in replies], [0xddf7, 0x49c6, 0x45fc])
         self.assertEqual(dummy.hp, target.HP-100)
         fields = struct.unpack('<HHIB4I6HI', replies[1][1])
         self.assertEqual(fields[:7], (200, 1, 777108, 0, target.HP-100, target.HP, 100))
@@ -133,7 +147,7 @@ class TrainingTargetTest(unittest.TestCase):
             'equipped_weapons':[777108,777106,777103]}]
         room=backend.reserve('repeat',77,struct.pack('<I',77)+bytes(153))
         room.connected=room.started=True;room.selected_index=room.selected_post=0
-        room.deployment_at=99.;backend.tick(room)
+        room.deployment_at=99.;room.deployment_release_at=99.;backend.tick(room)
         backend.replies(room,0xEA5A,struct.pack('<IBH',0,1,0))
         swing=struct.pack('<I3HIBH',0,0,0,0,0,0,0)
         hit=report(item=777106,frame=0,xyz=(0,0,0))

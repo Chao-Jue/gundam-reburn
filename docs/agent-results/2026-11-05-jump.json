@@ -1,0 +1,190 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "passed",
+  "repository": null,
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "独立跳跃模板与松键速度交接已修复；用户确认短按正常起落，长按/缓降/推进消耗及耗尽后过热下落无异常。实验参数保留明确标记，未提交Git。",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "tools/test_jump_physics_native.py",
+    "docs/JUMP_2026-11-05.md",
+    "docs/agent-results/2026-11-05-jump.json",
+    "tools/test_fall_physics_native.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "核对用户提供的gow_swiki.zip",
+      "status": "passed",
+      "evidence": "只读8项，CRC通过，归档HTML哈希与README一致；区分跳跃与冲刺测量，不照搬其他版本数值"
+    },
+    {
+      "criterion": "持有跳跃不再因缺失模板第一帧退出，具有上升速度",
+      "status": "passed",
+      "evidence": "运行实体12项字段0；原生复现先失败，补模板后持续1秒上升、3秒内按上限转换"
+    },
+    {
+      "criterion": "真实客户端短按/长按、缓降、消耗、过热、落地正确",
+      "status": "passed",
+      "evidence": "用户二轮短按确认正常起跳落地；长按4秒及持续至耗尽测试回复可以的，没有发现问题"
+    },
+    {
+      "criterion": "实机短按正常起跳落地，不再冲到地图顶端",
+      "status": "passed",
+      "evidence": "用户确认并获只读时间线佐证"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "read refs/gow_swiki.zip; current 5498A0/54E2F0/4DF0C0/4DEDB0/4DEE20; read-only live snapshot",
+      "exit_code": 0,
+      "evidence": "本地归档与当前原生对照，运行自机JUMP字段全部0，未写客户端内存"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_jump_physics_native.py -v (before fix)",
+      "exit_code": 1,
+      "evidence": "按预期失败：每次原生上升更新均立即请求结束"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_jump_physics_native.py -v (after fix)",
+      "exit_code": 0,
+      "evidence": "2项通过，实际解析/落位/上升计时/缓降速度；未模拟完整按键/燃料/渲染"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/hangar_experiment.py tools/test_jump_physics_native.py",
+      "exit_code": 0,
+      "evidence": "修改Python文件编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py",
+      "exit_code": 0,
+      "evidence": "155项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py",
+      "exit_code": 0,
+      "evidence": "123项通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务和加密TCP出击/战斗流程通过，未模拟跳跃按键或画面"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "experimental auth restart and HTTP/auth health",
+      "exit_code": 0,
+      "evidence": "PID44844，32字节握手，现有HTTP200/199B"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": "首轮用户重启短按测试与只读一次短按采样",
+      "exit_code": null,
+      "evidence": "短按升至地图最高点；已松键/结束上升后物理速度约999.33m/s，一次采样高差超过51m"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_jump_physics_native.py -k test_release -v (before mass fix)",
+      "exit_code": 1,
+      "evidence": "实际4DE430+50CFC0+50D100交接为1000.00006m/s，预期6m/s"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_jump_physics_native.py -v (after mass fix)",
+      "exit_code": 0,
+      "evidence": "3项通过，完整交接速度6m/s"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_fall_physics_native.py -v",
+      "exit_code": 0,
+      "evidence": "4项通过，配置质量的自由落体加速度不变"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/hangar_experiment.py tools/test_jump_physics_native.py tools/test_fall_physics_native.py",
+      "exit_code": 0,
+      "evidence": "本轮修改Python文件编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py (second round)",
+      "exit_code": 0,
+      "evidence": "155项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py (second round)",
+      "exit_code": 0,
+      "evidence": "125项通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py (second round)",
+      "exit_code": 0,
+      "evidence": "隔离加密TCP出击和战斗流程通过，非完整跳跃按键画面"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "restart experimental auth; AUTH/HTTP health (second round)",
+      "exit_code": 0,
+      "evidence": "PID38896，32字节握手，HTTP200/199B"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": "用户二轮完整重启后短按、长按、消耗与过热下落验收",
+      "exit_code": null,
+      "evidence": "短按已确认；长按/缓降/推进消耗/耗尽过热下落测试用户回复无问题；只读时间线约2秒上升后-50cm/s缓降，随后ground1/state1。采样未读取燃料曲线，消耗/过热以用户反馈为依据"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "elevated read-only jump_mass_verify_20261105.py after user restart",
+      "exit_code": 0,
+      "evidence": "运行实体模型/物理质量166.6666718，重力力Y=-1634.44177；新跳跃参数加载；ground1/速度0；采样启动读到实体后请求短按"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": "用户二轮重启后短按验收与只读时间线对照",
+      "exit_code": null,
+      "evidence": "用户确认正常起跳落地；物理速度峰值约5.83m/s，短按序列最高相对高度约443cm，多次ground1/state1；仅验收短按与速度交接"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "跳跃速度、时长、消耗是显式实验值，非原版GM完整配置",
+    "中性质量166.6666667校准速度交接，非GM原版重量；未来新增真实击退等冲量系统时需重新标定"
+  ],
+  "next_steps": [
+    "本轮所请求场景已验收，修改尚未提交Git；按用户后续要求开展下一项"
+  ]
+}

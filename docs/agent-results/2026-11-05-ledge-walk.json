@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "passed",
+  "repository": null,
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "小落差台阶补偿占位参数导致缓降悬空；禁用未标定补偿后，用户重启确认不再浮空行走。",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "tools/test_fall_physics_native.py",
+    "docs/LEDGE_WALK_2026-11-05.md",
+    "docs/agent-results/2026-11-05-ledge-walk.json"
+  ],
+  "acceptance": [
+    {
+      "criterion": "定位小落差后缓降与自由落体区别",
+      "status": "passed",
+      "evidence": "1500条只读采样；接地1/物理速度0/约5cm/s，与4958A0补偿算术一致"
+    },
+    {
+      "criterion": "模型配置不再启用每秒5cm的占位补偿",
+      "status": "passed",
+      "evidence": "模型CSV5改0；相同原生回归从94.99985cm残留失败变为绕过补偿通过"
+    },
+    {
+      "criterion": "真实客户端不再浮空行走",
+      "status": "passed",
+      "evidence": "用户重启后反馈：可以了，不会浮空行走了；未扩大为恢复全部原版台阶平滑参数"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "elevated read-only Reader samples; current 53FA30/4958A0/495B0C inspection",
+      "exit_code": 0,
+      "evidence": "无写内存、无注入；原始文件仅本地hook_runs"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_fall_physics_native.py -k test_model_does -v (before fix)",
+      "exit_code": 1,
+      "evidence": "1米台阶1秒后残留94.99985cm，预期小于5cm；完善禁用分支后业务修改前再次同因失败"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_fall_physics_native.py -v (after fix)",
+      "exit_code": 0,
+      "evidence": "3项通过，含相同新回归与既有重力积分倍率测试"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/hangar_experiment.py tools/test_fall_physics_native.py",
+      "exit_code": 0,
+      "evidence": "本轮修改的Python文件编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py",
+      "exit_code": 0,
+      "evidence": "155项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py",
+      "exit_code": 0,
+      "evidence": "121项通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动与加密TCP战斗流程通过，未模拟真实地图碰撞"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "restart experimental fake_auth; auth and HTTP health",
+      "exit_code": 0,
+      "evidence": "PID15436，32字节握手，现有HTTP200/199B"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": "用户完整重启后测试反馈",
+      "exit_code": null,
+      "evidence": "2026-11-05用户确认不再浮空行走"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "当前禁用未标定台阶补偿，未恢复原版台阶平衡参数"
+  ],
+  "next_steps": [
+    "按用户要求转入跳跃模块，参考refs/gow_swiki.zip"
+  ]
+}

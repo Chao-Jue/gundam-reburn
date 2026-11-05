@@ -412,6 +412,7 @@ def table_body(name):
                             (67, 'MOVE'), (73, 'BOOST_SPEED'),
                             (69, 'BOOST_GAUGEMAX'), (71, 'BOOST_GAUGEHEAL')):
             row[column] = 'GM_REF_' + key
+        row[79] = 'GM_EXP_JUMP'  # independent current-native JUMP profile, not BOOST_SPEED
         row[38] = MSMA_ID  # links the three default weapon-set entries
         # 54F3E1/54F3E9: col44 -> model definition+16C; 786D9B and
         # 792FB0 use this ID to resolve shield support and displayed durability.
@@ -438,9 +439,17 @@ def table_body(name):
                 # 4E3500/4E3540. 100 is a local experiment cost, not
                 # recovered original GM balance or a proven duration.
                 ('BOOST_SPEED', 1, 0, 100, 0, 1, 100, 0, 1, 1, 0),
-                ('BOOST_GAUGEMAX', 1000), ('BOOST_GAUGEHEAL', 200)]
+                ('BOOST_GAUGEMAX', 1000), ('BOOST_GAUGEHEAL', 200),
+                # 5498A0 has12 mixed fields, 54E2F0 -> +11C..14C.
+                # Explicit ground-jump experiment, not recovered GM balance:
+                # ascent time2s; takeoff preparation~.133s; combined-boost
+                # ascent ratio1; two phase durations.15s; initial/ongoing
+                # costs100; upward speed600cm/s; post-ascent descent50cm/s;
+                # hover cost100; landing wait.15s; ordinary gravity mode0.
+                # Missing profile had velocity0 and expired on first tick.
+                ('JUMP', 2, 0.133333333, 1, 0.15, 100, 0.15, 600, 100, 50, 100, 0.15, 0)]
         return (b'# Wiki reference subset; not original client balance\r\n#\r\n'
-                + b''.join((','.join(map(str, (kind, 'GM_REF_' + kind, *values)))
+                + b''.join((','.join(map(str, (kind, ('GM_EXP_' if kind == 'JUMP' else 'GM_REF_') + kind, *values)))
                             + '\r\n').encode() for kind, *values in rows))
     if name == 'msma/msma_model.csv':
         # Model-parameter row 0x53FA30; unit scales are diagnostic placeholders.
@@ -467,6 +476,19 @@ def table_body(name):
         # (47EB90 fallback). The diagnostic 1 puts it at ankle height.
         # Use the native missing-row fallback 80, not recovered GM balance.
         row[2] = 80
+        # 53FA30 CSV5 -> model+18. 4958A0 uses this for visual stair
+        # compensation; placeholder1 drains its offset at only5cm/s,
+        # leaving the rendered body floating above the collision floor.
+        # Zero takes the native no-compensation branch. Preserve collision
+        # and free-fall physics rather than invent an original stair height.
+        row[5] = 0
+        # CSV11 -> model+2C -> physics mass (4910E1/50CEC0).
+        # 4DE430 hands off cm/s as impulse *100; 50D100 integrates it
+        # with fixed1/60 then divides by mass. Preserve velocity in m/s:
+        # mass =100 (handoff) *100 (cm/m) /60. Placeholder1 launched
+        # a short600cm/s jump at1000m/s. This is a neutral experimental
+        # conversion mass, not recovered GM weight; gravity still cancels mass.
+        row[11] = 10000 / 60
         # Column14 -> model+32 -> 474670: owned actors require this flag
         # to enter the native visibility refresh rather than stay camera-hidden.
         row[14] = 1

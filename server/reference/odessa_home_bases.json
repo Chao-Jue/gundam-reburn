@@ -1,10 +1,12 @@
 {
-  "source": "GundamOnline_CHINA_已解密/decrypted/world/field/F01/30110130.vra",
-  "note": "The four standalone team pop objects under mission, outside numbered FreeRespawnpost groups. Different mission variant from 30110100; complete original A/B/C-X/Y/Z layout remains unrecovered.",
+  "map_id": 100102,
+  "base_source": "GundamOnline_CHINA_已解密/decrypted/world/field/F01/F01_02_obj.vra:01_core/OZ_40_hl_mainbase02A",
+  "spawn_source": "GundamOnline_CHINA_已解密/decrypted/world/field/F01/30410110.vra:mission standalone team pop objects",
+  "note": "Experimental four-base layout. position_cm is the current map's outer base-building anchor, not a verified inner core socket. spawn_position_cm is a separate team pop near that building, preserving its source height. 30410110 is a different mission variant from synthetic 30110100; original mission association, inner core offsets, spawn ground clearance and orientation require native client validation. Its third team pops are not treated as bases without building evidence. Units: centimeters; wire rounds to 100cm.",
   "points": [
-    {"team": 0, "position_cm": [12445, -671, 15881]},
-    {"team": 0, "position_cm": [29650, 550, -13000]},
-    {"team": 1, "position_cm": [-29500, 550, 11450]},
-    {"team": 1, "position_cm": [-12613, -716, -17653]}
+    {"team": 0, "letter": "A", "position_cm": [21000, -448, 12500], "spawn_position_cm": [23500, 550, 14500]},
+    {"team": 0, "letter": "B", "position_cm": [27000, 24, -12500], "spawn_position_cm": [30000, 500, -12500]},
+    {"team": 1, "letter": "X", "position_cm": [-27000, 26, 11000], "spawn_position_cm": [-30000, 550, 11000]},
+    {"team": 1, "letter": "Y", "position_cm": [-21500, -478, -14000], "spawn_position_cm": [-23500, 500, -16500]}
   ]
 }

@@ -45,9 +45,14 @@ def experimental_melee_presentations():
 
 
 @lru_cache(maxsize=1)
-def deployment_points():
+def home_base_layout():
     data = json.loads((Path(__file__).parent / 'reference/odessa_home_bases.json').read_text(encoding='utf-8'))
-    return tuple(sorted(((p['team'], tuple(p['position_cm'])) for p in data['points']), key=lambda p: p[0]))
+    return tuple(sorted(data['points'], key=lambda p: p['team']))
+
+
+def deployment_points():
+    """Spawn locations; never use these to position the physical base actors."""
+    return tuple((p['team'], tuple(p['spawn_position_cm'])) for p in home_base_layout())
 
 
 def deployment_post_body(index, team, position):
@@ -89,6 +94,19 @@ def prestart_body(seconds, ms_index=None, post=0xffff, base_entity=0xffff):
     return (countdown_body(seconds) + struct.pack('<IB', 1, kind)
             + struct.pack('<IH', 1, post) + struct.pack('<IH', 1, 0xffff)
             + struct.pack('<IH', 1, base_entity))
+
+
+def selected_prestart_body(reservation, seconds):
+    post = reservation.selected_post
+    entity = reservation.selected_entity
+    if entity != 0xffff:
+        post = 0xffff
+    elif post is not None:
+        # Current static home posts and visible base actors are aliases. Native
+        # 8852F0 counts each kind of widget against a different member field.
+        entity = BASE_ENTITY_START + post
+    return prestart_body(seconds, reservation.selected_index,
+                         post if post is not None else 0xffff, entity)
 
 
 def mission_progress_body(prestart=True):
@@ -158,7 +176,8 @@ def spawn_unit_body(unit, deck_index):
 
 def base_entity_replies(reservation):
     replies = []
-    for i, (team, position) in enumerate(deployment_points()):
+    for i, point in enumerate(home_base_layout()):
+        team, position = point['team'], point['position_cm']
         ordinal = sum(t == team for t, _ in deployment_points()[:i])
         base = {'uniqid': 900000000 + i, 'msma_id': battlefield_bases.MSMA_ID}
         replies.append((0x717D, battle_entities.appear_body(spawn_unit_body(base, 255),
@@ -183,6 +202,7 @@ class Reservation:
     started: bool = False
     start_at: float | None = None
     deployment_at: float | None = None
+    deployment_release_at: float | None = None
     round_active: bool = False
     selected_index: int | None = None
     selected_post: int | None = None
@@ -196,6 +216,8 @@ class Reservation:
     # Presentation only: issued item and expiry, not authoritative hit state.
     pending_grenades: dict = field(default_factory=dict)
     training_target: object | None = None
+    air_training_target: object | None = None
+    target_snapshot_frame: int = 0
 
 
 class LocalBattleBackend:
@@ -282,7 +304,12 @@ class LocalBattleBackend:
         if opcode == 0x770D:
             if not reservation.round_active or not reservation.entities_ready or reservation.training_target is None:
                 return []
-            return reservation.training_target.hit(training_target.parse_hit(body),
+            report = training_target.parse_hit(body)
+            target = next((t for t in (reservation.training_target, reservation.air_training_target)
+                           if t is not None and report is not None and t.entity == report['entity']), None)
+            if target is None:
+                return []
+            return target.hit(report,
                     owned_items=reservation.spawned_weapon_ids,
                     kinds=experimental_weapon_kinds(), now=self.clock())
         if opcode == 0x7C0C:
@@ -338,6 +365,10 @@ class LocalBattleBackend:
                         item, now=self.clock(), duration=presentation['duration_ms']/1000,
                         dash=presentation is not experimental_melee_presentations()[item][0])):
                 return []
+            if reservation.air_training_target is not None:
+                reservation.air_training_target.begin_melee(
+                    item, now=self.clock(), duration=presentation['duration_ms']/1000,
+                    dash=presentation is not experimental_melee_presentations()[item][0])
             # D725 has no result/hit fields: entity, item, directions, duration,
             # configured local presentation ID and charge. No hit acceptance.
             # Current client sends0 for basic clicks even with the configured
@@ -370,15 +401,29 @@ class LocalBattleBackend:
                     and b'\0' not in body[5:-1]):
                 return [(0x8297, b'')]
             return []
+        warp_selection = opcode == 0x800A
+        if warp_selection:
+            # A88330: changing location after selecting a mech is a separate request.
+            if len(body) != 11 or reservation.selected_index is None:
+                return []
+            post, spot, ship_ride, entity = struct.unpack('<IIBH', body)
+            body = struct.pack('<IIIBBH', reservation.selected_index, post, spot,
+                               ship_ride, 0, entity)
+            opcode = 0xE650
         if opcode == 0xE650 and len(body) == 16:
             # A87E.. current sender: three u32, two u8 flags, entity u16.
             index, post, spot, ship_ride, msma_ride, entity = struct.unpack('<IIIBBH', body)
+            selection_ack = [] if warp_selection else [
+                (0x86B2, struct.pack('<iIIIH', 1, index, post, spot, entity) + b'\0')]
             units = sorted((u for u in self.units_for_pilot(reservation.account, reservation.pilot_id)
                             if 0 <= u.get('deckslots', [255])[0] < 4), key=lambda u: u['deckslots'][0])
             if (reservation.deployment_available and not reservation.round_active
-                    and index < len(units) and not ship_ride and not msma_ride):
+                    and index < len(units) and not ship_ride and not msma_ride
+                    and spot == 0xffffffff):
                 # Selection acceptance during prestart; not a spawned entity.
                 if post == 0xffffffff and entity == 0xffff:
+                    if reservation.deployment_release_at is not None:
+                        return []  # late preview must not restore native stage1
                     reservation.selected_index = index
                     prefix = []
                     if not reservation.bases_sent:
@@ -386,10 +431,7 @@ class LocalBattleBackend:
                         reservation.bases_sent = True
                     remaining = (DEPLOYMENT_SECONDS if reservation.deployment_at is None else
                                  max(0, int(reservation.deployment_at - self.clock() + 0.999)))
-                    return prefix + [(0x640D, prestart_body(remaining, index,
-                              reservation.selected_post if reservation.selected_entity == 0xffff
-                              and reservation.selected_post is not None else 0xffff,
-                              reservation.selected_entity))]
+                    return prefix + selection_ack + [(0x640D, selected_prestart_body(reservation, remaining))]
                 if entity != 0xffff:
                     base_index = entity - BASE_ENTITY_START
                     if (post != 0xffffffff or not 0 <= base_index < len(deployment_points())
@@ -408,9 +450,12 @@ class LocalBattleBackend:
                 if reservation.deployment_at is None:
                     reservation.deployment_at = self.clock() + DEPLOYMENT_SECONDS
                 remaining = max(0, int(reservation.deployment_at - self.clock() + 0.999))
-                # 86B2 success advances the native respawn step; it is not a selection receipt.
-                return prefix + [(0x640D, prestart_body(remaining, index,
-                          post if entity == 0xffff else 0xffff, entity))]
+                if reservation.deployment_release_at is not None:
+                    return prefix + [(0x640D, selected_prestart_body(reservation,0))]
+                # Preview result1 clears busy and keeps native task 4406A0 in
+                # selection state1. Result0 closes selection (state4), so it
+                # must accompany entity creation, never the prestart preview.
+                return prefix + selection_ack + [(0x640D, selected_prestart_body(reservation, remaining))]
             return [(0x86B2, struct.pack('<iIIIH', -1, index, post, spot, 0xffff) + b'\0')]
         if opcode == 0x0372 and not body:
             return [(0x3E23, mission_progress_body(not reservation.round_active))]
@@ -427,7 +472,7 @@ class LocalBattleBackend:
                              max(0, int(reservation.deployment_at - self.clock() + 0.999)))
                 # Static coordinates alone do not supply visibility or ownership.
                 replies.append((0xD1B3, deployment_post_states_body()))
-                replies.append((0x640D, prestart_body(remaining)))
+                replies.append((0x640D, selected_prestart_body(reservation, remaining)))
             return replies
         if opcode == 0x2761 and len(body) == 4:
             stat = struct.unpack('<I', body)[0]
@@ -454,13 +499,31 @@ class LocalBattleBackend:
         with self.queue.lock:
             if (self.valid(reservation) and reservation.connected and reservation.round_active
                     and reservation.training_target is not None):
-                return reservation.training_target.tick(now=self.clock())
+                replies = []
+                for target in (reservation.training_target, reservation.air_training_target):
+                    if target is None:
+                        continue
+                    for opcode, body in target.tick(now=self.clock()):
+                        if opcode == 0x5eea:
+                            reservation.target_snapshot_frame += 1
+                            body = struct.pack('<I', reservation.target_snapshot_frame)+body[4:]
+                        replies.append((opcode, body))
+                return replies
             if (self.valid(reservation) and reservation.connected and reservation.started
                     and not reservation.round_active and reservation.deployment_at is not None
                     and self.clock() >= reservation.deployment_at):
                 # A progress flag is not a substitute for the missing entity stream.
                 if not reservation.entities_ready:
                     if reservation.selected_index is None or reservation.selected_post is None:
+                        return []
+                    if reservation.deployment_release_at is None:
+                        # Let the native selector observe zero and advance its
+                        # stage before success closes it. The client need not
+                        # send a second selection request. This grace interval
+                        # is experimental, not a recovered animation duration.
+                        reservation.deployment_release_at = self.clock()+.5
+                        return [(0x640D, selected_prestart_body(reservation,0))]
+                    if self.clock() < reservation.deployment_release_at:
                         return []
                     units = sorted((u for u in self.units_for_pilot(reservation.account, reservation.pilot_id)
                                     if 0 <= u.get('deckslots', [255])[0] < 4), key=lambda u: u['deckslots'][0])
@@ -475,10 +538,13 @@ class LocalBattleBackend:
                             shield_hp=990 if unit.get('shield') else 0)
                     reservation.entities_ready = True
                     reservation.round_active = True
-                    replies = [(0x7621, own), (0x86B2, struct.pack('<iIIIH', 0,
+                    # Complete selection at the deployment deadline before
+                    # creating the owned actor. Prestart previews remain1;
+                    # never move this success into the waiting phase.
+                    replies = [(0x86B2, struct.pack('<iIIIH', 0,
                             reservation.selected_index,
                             reservation.selected_post if reservation.selected_entity == 0xffff else 0xffffffff,
-                            0xffffffff, reservation.selected_entity) + b'\0'),
+                            0xffffffff, reservation.selected_entity) + b'\0'), (0x7621, own),
                             (0x640D, prestart_body(0)), (0x3E23, mission_progress_body(False))]
                     position = training_target.spawn_position(reservation.selected_post) if self.training_targets_enabled else None
                     if position is not None:
@@ -487,7 +553,18 @@ class LocalBattleBackend:
                             spawn_unit_body(training_target.UNIT, 255), training_target.ENTITY,
                             position, team=1, troops=1, world_id=0, pilot_id=0, letter=255,
                             snapshots=True)))
-                        replies.append((0xE4DB, training_target.hp_display_body()))
+                        entities = [training_target.ENTITY]
+                        ground = training_target.air_spawn_ground(reservation.selected_post)
+                        if ground is not None:
+                            air = training_target.AirTarget(ground, now=self.clock())
+                            reservation.air_training_target = air
+                            air_unit = dict(training_target.UNIT, uniqid=777000000003)
+                            replies.append((0x717D, battle_entities.appear_body(
+                                spawn_unit_body(air_unit, 255), air.entity, air.position,
+                                team=1, troops=1, world_id=0, pilot_id=0, letter=255,
+                                snapshots=True, state_bits=0x20)))
+                            entities.append(air.entity)
+                        replies.append((0xE4DB, training_target.hp_display_body(tuple(entities))))
                     return replies
                 reservation.round_active = True
                 return [(0x640D, prestart_body(0)), (0x3E23, mission_progress_body(False))]

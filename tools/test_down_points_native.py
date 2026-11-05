@@ -10,6 +10,28 @@ import training_target
 
 
 class DownPointsNativeTest(unittest.TestCase):
+    def test_air_position_delta_routes_to_second_cached_entity_with_native_scale(self):
+        machine = native.ProjectilePresentationNativeTest().machine()
+        out, arrays, stack, stop = 0x20000000, 0x2000a000, 0x2000b000, 0x2000f000
+        machine.mem_write(out, struct.pack('<H', 200)+bytes(42)+struct.pack('<H', 201)+bytes(42))
+        machine.mem_write(out+0x8f00, struct.pack('<I', 2))
+        for bits, position in ((0x20, (30250,1500,-10500)), (0x30, (30250,900,-10500)), (0x10, (30250,0,-10500))):
+            body = training_target.recovery_delta(1, entity=201, position=position, state_bits=bits)
+            args=[]; cursor=8
+            for index in range(31):
+                count=struct.unpack_from('<I',body,cursor)[0]; cursor+=4
+                width=2 if index in (0,1,2,3,4) else 1
+                pointer=arrays+index*16
+                if count: machine.mem_write(pointer,body[cursor:cursor+count*width])
+                cursor+=count*width; args.extend((pointer,count))
+            self.assertEqual(cursor,len(body))
+            machine.mem_write(stack,struct.pack('<I62I',stop,*args))
+            machine.reg_write(UC_X86_REG_ESP,stack); machine.reg_write(UC_X86_REG_ECX,out)
+            machine.emu_start(0x9ffb00,stop,count=20000)
+            self.assertEqual(bytes(machine.mem_read(out,44)),struct.pack('<H',200)+bytes(42))
+            self.assertEqual(struct.unpack('<3h',machine.mem_read(out+44+2,6)),tuple(round(v/200)*2 for v in position))
+            self.assertEqual(struct.unpack('<I',machine.mem_read(out+44+36,4))[0],bits)
+
     def test_training_target_appearance_enables_native_snapshot_cache(self):
         body=battle_entities.appear_body(bytes(175),200,(12000,-2600,18000),
             team=1,troops=1,world_id=0,pilot_id=0,letter=255, snapshots=True)

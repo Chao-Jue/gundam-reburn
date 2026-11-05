@@ -1,0 +1,231 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "passed",
+  "repository": null,
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "基地与出生坐标已分离；修正预览/真实出击应答及人数关联，第三轮用户确认人数和实际投放地点随选择变化，本轮选择流程验收通过。建筑内核精准对齐不在已验证结论内。",
+  "changed_files": [
+    "server/local_battle.py",
+    "server/reference/odessa_home_bases.json",
+    "server/test_deployment_selection.py",
+    "tools/smoke_local_battle.py",
+    "docs/MAP_DEPLOYMENT_2026-11-05.md",
+    "docs/agent-results/2026-11-05-map-deployment.json",
+    "server/test_local_battle.py",
+    "tools/test_battle_room_native.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "基地坐标与出生坐标独立",
+      "status": "passed",
+      "evidence": "配置分别保存position_cm与spawn_position_cm；实体包测试通过"
+    },
+    {
+      "criterion": "选择B后实际出生在B",
+      "status": "passed",
+      "evidence": "服务端回归测试与隔离加密TCP确认7621出生坐标和86B2基地101"
+    },
+    {
+      "criterion": "真实客户端选择流程、等待人数与实际投放点随选择更新",
+      "status": "passed",
+      "evidence": "2026-11-05用户第三轮反馈：已经确认出击人数会变，投放地点也会变。可以了。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_deployment_selection.py -v (before fix)",
+      "exit_code": 1,
+      "evidence": "10项中3项按预期失败：基地坐标、刷新选择、800A切换"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_deployment_selection.py -v (after fix)",
+      "exit_code": 0,
+      "evidence": "相同10项通过"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/local_battle.py server/test_deployment_selection.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "修改的Python文件编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py",
+      "exit_code": 0,
+      "evidence": "153项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native.py",
+      "exit_code": 0,
+      "evidence": "115项通过；不是完整客户端"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务与加密TCP出击流程，验证800A切B与实际B出生"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "experimental fake_auth restart; auth handshake; HTTP authsv health",
+      "exit_code": 0,
+      "evidence": "认证PID41380，32字节握手，HTTP200/199B；未重新启动HTTP"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": "用户完整重启后的首轮A/B出击验证",
+      "exit_code": null,
+      "evidence": "用户反馈人数仍为0且仍A出生；日志无800A，仅E650 post0，内存记录kind1/entityFFFF/post0"
+    },
+    {
+      "level": "source_inspection",
+      "status": "failed",
+      "command": "python tools/probe_deployment_state.py --output ignored-local-snapshot",
+      "exit_code": 1,
+      "evidence": "普通权限OpenProcess错误5；随后同一只读探针提升权限成功"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "elevated read-only Reader snapshots; current AF46B0/A53100/447C70 native inspection",
+      "exit_code": 0,
+      "evidence": "新坐标与本地B选择已加载，成员却留在post0；机体选择应答延迟及基地计数标识不对应"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_deployment_selection.py -v (second round before fix)",
+      "exit_code": 1,
+      "evidence": "12项中2项预期失败，缺少即时86B2机体选择应答"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py (second round)",
+      "exit_code": 0,
+      "evidence": "155项通过，包含相同12项选择测试"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py (second round)",
+      "exit_code": 0,
+      "evidence": "119项通过；新测试执行原生选择回调和实际成员人数循环"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/local_battle.py server/test_deployment_selection.py server/test_local_battle.py tools/test_battle_room_native.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "二轮修改的Python文件编译通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py (second round)",
+      "exit_code": 0,
+      "evidence": "E650立即应答；切B后出生于B；战斗加密TCP流程通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "experimental auth restart and health checks (second round)",
+      "exit_code": 0,
+      "evidence": "认证PID43688，32字节握手通过，已有HTTP200/199B"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": "用户二轮完整重启测试",
+      "exit_code": null,
+      "evidence": "跳过选择阶段并黑屏；日志显示7621前已发送两次86B2 result0"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "参考battle_spawn.py并核对当前43F6B0/447C70/CAC7B4+68/4406A0",
+      "exit_code": 0,
+      "evidence": "参考版预览1/实际出击0；当前原生订阅者result0进入state4关闭选择，result1进入state1地图选择；请求前已登记机体，撤回上一轮提前成功结论"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_battle_room_native.py -k test_prestart_reply_keeps -v (before third fix)",
+      "exit_code": 1,
+      "evidence": "服务端回包驱动实际原生界面任务，预期state1却得到state4"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "same native regression after preview-result fix",
+      "exit_code": 0,
+      "evidence": "等待预览保持state1，7621后成功才state4"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/local_battle.py server/test_deployment_selection.py server/test_local_battle.py tools/test_battle_room_native.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "三轮修改文件编译通过；烟测最终修改后另行编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py (third round)",
+      "exit_code": 0,
+      "evidence": "155项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py (third round)",
+      "exit_code": 0,
+      "evidence": "120项通过，覆盖实际出击选择任务订阅者"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py (final third-round flow)",
+      "exit_code": 0,
+      "evidence": "E650无位置→默认post0→基地B，预览1、B实体坐标、最终成功0及战斗流程通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "experimental auth restart and auth/HTTP health (third round)",
+      "exit_code": 0,
+      "evidence": "PID45804，32字节认证握手，HTTP200/199B"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": "用户第三轮完整重启后的真实客户端验收",
+      "exit_code": null,
+      "evidence": "用户确认出击人数会变、实际投放地点也会变并接受本轮结果；不扩展为基地核心精确对齐验证"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "外建筑锚点与内核插槽偏移/朝向待客户端确认",
+    "30410110出击点的任务关联仍属实验配置；未逐点验证碰撞安全性",
+    "A出生改变，原打靶靶机坐标未移动"
+  ],
+  "next_steps": [
+    "本轮已验收，改动尚未提交Git；后续如有基地模型偏移反馈，再核对建筑内核插槽"
+  ]
+}

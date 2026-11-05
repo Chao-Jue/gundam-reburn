@@ -68,7 +68,7 @@ class LocalBattleTest(unittest.TestCase):
         self.assertLess([op for op, _ in replies].index(0xD1B3),
                         [op for op, _ in replies].index(0x640D))
 
-    def test_prestart_selection_never_acknowledges_actual_spawn_success(self):
+    def test_prestart_selection_acknowledges_mech_without_spawning(self):
         self.backend.units_for_pilot = lambda a, p: [{'uniqid': 123, 'msma_id': 777001,
              'deckslots': [0, 0], 'equipped_weapons': [0, 0, 0]}]
         reservation = self.backend.reserve('a', 77, self.record)
@@ -77,7 +77,8 @@ class LocalBattleTest(unittest.TestCase):
         for body in [bytes.fromhex('00000000ffffffffffffffff0000ffff'),
                      bytes.fromhex('0000000000000000ffffffff0000ffff')]:
             replies = self.backend.replies(reservation, 0xE650, body)
-            self.assertNotIn(0x86B2, [op for op, _ in replies])
+            self.assertIn(0x86B2, [op for op, _ in replies])
+            self.assertNotIn(0x7621, [op for op, _ in replies])
             self.assertIn(0x640D, [op for op, _ in replies])
 
     def test_captured_deployment_requests_do_not_treat_post_as_uniqid(self):
@@ -87,7 +88,7 @@ class LocalBattleTest(unittest.TestCase):
         reservation.started = reservation.connected = True
         self.backend.replies(reservation, 0xE041, b'')
         first = self.backend.replies(reservation, 0xE650, bytes.fromhex('00000000ffffffffffffffff0000ffff'))
-        self.assertEqual([op for op, _ in first], [0x717D] * 4 + [0x640D])
+        self.assertEqual([op for op, _ in first], [0x717D] * 4 + [0x86B2, 0x640D])
         self.assertIsNone(reservation.deployment_at)
         selected = self.backend.replies(reservation, 0xE650, bytes.fromhex('0000000000000000ffffffff0000ffff'))
         self.assertEqual(selected[-1][0], 0x640D)
@@ -119,12 +120,15 @@ class LocalBattleTest(unittest.TestCase):
         replies = self.backend.replies(reservation, 0xE041, b'')
         self.assertEqual(replies[-1][0], 0x640D)
         selected = self.backend.replies(reservation, 0xE650, struct.pack('<IIIBBH', 0, 0, 0xffffffff, 0, 0, 0xffff))
-        self.assertEqual([op for op, _ in selected], [0x717D] * 4 + [0x640D])
+        self.assertEqual([op for op, _ in selected], [0x717D] * 4 + [0x86B2, 0x640D])
         self.now[0] += 59
         self.assertEqual(self.backend.tick(reservation), [])
         self.now[0] += 1
+        self.assertEqual(self.backend.tick(reservation),
+                         [(0x640D,local_battle.selected_prestart_body(reservation,0))])
+        self.now[0] += .5
         ended = self.backend.tick(reservation)
-        self.assertEqual([op for op, _ in ended], [0x7621, 0x86B2, 0x640D, 0x3E23])
+        self.assertEqual([op for op, _ in ended], [0x86B2, 0x7621, 0x640D, 0x3E23])
         self.assertTrue(reservation.round_active)
         self.assertEqual(ended[-1][1][21], 0)
         self.assertEqual(self.backend.tick(reservation), [])

@@ -6,6 +6,20 @@ from test_training_target import report
 
 
 class TargetDPTest(unittest.TestCase):
+    def test_airborne_gun_break_tumbles_instead_of_kneeling(self):
+        from unittest.mock import patch
+        target = training_target.Target((0, 1000, 0))
+        target.airborne = True
+        with patch.object(down_points, 'weapon_points', return_value={777108: 800}):
+            for frame, now in ((1, 1.), (2, 1.5)):
+                replies = target.hit(training_target.parse_hit(report(item=777108, frame=frame)),
+                    owned_items=(777108,), kinds={777108: 'SHOTGUN'}, now=now)
+        self.assertIn(0xa8f2, [op for op, _ in replies])
+        self.assertNotIn(0xe332, [op for op, _ in replies])
+
+    def test_test_shotgun_has_explicit_dp_for_air_break_testing(self):
+        self.assertEqual(down_points.weapon_points().get(777108), 800)
+
     def test_reaction_expiry_emits_one_recovery_snapshot_without_another_hit(self):
         target = training_target.Target((12000, -2600, 18000))
         target.begin_melee(777106, now=1., duration=.366, dash=True)
@@ -88,4 +102,4 @@ class GaugeTest(unittest.TestCase):
         self.assertEqual(down_points.weapon_points()[777101], 49)
         self.assertEqual(down_points.weapon_points()[777102], 800)
         self.assertEqual(down_points.weapon_points()[777106], 820)
-        self.assertNotIn(777108, down_points.weapon_points())
+        self.assertNotIn(999999, down_points.weapon_points())
