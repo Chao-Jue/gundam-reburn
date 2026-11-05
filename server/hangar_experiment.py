@@ -469,10 +469,10 @@ def table_body(name):
         # not a recovered original GM effect-size or special-mode mapping.
         thrusters = [201, 208, 214, 220, 201, 208, 214, 220]
         row[16:32] = thrusters + thrusters
-        # 477950 uses model+4 as the focus height; its no-parameter fallback
-        # is 160. Use that native fallback for GM, not the diagnostic 1.
-        # This is an experimental view parameter, not recovered balance data.
-        row[1] = 160
+        # 477950 uses model+4 as camera focus height, scaled by the render
+        # model. Raise the experimental GM view from160 to220 so its body
+        # obstructs less of the forward view. This is user-requested framing.
+        row[1] = 220
         # 53FA30 CSV2 -> model+8; 47EAE0 uses it for the target center
         # (47EB90 fallback). The diagnostic 1 puts it at ankle height.
         # Use the native missing-row fallback 80, not recovered GM balance.

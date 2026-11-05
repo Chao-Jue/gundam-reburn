@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "passed",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "战斗镜头关注高度160提高到220，编译与自动测试通过，用户重启后接受当前取景并要求推送",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "tools/test_battle_camera_native.py",
+    "docs/CAMERA_HEIGHT_2026-11-05.md"
+  ],
+  "acceptance": [
+    {
+      "criterion": "提高战斗镜头高度",
+      "status": "passed",
+      "evidence": "配置220与原生477950读取验证通过"
+    },
+    {
+      "criterion": "用户接受前方视野与机体遮挡改善后的取景",
+      "status": "passed",
+      "evidence": "用户重启反馈：暂时可以了，将现在的改动都推上去吧。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "native477950 and GM table generation",
+      "exit_code": 0,
+      "evidence": "原生关注高度读取模型参数+4并乘渲染模型缩放；GM列1从160调整220"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_battle_camera_native.py (修改前)",
+      "exit_code": 1,
+      "evidence": "更新取景目标后实际原生读取160不等于220；其他3项通过"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/hangar_experiment.py tools/test_battle_camera_native.py",
+      "exit_code": 0,
+      "evidence": "修改Python文件通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server全量与tools原生全量",
+      "exit_code": 0,
+      "evidence": "170项服务端、131项原生离线测试通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "auth restart and HTTP/auth health checks",
+      "exit_code": 0,
+      "evidence": "认证PID20456；HTTP200，认证32字节握手通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "本轮只改镜头高度配置，未重复加密TCP战斗流程"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "需用户完整重启后观察遮挡改善与取景是否合适"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户完整重启后接受当前镜头取景；依据用户观察，无改后内存采样"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "220为当前接受的实验取景高度，后续按反馈调整"
+  ],
+  "next_steps": [
+    "提交并推送本轮镜头及此前已提交的紧急返回修改"
+  ]
+}
