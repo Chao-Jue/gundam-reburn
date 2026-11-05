@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'server'))
 import fake_auth
 import local_battle
+import training_target
 
 
 class Client:
@@ -165,6 +166,10 @@ def main():
             assert struct.unpack_from('<i', battle.expect(0x86B2))[0] == 0
             assert battle.expect(0x640D) == local_battle.prestart_body(0)
             assert battle.expect(0x3E23)[21] == 0
+            target_packet = battle.expect(0x717D)
+            assert target_packet[0] == 1
+            assert struct.unpack_from('<H', target_packet, 13+175)[0] == training_target.ENTITY
+            assert battle.expect(0xE4DB) == training_target.hp_display_body()
             battle.send(0xCB97, struct.pack('<IB', 1, 0) + b'\0')
             assert battle.expect(0x8297) == b''
             battle.send(0xEA5A, struct.pack('<IBH', 0, 1, 0))
@@ -172,6 +177,7 @@ def main():
                                                        spawn_unit['equipped_weapons'][1], 0)
             battle.send(0x2ADC, struct.pack('<I3HIBH', 0, 238, 1, 0, 0, 0, 0))
             assert battle.expect(0xD725) == struct.pack('<HI3HIB', 1, 777106, 238, 1, 500, 880002, 0)
+            time.sleep(.55)  # finish normal swing before issuing dash
             battle.send(0x2ADC, struct.pack('<I3HIBH', 0, 238, 1, 0, 880012, 0, 0))
             assert battle.expect(0xD725) == struct.pack('<HI3HIB', 1, 777106, 238, 1, 366, 880012, 0)
             battle.send(0xEA5A, struct.pack('<IBH', 0, 2, 0))
@@ -184,10 +190,49 @@ def main():
                         105, 65520, 160, 0, 0, 1, 0, 1, 0, 0, 255))
             assert battle.expect(0x1A13) == struct.pack('<HII8H3B', 1, 777103, 1,
                         105, 65520, 160, 105, 65520, 160, 0, 0, 1, 0, 0)
+            target_xyz = (0, 1, 0)  # victim-relative impact, not appearance world coords
+            hit = (struct.pack('<QIII', 0, 1, 777108, 1)
+                   + b''.join(struct.pack('<IH', 1, value)
+                     for value in (200, *target_xyz, 0, 10, 0))
+                   + struct.pack('<BHHIB', 0, 0, 0, 1, 1))
+            battle.send(0x770D, hit)
+            assert battle.expect(0xDDF7) == struct.pack('<I5H', 777108, 200, 0, *target_xyz)
+            hp = battle.expect(0x49C6)
+            assert struct.unpack_from('<3I', hp, 9) == (3325, 3425, 100)
+            battle.send(0xEA5A, struct.pack('<IBH', 0, 1, 0))
+            assert battle.expect(0xB334) == struct.pack('<HiBIB', 1, 0, 1, 777106, 0)
+            melee_hit = (struct.pack('<QIII', 123, 0, 777106, 0)
+                         + b''.join(struct.pack('<IH', 1, value)
+                                    for value in (200, 0, 1, 0, 0, 10, 0))
+                         + struct.pack('<BHHIB', 0, 0, 0, 0, 1))
+            for expected_hp, reaction in ((3075, 0x45fc), (2825, 0xe332)):
+                time.sleep(.6)
+                battle.send(0x2ADC, struct.pack('<I3HIBH', 0, 0, 0, 0, 0, 0, 0))
+                assert len(battle.expect(0xD725)) == 17
+                battle.send(0x770D, melee_hit)
+                assert battle.expect(0xDDF7) == struct.pack('<I5H', 777106, 200, 2, 0, 1, 0)
+                assert struct.unpack_from('<3I', battle.expect(0x49C6), 9) == (expected_hp, 3425, 250)
+                assert struct.unpack('<HHIHHH', battle.expect(reaction)) == (
+                    200, 0, 0, 0, 0, 300 if reaction == 0x45fc else 1000)
+                recovery = battle.expect(0x5eea)
+                assert len(recovery) == 137 and struct.unpack_from('<I', recovery, 8)[0] == 1
+                assert struct.unpack_from('<H', recovery, 12)[0] == 200
+            time.sleep(1.1)  # target finishes kneeling; DP is rearmed
+            battle.send(0x2ADC, struct.pack('<I3HIBH', 0, 0, 0, 0, 880012, 0, 0))
+            assert len(battle.expect(0xD725)) == 17
+            battle.send(0x770D, melee_hit)
+            assert battle.expect(0xDDF7) == struct.pack('<I5H', 777106, 200, 2, 0, 1, 0)
+            assert struct.unpack_from('<3I', battle.expect(0x49C6), 9) == (2575, 3425, 250)
+            assert struct.unpack('<HHIHHH', battle.expect(0xa8f2)) == (200, 0, 0, 0, 100, 1500)
+            for _ in range(30):
+                state = battle.expect(0x5eea)
+                assert len(state) == 137 and state[76] in (0,0x10)
+                if state[76] == 0: break
+            else: raise AssertionError('tumble never received final recovery state')
             battle.send(0xD97D, b'')
             assert battle.expect(0x14C5) == b''
             battle.close()
-            print('PASS: isolated service startup; encrypted formal handoff; fixed-base entities; base selection/count echo; timed player entity; weapon switch; grenade release/impact responses; exit')
+            print('PASS: isolated service startup; encrypted formal handoff; bases/player/target spawn; weapon switch; grenade release/impact; target hit/HP; repeated saber hash; DP flinch/kneel/dash tumble packets; exit')
             print('Native game UI and map resource loading were not exercised.')
         except Exception:
             # Keep failures diagnosable without exposing the generated OTP.

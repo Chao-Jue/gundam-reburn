@@ -1,0 +1,363 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "用户确认枪瞄脚底可显示血条并命中、军刀无命中。原生复现目标中心占位高度1，改为缺省80；编译、138服务端/95原生及隔离TCP通过，服务44536更新。实际770D已收到，但坐标0/down_range1被原型拒绝，真实扣血未完成。",
+  "changed_files": [
+    "server/training_target.py",
+    "server/test_training_target.py",
+    "server/local_battle.py",
+    "server/fake_auth.py",
+    "tools/test_training_target_native.py",
+    "tools/smoke_local_battle.py",
+    "server/打靶目标与命中伤害-2026-11-03.md",
+    "docs/RESEARCH_INDEX.md",
+    "server/reference/training_target_positions.json",
+    "server/hangar_experiment.py",
+    "tools/test_weapon_hit_gate_native.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "前阶段已验收版本提交并推送",
+      "status": "passed",
+      "evidence": "eb837ee，首次443不可达后重试成功，origin/main更新。"
+    },
+    {
+      "criterion": "靶机可见、可锁定、真实枪/军刀命中与HP改变",
+      "status": "failed",
+      "evidence": "枪瞄脚底才显示血条并出现本地命中反馈；军刀不能命中，实际服务端扣血未验证。目标中心修复待重启复验。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "A8EB90/770D七数组命中发送，DDF7/49C6当前接收字段；717D复用已验证GM实体。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_training_target.py -q",
+      "exit_code": 1,
+      "evidence": "初版去重忽略phash，帧数0时第二个不同投出物被拒，新增用例预期失败。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/training_target.py server/local_battle.py server/fake_auth.py server/test_training_target.py tools/test_training_target_native.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "全部修改Python模块编译；phash后修改两模块再次编译。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "137项通过，含5项训练目标回归。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "88项通过；完整包读取游标、截断/尾随验证，不包含渲染/AI业务回调。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实际服务启动和加密TCP靶机出现/命中/HP3425到3325通知通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "已核实并替换Agent认证为26132，HTTP200/199B，16B hello后32B握手。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "新靶机/锁定/命中回报/HP显示尚待客户端重启实机。"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "不改存档，无数据库迁移。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户报告靶机在基地内、悬停无血条且无法击中。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "仅诊断：PID6156独立只读确认靶机与基地Z相差1000；参考基地静态几何Z边界±1130。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_training_target.py -q",
+      "exit_code": 1,
+      "evidence": "基地边界和缺E4DB两个子测试预期失败。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/training_target.py server/local_battle.py server/test_training_target.py tools/test_training_target_native.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "本轮修改模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "138项通过，含修正后两个子测试及友方点wire量化边界。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "89项通过，新增完整E4DB读取器，非HP渲染/锁定业务回调。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动与TCP靶机出现、血条初始化、命中、HP通知通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "认证40492更新，HTTP200/199B及真实32B握手通过。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户枪/军刀操作无命中效果；真实日志只有7CA0/2ADC，没有770D。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "仅诊断：PID24016只读确认靶机(12400,-2600,18400)，玩家actor+28实际位置(12543.913,-2599.081,18431.877)，非旧缓存+34。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_hit_gate_native.py -q",
+      "exit_code": 1,
+      "evidence": "三把枪CSV34空，使505936跳过4EC9A0，预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_hit_gate_native.py -q",
+      "exit_code": 0,
+      "evidence": "开启CSV33/34后同一2项通过，控制例证明关/开门控；不执行完整碰撞。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_weapon_hit_gate_native.py",
+      "exit_code": 0,
+      "evidence": "修改模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "138项通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "91项通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务启动及合成TCP命中/HP通知通过，非真实枪/军刀碰撞。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "认证13044更新，HTTP200/199B，真实32B握手通过。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户确认上一轮枪械开关修复后仍看不到血条、无法锁定、无命中反馈。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "仅只读诊断：PID39504枪械位=3、E4DB接收列表含200/3425；不表示血条渲染成功。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "只读页离线原生A0CC40线段命中靶机render_model0x558B9C30；截取于受保护布尔辅助函数前，不是完整4F6650/实际枪击E2E。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "完整4F6650离线重放进入Windows线程/受保护布尔环境失败，最终改为截取已计算的碰撞结果。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_hit_gate_native.py -q",
+      "exit_code": 1,
+      "evidence": "三把枪bullet列3为0，实际字符串比较使bullet+4=0，跳过4EBB70；控制例通过。初次函数名错误不算Bug复现。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_weapon_hit_gate_native.py -q",
+      "exit_code": 0,
+      "evidence": "列3改ON后同一4项通过，覆盖ON与空/0/1/OFF差异及实际消费者分支。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_weapon_hit_gate_native.py server/training_target.py server/local_battle.py server/fake_auth.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "修改及相关Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "138项服务端测试通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "93项原生测试通过，不含实际客户端开火E2E。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实际服务启动与加密TCP靶机生成/合成770D/HP通知通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "认证13044核实后更新为40500，HTTP保留；HTTP200/199B、16B hello后32B握手通过。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户确认仅脚底瞄准显示血条及枪命中，军刀无命中。真实770D已收到，位置0/down_range1与原型假设不符，未见实际扣血回复。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_training_target_native.py -q",
+      "exit_code": 1,
+      "evidence": "校正测试表查找this后，生成GM高度1不等于原生缺省80，预期失败；控制例通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_training_target_native.py -q",
+      "exit_code": 0,
+      "evidence": "GM列2改80，同一5项通过；执行原生47EAE0读取/x87返回，不证明完整锁定/射击E2E。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_training_target_native.py",
+      "exit_code": 0,
+      "evidence": "本轮修改Python模块编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "138项服务端测试通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "95项原生测试通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离实际服务启动和合成770D/HP加密TCP流程通过，非真实客户端扣血。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "核实Agent认证40500后替换为44536，HTTP保留，HTTP200/199B和32B握手通过。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "目标中心80修复后的躯干血条/锁定/实际枪击反馈待客户端复验",
+    "真实770D坐标0和down_range1目前被原型拒绝，实际扣血未接通，须核对来源和语义",
+    "军刀命中物理/时窗未修复；移动AI、死亡重生、权威弹道及手雷范围伤害未完成"
+  ],
+  "next_steps": [
+    "只重启客户端测试躯干血条/锁定/反馈并保持运行",
+    "核对实际命中坐标与down_range语义，保留空间校验；继续恢复军刀命中消费者"
+  ]
+}

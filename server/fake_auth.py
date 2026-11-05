@@ -2320,6 +2320,7 @@ def main():
                 (ident[0] for ident, owner in LOUNGE_SESSIONS.items() if owner == account), 1),
             countdown_seconds=args.battle_countdown)
         LOCAL_BATTLE.units_for_pilot = HANGAR_EXPERIMENT_STORE.units
+        LOCAL_BATTLE.training_targets_enabled = True
         log('[battle] local single-pilot preparation rooms enabled on the shared listener')
     log('listening 0.0.0.0:%d' % args.port)
     try:

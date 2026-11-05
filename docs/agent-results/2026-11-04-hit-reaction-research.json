@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "operation": "handoff",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "Separated2015 damage-reaction change from2016-11-09 Japanese DP introduction; located three independent native reaction messages/actor callbacks. Version-specific thresholds and animations remain unverified.",
+  "changed_files": [
+    "server/受击硬直与倒地版本初查-2026-11-04.md",
+    "docs/agent-results/2026-11-04-hit-reaction-research.json"
+  ],
+  "acceptance": [
+    {
+      "criterion": "Historical primary-source timeline",
+      "status": "passed",
+      "evidence": "Bandai2016-11-07 official announcement forNov9DP;2015 developer interview and release."
+    },
+    {
+      "criterion": "Native reaction entrypoints",
+      "status": "passed",
+      "evidence": "A8F2/E332/45FC reader names and callback chains found."
+    },
+    {
+      "criterion": "Current-client thresholds and actual reactions",
+      "status": "not_run",
+      "evidence": "No packet execution or client flow; no formula applied."
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "Ghidra readOnly, raw-image/vtable inspection, web search/open",
+      "exit_code": 0,
+      "evidence": "Independent power/msec messages found; primary dates verified. Official detailed2016 event page inaccessible; China rollout date not established."
+    },
+    {
+      "level": "compile_build",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Research/documents only; no business-code change or runtime flow."
+    },
+    {
+      "level": "automated_tests",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Research/documents only; no business-code change or runtime flow."
+    },
+    {
+      "level": "service_startup",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Research/documents only; no business-code change or runtime flow."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Research/documents only; no business-code change or runtime flow."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Research/documents only; no business-code change or runtime flow."
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "No database."
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "Version-specific damage accumulation and thresholds",
+    "Exact reaction-name-to-animation mapping",
+    "Chinese DP rollout date",
+    "Native packet/callback/runtime verification"
+  ],
+  "next_steps": [
+    "Validate reaction readers and actor state transitions before implementing threshold rules."
+  ]
+}

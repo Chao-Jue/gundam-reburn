@@ -14,6 +14,7 @@ from functools import lru_cache
 import xwar_entry
 import battlefield_bases
 import battle_entities
+import training_target
 
 MISSION_ID = xwar_entry.PREPARATION_MISSION_ID
 MAP_ID = 100102
@@ -194,6 +195,7 @@ class Reservation:
     next_grenade_id: int = 1
     # Presentation only: issued item and expiry, not authoritative hit state.
     pending_grenades: dict = field(default_factory=dict)
+    training_target: object | None = None
 
 
 class LocalBattleBackend:
@@ -211,6 +213,7 @@ class LocalBattleBackend:
             countdown_body(countdown_seconds)
         self.countdown_seconds = countdown_seconds
         self.units_for_pilot = lambda account, pilot: []
+        self.training_targets_enabled = False
 
     def reserve(self, account, pilot_id, record):
         if len(record) != 157 or struct.unpack_from('<I', record)[0] != pilot_id or record[29] not in (0, 1):
@@ -276,6 +279,12 @@ class LocalBattleBackend:
     def replies(self, reservation, opcode, body):
         if not self.valid(reservation):
             return []
+        if opcode == 0x770D:
+            if not reservation.round_active or not reservation.entities_ready or reservation.training_target is None:
+                return []
+            return reservation.training_target.hit(training_target.parse_hit(body),
+                    owned_items=reservation.spawned_weapon_ids,
+                    kinds=experimental_weapon_kinds(), now=self.clock())
         if opcode == 0x7C0C:
             # A8B570: 30B hand_throw, distinct from the bound variant.
             # Release/impact presentation only; no authoritative hits/damage.
@@ -314,7 +323,7 @@ class LocalBattleBackend:
             return [(0x1A13, struct.pack('<HII8H3B', 1, item, grenade_id,
                      lx, ly, lz, tx, ty, tz, target, msec or 1500, 0, 0, 0))]
         if opcode == 0x2ADC:
-            # Local experimental presentation only, without hits or damage.
+            # Experimental presentation and one-target melee hit allowance.
             if (len(body) != 17 or not reservation.round_active
                     or not reservation.entities_ready or len(reservation.spawned_weapon_ids) != 3):
                 return []
@@ -323,6 +332,11 @@ class LocalBattleBackend:
             presentation = experimental_melee_presentations().get(item, {}).get(wrestle_id)
             if (ai != 0 or charge != 0 or not presentation
                     or experimental_weapon_kinds().get(item) != 'WRESTLE'):
+                return []
+            if (reservation.training_target is not None
+                    and not reservation.training_target.begin_melee(
+                        item, now=self.clock(), duration=presentation['duration_ms']/1000,
+                        dash=presentation is not experimental_melee_presentations()[item][0])):
                 return []
             # D725 has no result/hit fields: entity, item, directions, duration,
             # configured local presentation ID and charge. No hit acceptance.
@@ -438,6 +452,9 @@ class LocalBattleBackend:
 
     def tick(self, reservation):
         with self.queue.lock:
+            if (self.valid(reservation) and reservation.connected and reservation.round_active
+                    and reservation.training_target is not None):
+                return reservation.training_target.tick(now=self.clock())
             if (self.valid(reservation) and reservation.connected and reservation.started
                     and not reservation.round_active and reservation.deployment_at is not None
                     and self.clock() >= reservation.deployment_at):
@@ -458,11 +475,20 @@ class LocalBattleBackend:
                             shield_hp=990 if unit.get('shield') else 0)
                     reservation.entities_ready = True
                     reservation.round_active = True
-                    return [(0x7621, own), (0x86B2, struct.pack('<iIIIH', 0,
+                    replies = [(0x7621, own), (0x86B2, struct.pack('<iIIIH', 0,
                             reservation.selected_index,
                             reservation.selected_post if reservation.selected_entity == 0xffff else 0xffffffff,
                             0xffffffff, reservation.selected_entity) + b'\0'),
                             (0x640D, prestart_body(0)), (0x3E23, mission_progress_body(False))]
+                    position = training_target.spawn_position(reservation.selected_post) if self.training_targets_enabled else None
+                    if position is not None:
+                        reservation.training_target = training_target.Target(position)
+                        replies.append((0x717D, battle_entities.appear_body(
+                            spawn_unit_body(training_target.UNIT, 255), training_target.ENTITY,
+                            position, team=1, troops=1, world_id=0, pilot_id=0, letter=255,
+                            snapshots=True)))
+                        replies.append((0xE4DB, training_target.hp_display_body()))
+                    return replies
                 reservation.round_active = True
                 return [(0x640D, prestart_body(0)), (0x3E23, mission_progress_body(False))]
             if (not self.valid(reservation) or not reservation.connected or reservation.started

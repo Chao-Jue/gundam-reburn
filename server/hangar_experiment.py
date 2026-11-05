@@ -134,12 +134,39 @@ def weapon_tables(name):
                     continue
                 # 53DEB0: col8 -> row+14 (*0.001), read as seconds by 4D8E50;
                 # col27 -> row+64 -> move+67C -> class*1000 + base motion.
-                # Remaining physical/hit/effect fields are diagnostic zeros.
+                # Physical values below are a local collision candidate, not
+                # recovered GM balance or animation timing.
                 row = [0] * 31
                 row[0] = presentation['attack_id']
                 row[7] = row[17] = row[28] = row[29] = ''
                 row[8] = presentation['duration_ms']
                 row[27] = presentation['base_motion']
+                # CSV17 -> atk+38 -> 4791E0 mode3 resolves the active weapon.
+                # 47F580 consumes atk+40..48 as box half-extents, +4C..54
+                # as local offset. 53DEB0 halves CSV18..20. Zero extents
+                # cannot intersect the target in 6338D0's box sweep.
+                row[17] = 'ACTIVE_WEAPON'
+                # PP_02_001_01/saber_body -> PM_02_001_01 extends along
+                # local +X, not +Z. Apply hilt s_shot01 (Y16.589, X/Z
+                # scale1.048612) and effect Z=-10: blade X reaches140.65.
+                # Center69/16.6/-10.5 with half83/15/15 covers the blade
+                # rotation envelope plus a small experimental margin.
+                row[18:21] = [166, 30, 30]
+                row[21:24] = [69, 16.6, -10.5]
+                row[24] = 1  # center on the offset; avoid extra axis extension
+                # 53DEB0 CSV25 *100 -> atk+5C; 4D8E50 divides this
+                # distance by duration -> controller+A80 forward speed.
+                # Short 4m local dash candidate, not recovered GM balance
+                # or a proven deceleration curve. Normal swings stay still.
+                row[25] = 4 if field == 'melee_dash_presentation' else 0
+                # A38FD0 event3 reads atk+24/+28 (CSV12/13) as the
+                # collision window; 4BC743 skips 6338D0 for a zero window.
+                # User-requested full action window, in CSV milliseconds.
+                # The weapon-following box covers the reference blade core;
+                # server swing-scoped dedup still limits each target to one hit.
+                row[12] = 0
+                row[13] = presentation['duration_ms']
+                row[30] = 1  # event3's atk+A0 window-control value
                 rows.append(row)
         return csv_rows(rows)
     if name == 'develop/mechanic_weapon.csv':
@@ -176,6 +203,10 @@ def weapon_tables(name):
                 # native upward bias/gravity and makes the arc observable.
                 row[5] = 1800
             if w.get('projectile_presentation'):
+                # 53F239..53F27E parses the literal ON into bullet+4.
+                # 4EC9D0 requires it before 4EBB70 reports an actor hit;
+                # numeric 1 is also false. Enable only the experimental guns.
+                row[3] = 'ON'
                 # col5 -> bullet+0C: native53F110 divides distance by speed.
                 row[5] = w['projectile_presentation']['speed']
             # 7A39D1: raw radius /1200 *10000 -> displayed effect range.
@@ -252,6 +283,9 @@ def weapon_tables(name):
                 row[48], row[49] = '03/PP_03_001_01.vra', 1
             if w.get('projectile_presentation'):
                 presentation = w['projectile_presentation']
+                # CSV33/34 -> definition+814 bits1/2. Native505850
+                # skips 4EC9A0 actor-hit dispatch when bit2 is absent.
+                row[33], row[34] = 1, 1
                 # CSV7/8 -> +18/+1C: 49B180 searches S_wpn_NN for
                 # the weapon's shot sockets. Zero searches S_wpn_00 and
                 # falls back to the actor root. End0 means start only.
@@ -271,6 +305,11 @@ def weapon_tables(name):
                 # The chosen saber FX targets the hilt's existing s_shot01.
                 row[60] = row[62] = w['attached_effect']
             if w.get('melee_presentation'):
+                # CSV39/40 -> impact path/scale (+D8/+F4), selected by
+                # 4A5BC0 bit1. CSV39 goes through5440D0, so use a token
+                # relative to fx/. CSV37/38 belong to the bit0 shield path.
+                # Slashing candidate, not original GM attribution.
+                row[39], row[40] = '03/PP_03_004_01.vra', 1
                 # 4BC8A0 selects +734 normally and +738 for boost predicates.
                 # 55C3E0 maps col69/70 and one-segment counts col113/114.
                 row[69] = w['melee_presentation']['attack_id']
@@ -347,7 +386,13 @@ def table_body(name):
         keys = {line.split(b',', 1)[0].strip() for line in data.splitlines()}
         # 9EF6A0 prefixes the registered UI keys with "wnd_" before lookup.
         for key, values in ((b'wnd_eff_ui_color', b'255,51,170,255'),
-                            (b'wnd_zeon_ui_color', b'255,255,68,68')):
+                            (b'wnd_zeon_ui_color', b'255,255,68,68'),
+                            # 9F4540 building_rate -> move defaults+90;
+                            # 49112E/49A647 ->50D040 physics+68. Missing
+                            # key retains0.1: 50D100 scales gravity/impulse
+                            # displacement to one tenth. Explicit experiment
+                            # neutral1; not recovered official balance.
+                            (b'move_building_rate', b'1.0')):
             if key not in keys:
                 data += b'\r\n' + key + b',' + values + b',# local battle experiment\r\n'
         return data
@@ -386,7 +431,13 @@ def table_body(name):
                 # scales by (1/1680)*200*10. Neutral ratios calibrate Wiki1004;
                 # other acceleration parameters remain diagnostic zero values.
                 ('MOVE', 1004 * 1680 / 2000),
-                ('BOOST_SPEED', 1, 0, 0, 0, 1, 0, 0, 0, 0, 0),
+                # 54E2F0 values[7:9] -> +110/+114; 4DE520 uses these
+                # as directional speed multipliers. Zero suppresses side/rear
+                # boost. Neutral 1 is experimental, not original GM balance.
+                # Values[2]/[5] -> +FC/+108, integer costs consumed by
+                # 4E3500/4E3540. 100 is a local experiment cost, not
+                # recovered original GM balance or a proven duration.
+                ('BOOST_SPEED', 1, 0, 100, 0, 1, 100, 0, 1, 1, 0),
                 ('BOOST_GAUGEMAX', 1000), ('BOOST_GAUGEHEAL', 200)]
         return (b'# Wiki reference subset; not original client balance\r\n#\r\n'
                 + b''.join((','.join(map(str, (kind, 'GM_REF_' + kind, *values)))
@@ -401,10 +452,21 @@ def table_body(name):
         # Zero uses the client's native default (550 for the default option).
         row[15] = 0
         base_model = battlefield_bases.model_row(row)
+        # 53FA30 interleaves CSV16..23/24..31 into model+38..74.
+        # 484B20 chooses these per S_vnr socket and requests fx category3.
+        # The old placeholder1 has no category3 row. Local blue-small
+        # candidates: sustained/ignition, and their underwater variants;
+        # not a recovered original GM effect-size or special-mode mapping.
+        thrusters = [201, 208, 214, 220, 201, 208, 214, 220]
+        row[16:32] = thrusters + thrusters
         # 477950 uses model+4 as the focus height; its no-parameter fallback
         # is 160. Use that native fallback for GM, not the diagnostic 1.
         # This is an experimental view parameter, not recovered balance data.
         row[1] = 160
+        # 53FA30 CSV2 -> model+8; 47EAE0 uses it for the target center
+        # (47EB90 fallback). The diagnostic 1 puts it at ankle height.
+        # Use the native missing-row fallback 80, not recovered GM balance.
+        row[2] = 80
         # Column14 -> model+32 -> 474670: owned actors require this flag
         # to enter the native visibility refresh rather than stay camera-hidden.
         row[14] = 1
@@ -412,8 +474,11 @@ def table_body(name):
         # non-looping start2 then half-steps3/4. Missing col45 parsed as0
         # loops only3, whose end does not join its own start. Keep bases
         # on their existing row and let the client advance its own gait.
-        row.extend(['0'] * (46 - len(row)))
+        row.extend(['0'] * (49 - len(row)))
         row[45] = 2
+        # 53FD96..53FDB8 CSV48 -> model+115. 633CAA requires it to
+        # collect this target's render collision shapes for melee overlap.
+        row[48] = 1
         return csv_table(row) + (','.join(str(v) for v in base_model) + '\r\n').encode('utf-8')
     return weapon_tables(name)
 

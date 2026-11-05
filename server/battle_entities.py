@@ -16,12 +16,12 @@ def snapshot_body(entity, position_cm, *, hp_percent=100, shield_percent=0):
                        0, 255, 0, 0xffff, 0xffff, 0, 0)
 
 
-def appear_body(descriptor, entity, position_cm, *, team, troops, world_id, pilot_id, letter):
+def appear_body(descriptor, entity, position_cm, *, team, troops, world_id, pilot_id, letter, snapshots=False):
     # 717D / A74089: team, troops/world/pilot, A5E300, A5EA80, A5F5C0,
     # unattended/weapon u16, target/is_respawn/is_using_ss/stronghold_number/xweapon u8.
     return (struct.pack('<BIII', team, troops, world_id, pilot_id) + descriptor
             + snapshot_body(entity, position_cm) + bytes(10)
-            + struct.pack('<HH5B', 0, 0, 0, 1, 0, letter, 0))
+            + struct.pack('<HH5B', 0, 0, 0, 1, int(snapshots), letter, 0))
 
 
 def appear_self_body(descriptor, entity, position_cm, *, team, troops, hp, shield_hp):

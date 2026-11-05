@@ -1,0 +1,8 @@
+{
+  "note": "Experimental F01 stationary target points. Reference ground triangle samples, not a recovered original mission spawn or runtime collision query. Wire position factor100 rounds height to nearest100cm.",
+  "base_model_bounds_cm": {"x": [-680, 680], "z": [-1130, 1130]},
+  "points": [
+    {"post_index": 0, "position_cm": [12445, -2605.7088743511, 18381], "ground_model": "world/field/F01/model/FM_F01_th_grd01_D.dxg"},
+    {"post_index": 1, "position_cm": [29650, 15.90930191849305, -10500], "ground_model": "world/field/F01/model/FM_F01_th_grd01_S.dxg"}
+  ]
+}

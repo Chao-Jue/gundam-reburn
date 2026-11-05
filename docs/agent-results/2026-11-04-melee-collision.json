@@ -1,0 +1,342 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "User accepted normal saber repeated damage and current blade reach after swing-scoped dedup fix. Prior compile142 server/101 native and encryptedTCP passed. Overall partial: dash window, impact effects and hit reactions remain unfinished.",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "tools/test_melee_presentation_native.py",
+    "tools/test_training_target_native.py",
+    "server/军刀命中碰撞首轮-2026-11-04.md",
+    "server/training_target.py",
+    "server/test_training_target.py",
+    "tools/smoke_local_battle.py",
+    "server/local_battle.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "Native melee configuration prerequisites",
+      "status": "passed",
+      "evidence": "CSV48 consumer gate and parsed nonzero extent/anchor regressions pass."
+    },
+    {
+      "criterion": "Actual normal/dash saber hit and damage",
+      "status": "failed",
+      "evidence": "User reported no saber hit despite normal gun hits; new timing configuration awaits retest."
+    },
+    {
+      "criterion": "Normal saber actual HP reduction",
+      "status": "passed",
+      "evidence": "User saw HP decrease after relative-impact parsing fix; no full combat completion claim."
+    },
+    {
+      "criterion": "Normal saber same-position repeated damage and current blade reach",
+      "status": "passed",
+      "evidence": "User replied 可以了 to repeat-five-normal-swings and blade-tip-range test. No independent quantitative range or per-hit HP trace recorded."
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "native target gate and melee configuration regressions",
+      "exit_code": 1,
+      "evidence": "Generated model disabled collection; all four attacks failed anchor and zero-extents checks before fix."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/hangar_experiment.py tools/test_melee_presentation_native.py tools/test_training_target_native.py",
+      "exit_code": 0,
+      "evidence": "Changed Python modules compile."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "138 tests passed."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "98 tests passed. Enum lookup substituted; no full world collision claim."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service and encrypted synthetic hit/HP flow passed; not real melee input."
+    },
+    {
+      "level": "service_startup",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Initial HTTP launcher request refused because HTTP service was stopped."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Started experimental auth28196 and HTTP39208. HTTP200/199B and auth32B handshake passed."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Awaiting user normal/dash saber test; no running game process."
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "No database migration."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "User normal/dash saber still had no feedback; gun remained normal."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Diagnostic only: PID34452 read-only samples confirmed active nonzero box,12 target bone geometry nodes and all-zero motion hit window. No process writes/injection."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_melee_presentation_native.py -q",
+      "exit_code": 1,
+      "evidence": "All four configured attacks failed native 4BC743 dispatch at midpoint; zero/positive/before/after window controls passed."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/hangar_experiment.py tools/test_melee_presentation_native.py",
+      "exit_code": 0,
+      "evidence": "Modified modules compile."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "138 tests passed."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "100 tests passed; scalar parse and native dispatch guard, not full animation event forwarding/world collision."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service and encrypted synthetic report/HP flow passed."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Verified and replaced auth28196 with38728; HTTP39208 preserved; HTTP200/199B and auth32B handshake passed."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "User still sees no feedback. PID3996 confirms normal window applied; dash window remains0. Actual normal saber777106/entity200 reports770D received but no server feedback."
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "4EC0C0..CD subtract victim position before6330A0 quantization, proving victim-relative impact. Earlier world-coordinate hypothesis was incorrect."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_training_target.py -q",
+      "exit_code": 1,
+      "evidence": "Two independent failures: valid down1 rejected, relative offset incorrectly compared to world target position."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/training_target.py server/test_training_target.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Changed modules compile."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "140 tests passed. Down2 rejected; relative-offset radius, ownership, entity, dedup and cooldown checks retained."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "100 tests passed."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service and encrypted synthetic victim-relative report with down1 yields feedback/HP notifications."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Verified then replaced auth38728 with39496; HTTP preserved; HTTP200/199B and auth32B handshake passed."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Limited scope: user confirms normal saber HP decreases. Also reports distal beam blade does not damage and no impact effect; dash/reactions not accepted."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_melee_presentation_native.py -q",
+      "exit_code": 1,
+      "evidence": "After correcting initial test file encoding error, four generated attack boxes fail real blade DXG/socket envelope coverage."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/hangar_experiment.py tools/test_melee_presentation_native.py",
+      "exit_code": 0,
+      "evidence": "Changed modules compile."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "140 tests passed."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "101 tests passed. Blade core envelope in weapon-local space covered by parsed candidate box; not full client rendering or world overlap."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service startup and encrypted synthetic hit/HP flow passed."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Verified then replaced auth39496 with41948; HTTP preserved; HTTP200/199B and auth32B handshake passed."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "User same-position repeated swings only sometimes reduce HP. Actual log shows reused full hit identities across distinct2ADC; first49C6 emitted, later reports discarded."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_training_target.py -q",
+      "exit_code": 1,
+      "evidence": "Backend three accepted swings with identical report fails at second swing before fix."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/training_target.py server/local_battle.py server/test_training_target.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Changed modules compile; smoke recompiled after timing adjustment."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "142 tests pass, including independent swings sharing hash, one-hit-per-swing even with changed hash, overlapping request, expired and unissued melee rejection."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "101 native tests passed."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "failed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 1,
+      "evidence": "Existing zero-gap normal/dash requests were rejected by new overlap gate; timed out waitingD725."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Waited for normal swing completion, rerun passed. Two accepted swings with identical hit bytes both returnDDF7/49C6; HP3325->3075->2825."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Verified then replaced auth41948 with19860; HTTP preserved; HTTP200/199B and auth32B handshake passed."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Limited normal saber scope: user accepted repeated normal swings and current blade reach. No dash/effects/reactions acceptance inferred."
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "Dash hit-window activation remains unresolved.",
+    "Impact visual and kneeling/knockdown remain unimplemented/unverified.",
+    "No independent quantitative blade range or per-hit HP measurement.",
+    "Native zero frame/fire counters cannot fully disambiguate delayed reports in a new swing; prototype is not authoritative combat validation."
+  ],
+  "next_steps": [
+    "Investigate dash motion36 event/window activation, then impact effects and hit reactions."
+  ]
+}

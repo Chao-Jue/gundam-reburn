@@ -1,0 +1,318 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": null,
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "用户实机确认下落正常，冲刺格斗扑倒落地及起身衔接连贯。普通刀累计反应和其他DP范围仍未独立实机验收。",
+  "changed_files": [
+    "server/down_points.py",
+    "server/reference/training_dp.json",
+    "server/training_target.py",
+    "server/local_battle.py",
+    "server/test_down_points.py",
+    "tools/test_down_points_native.py",
+    "tools/smoke_local_battle.py",
+    "server/DP累计与受击反应-2026-11-04.md",
+    "docs/RESEARCH_INDEX.md",
+    "server/battle_entities.py",
+    "server/hangar_experiment.py",
+    "tools/test_fall_physics_native.py",
+    "server/AGENT交接-打靶伤害与军刀判定-2026-11-04.md"
+  ],
+  "acceptance": [
+    {
+      "criterion": "普通军刀累计DP独立于HP，恢复后可重新硬直",
+      "status": "passed",
+      "evidence": "6项DP自动测试及加密TCP短硬直/跪地消息验证"
+    },
+    {
+      "criterion": "真实客户端短硬直、跪地、翻倒与起身",
+      "status": "blocked",
+      "evidence": "已请求用户重启客户端测试，等待反馈"
+    },
+    {
+      "criterion": "靶机击倒后可起身恢复站立",
+      "status": "passed",
+      "evidence": "用户实机明确确认；扑倒浮空和衔接不连贯仍未解决。"
+    },
+    {
+      "criterion": "自机下落速度正常",
+      "status": "passed",
+      "evidence": "用户重启测试明确确认下落速度正常；不包含倒地动画衔接。"
+    },
+    {
+      "criterion": "冲刺格斗击倒后落地、伏地及起身连贯",
+      "status": "passed",
+      "evidence": "用户完整重启后反馈：连贯起来了，效果不错。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "当前客户端三消息字段、controller状态和motion选择器；本地Wiki GM revision103423；末期阈值资料。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_down_points.py -v (before implementation)",
+      "exit_code": 1,
+      "evidence": "2项因缺45FC/E332受击通知失败；修复后同测试通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "failed",
+      "command": "python -m compileall -q server tools",
+      "exit_code": 1,
+      "evidence": "已有server/_unlock_launcher.py含空字节；未修改该用户文件。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/down_points.py server/training_target.py server/local_battle.py server/test_down_points.py tools/test_down_points_native.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "本轮修改代码均编译通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py -v; python -m unittest discover -s tools -p test_*native*.py -v",
+      "exit_code": 0,
+      "evidence": "148 server +112 native offline tests; native初次selector布尔偏移预期错误，已按机器码修正并重跑通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "failed",
+      "command": "python tools/smoke_local_battle.py (first run)",
+      "exit_code": 1,
+      "evidence": "旧冒烟未消费新增反应包，后续expect遇到45FC；已增加三类消息断言。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离服务加密TCP房间/出击/命中/HP/硬直/跪地/冲刺翻倒通知流程通过。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": 0,
+      "evidence": "实验认证PID36568；HTTP200/199B；认证32B握手。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户反馈冲刺格斗靶机趴地后不能起身；短硬直/跪地未明确反馈。"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_down_points.py -v (before recovery fix)",
+      "exit_code": 1,
+      "evidence": "反应到期没有568A恢复通知，新增测试预期失败。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py; python -m unittest discover -s tools -p test_down_points_native.py",
+      "exit_code": 0,
+      "evidence": "149 server tests; 3 targeted native tests including full568A exact cursor/truncation/trailing byte rejection."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "三类反应到期均收到568A恢复快照；未验证客户端姿势。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": 0,
+      "evidence": "PID33840；HTTP200/199B；认证32B握手。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户确认568A恢复候选仍不能站立。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "只读实采靶机state4000且快照缓存无200；AF47C0第12参数控制A003B0缓存登记。其他版本资料只参考，未运行。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py; python -m unittest discover -s tools -p test_*native*.py",
+      "exit_code": 0,
+      "evidence": "149 server /115 native；包括出场回调实际登记缓存和增量解码清状态。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP三类反应及5EEA恢复发包通过；非实机状态机验证。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": 0,
+      "evidence": "PID12420；HTTP200/199B；AUTH32。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "read_dp_target_20261105.py (read-only)",
+      "exit_code": 0,
+      "evidence": "用户重启后实际快照缓存count=2，存在靶机200；靶机CB1774/state1。仅缓存登记验收，起身动作待用户反馈。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "仅缩小范围：靶机可起身恢复站立。下落与衔接仍失败，不代表完整DP受击流程通过。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "自机/靶机重力-9.80665、质量1、Y倍率0.1。building_rate当前原生绑定+90，写物理+68。其他版本仅参考键名。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_fall_physics_native.py -v (before fix)",
+      "exit_code": 1,
+      "evidence": "生成配置缺倍率键：原生下移0.980665而中性倍率应为9.80665cm；预期失败。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/hangar_experiment.py tools/test_fall_physics_native.py",
+      "exit_code": 0,
+      "evidence": "修改文件通过；此前全目录空字节失败记录保留。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py; python -m unittest discover -s tools -p test_*native*.py",
+      "exit_code": 0,
+      "evidence": "149服务端、117原生离线测试通过，含同一积分器倍率对照。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "配置修改后加密TCP冒烟通过；不等于新物理倍率实机验收。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": 0,
+      "evidence": "PID41800；HTTP200/199B；AUTH32。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "sample_tumble_timeline_20261105.py (read-only)",
+      "exit_code": 0,
+      "evidence": "800帧：4000 phase0/222 ->phase1/223 ground0 ->1.5s恢复后phase5/226 ground1；静止锚点/速度0。当前接收代码支持active10接地维持倒地。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_down_points.py -v (before intermediate sync)",
+      "exit_code": 1,
+      "evidence": "恢复前应有active10状态，旧实现空列表。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py; python -m unittest discover -s tools -p test_*native*.py",
+      "exit_code": 0,
+      "evidence": "149 server /117 native offline；没有声称完整原生倒地阶段机端到端执行通过。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/training_target.py server/test_down_points.py tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "本轮修改通过。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "加密TCP收到active10重复状态至final0恢复，未验证实际动画。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": null,
+      "exit_code": 0,
+      "evidence": "PID37244；HTTP200/199B；AUTH32。"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户实机确认本轮冲刺击倒衔接连贯；仅此范围，保留普通累计反应等未验收项。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools/model_matcher -p test_matcher.py -v",
+      "exit_code": 1,
+      "evidence": "提交前复核最初缺Pillow，模块无法导入，不当作测试通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools/model_matcher -p test_matcher.py -v",
+      "exit_code": 0,
+      "evidence": "安装项目所需Pillow后重跑3项通过；服务端149/原生117/喷口1项再次复核通过。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "普通军刀累计短硬直/跪地尚无用户独立明确验收",
+    "计时、冲量、垂直倍率为显式实验配置",
+    "缺DP实验枪没有推测填值",
+    "DP界面、玩家受击、护盾与特殊免疫、死亡重生未完成",
+    "击中特效脚部位置按用户要求暂缓"
+  ],
+  "next_steps": [
+    "保留已验收冲刺击倒与下落配置；按用户后续安排继续普通累计反应或其他战斗功能"
+  ]
+}
