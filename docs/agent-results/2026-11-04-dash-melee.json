@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "User accepted dash melee close-range damage, forward lunge and smooth stopping after4m experimental distance configuration; range and full combat remain unquantified.",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "tools/test_dash_melee_movement_native.py",
+    "server/冲刺格斗突进与命中-2026-11-04.md",
+    "docs/agent-results/2026-11-04-dash-melee.json"
+  ],
+  "acceptance": [
+    {
+      "criterion": "Close-range dash melee damage",
+      "status": "passed",
+      "evidence": "User confirms HP reduction; native window and actual770D/49C6 observed. Range unmeasured."
+    },
+    {
+      "criterion": "Forward lunge and deceleration",
+      "status": "passed",
+      "evidence": "After full restart user reports clear forward movement and smooth deceleration. Existing native motion handles stopping; no measured deceleration curve claim."
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "Ghidra readOnly and Capstone",
+      "exit_code": 0,
+      "evidence": "CSV25->atk+5C->A80 distance/duration; native fixed movement/inertia paths inspected."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "unittest test_dash_melee_movement_native.py before fix",
+      "exit_code": 1,
+      "evidence": "Both dash rows yield zero speed; normal controls pass."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "py_compile server/hangar_experiment.py tools/test_dash_melee_movement_native.py",
+      "exit_code": 0,
+      "evidence": "Passed."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server/native unittest discovery",
+      "exit_code": 0,
+      "evidence": "142 server/106 native pass; same lunge regression now passes."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service and encrypted synthetic flow pass."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "Verified auth42768->43536; HTTP/socket probes",
+      "exit_code": 0,
+      "evidence": "HTTP200/199B and auth32B passed."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Limited close-range dash hit scope: user confirms damage; no independent range measurement."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "4m lunge and deceleration await restart/test."
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "No database migration."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": "Read-only PID16700 sampling and user lunge/stop observation",
+      "exit_code": null,
+      "evidence": "User confirms obvious forward movement/smooth stopping.111 actual dash-motion samples;82 have nonzero windows; A80 about1092.9cm/s. No precise4m-world-distance or authoritative sweep claim."
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "Dash reach/empty-swing and moving sweep not independently quantified",
+    "No exact original GM distance or deceleration-curve recovery",
+    "Hit effects and reactions remain outside this change"
+  ],
+  "next_steps": [
+    "Preserve accepted dash movement and normal saber behavior; handle impact effects/reactions as separate work."
+  ]
+}

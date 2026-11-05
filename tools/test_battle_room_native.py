@@ -5,7 +5,8 @@ import sys
 import unittest
 
 from unicorn import Uc, UC_ARCH_X86, UC_MODE_32, UC_HOOK_CODE
-from unicorn.x86_const import UC_X86_REG_ESP, UC_X86_REG_ECX, UC_X86_REG_EAX, UC_X86_REG_EIP
+from unicorn.x86_const import (UC_X86_REG_ESP, UC_X86_REG_ECX, UC_X86_REG_EAX,
+                              UC_X86_REG_EIP, UC_X86_REG_ESI, UC_X86_REG_EBX)
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'server'))
@@ -13,6 +14,105 @@ import local_battle
 
 
 class BattleRoomNativeTest(unittest.TestCase):
+    def test_prestart_reply_keeps_native_mech_selection_task_open(self):
+        import xwar_entry
+        queue = xwar_entry.BookingQueue()
+        queue.register('test', 77, struct.pack('<7I', 0, 4, 0, 0, 0, 0, 0))
+        backend = local_battle.LocalBattleBackend(queue, '127.0.0.1', 30000, clock=lambda: 100)
+        backend.units_for_pilot = lambda a, p: [{'uniqid': 123, 'msma_id': 777001, 'deckslots': [0, 0]}]
+        room = backend.reserve('test', 77, struct.pack('<I', 77) + bytes(153))
+        room.started = room.connected = True
+        backend.replies(room, 0xE041, b'')
+        for post in (0xffffffff, 0):
+            replies = dict(backend.replies(room, 0xE650,
+                           struct.pack('<IIIBBH', 0, post, 0xffffffff, 0, 0, 0xffff)))
+            result = struct.unpack_from('<i', replies[0x86B2])[0]
+            u = self.deployment_machine()
+            task, stack, stop = 0x20070000, 0x200f0000, 0x200e0000
+            u.mem_write(task + 4, struct.pack('<I', 3))
+            u.mem_write(stack, struct.pack('<Ii', stop, result))
+            u.reg_write(UC_X86_REG_ESP, stack)
+            u.reg_write(UC_X86_REG_ECX, task)
+            # Actual CAC7B4+68 subscriber notified by 447C70 before its
+            # mech-index store. Success0 enters state4 and closes selection.
+            u.emu_start(0x4406a0, stop, count=100)
+            self.assertEqual(struct.unpack('<I', u.mem_read(task + 4, 4))[0], 1,
+                             'prestart must return to selection, not close it before 7621')
+            self.assertEqual(struct.unpack('<I', u.mem_read(0x20060128, 4))[0], 1)
+        room.deployment_at = 100
+        self.assertEqual([op for op,_ in backend.tick(room)],[0x640D])
+        backend.clock = lambda:101
+        deployed = backend.tick(room)
+        self.assertLess([op for op, _ in deployed].index(0x86B2),
+                        [op for op, _ in deployed].index(0x7621))
+        result = struct.unpack_from('<i', dict(deployed)[0x86B2])[0]
+        u.mem_write(stack, struct.pack('<Ii', stop, result))
+        u.reg_write(UC_X86_REG_ESP, stack)
+        u.reg_write(UC_X86_REG_ECX, task)
+        u.emu_start(0x4406a0, stop, count=100)
+        self.assertEqual(struct.unpack('<I', u.mem_read(task + 4, 4))[0], 4,
+                         'only actual entity creation may finish selection')
+
+    def deployment_machine(self):
+        u = Uc(UC_ARCH_X86, UC_MODE_32)
+        u.mem_map(0, 0x1000)  # offline SEH chain only
+        u.mem_map(0x400000, (len(self.image) + 4095) & ~4095)
+        u.mem_write(0x400000, self.image)
+        u.mem_map(0x20000000, 0x100000)
+        u.mem_write(0x1161f28, struct.pack('<I', 0x20000000))
+        u.mem_write(0x1161f78, struct.pack('<I', 0x20060000))
+        return u
+
+    def test_final_spawn_receipt_native_callback_sets_mech_and_clears_busy(self):
+        u = self.deployment_machine()
+        game, stack, text = 0x20000000, 0x200f0000, 0x20080000
+        u.mem_write(game + 0x109f8, struct.pack('<I', 0xffffffff))
+        u.mem_write(game + 0x10a65, b'\x01')
+        # AF46B0 is the actual CGVOProtoBattle 86B2 virtual callback.
+        # Stop after 447C70 applies result/index, before string/UI cleanup.
+        u.mem_write(stack, struct.pack('<7I', 0, 0, 0, 0xffffffff, 0xffffffff, 0xffff, text))
+        u.reg_write(UC_X86_REG_ESP, stack)
+        u.emu_start(0xaf46b0, 0x447daa, count=1000)
+        self.assertEqual(u.mem_read(game + 0x10a65, 1), b'\0')
+        self.assertEqual(struct.unpack('<I', u.mem_read(game + 0x109f8, 4))[0], 0)
+
+    def test_default_home_post_member_record_counts_one_at_native_base_widget(self):
+        from types import SimpleNamespace
+        selection = SimpleNamespace(selected_index=0, selected_post=1, selected_entity=0xffff)
+        body = local_battle.selected_prestart_body(selection, 60)
+        u = self.deployment_machine()
+        game, stack, stop, widget = 0x20000000, 0x200f0000, 0x200e0000, 0x20070000
+        # Feed the actual four wire arrays into native 4407E0.
+        pointers, position = [], 4
+        for size in (1, 2, 2, 2):
+            count = struct.unpack_from('<I', body, position)[0]
+            self.assertEqual(count, 1)
+            address = 0x20080000 + len(pointers) * 0x100
+            u.mem_write(address, body[position + 4:position + 4 + count * size])
+            pointers.extend((address, count))
+            position += 4 + count * size
+        u.mem_write(stack, struct.pack('<10I', stop, 60, *pointers))
+        u.reg_write(UC_X86_REG_ESP, stack)
+        u.reg_write(UC_X86_REG_ECX, game)
+
+        def skip_ui(machine, address, size, data):
+            if address == 0x621e30:
+                sp = machine.reg_read(UC_X86_REG_ESP)
+                ret = struct.unpack('<I', machine.mem_read(sp, 4))[0]
+                machine.reg_write(UC_X86_REG_ESP, sp + 12)
+                machine.reg_write(UC_X86_REG_EIP, ret)
+
+        u.hook_add(UC_HOOK_CODE, skip_ui)
+        u.emu_start(0x4407e0, stop, count=1000)
+        self.assertEqual(bytes(u.mem_read(game + 0x24908, 8)), b'\x02\0e\0\x01\0\xff\xff')
+        # Execute the real 51-member count loop for base B, then base A.
+        for entity, expected in ((101, 1), (100, 0)):
+            u.mem_write(widget + 0x118, struct.pack('<II', entity, 0))
+            u.reg_write(UC_X86_REG_ESP, stack)
+            u.reg_write(UC_X86_REG_ESI, widget)
+            u.emu_start(0x885339, 0x885395, count=2000)
+            self.assertEqual(u.reg_read(UC_X86_REG_EBX), expected)
+
     def test_melee_presentation_event_current_native_reader(self):
         body = struct.pack('<HI3HIB', 1, 777106, 238, 1, 0, 0, 0)
         accepted, consumed, output = self.parse(body, 0xA81128, 0x40, 0xA8127B,

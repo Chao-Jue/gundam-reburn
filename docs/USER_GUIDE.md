@@ -26,6 +26,12 @@ python -m pip install Pillow numpy unicorn capstone frida playwright
 
 Wiki补抓：`python tools/crawl_gundam_wiki.py --max-pages 5 --out scratch/wiki`。确认采集效果后再决定完整抓取输出；不要覆盖唯一完整缓存。修复脚本和图片链接采集脚本先查看 `--help`。图标候选用 `python tools/weapon_icon_match.py --unit 高达OL吉姆`，打开输出review.html，人工选择后导出；未导出的选择不会自动恢复。
 
+武器特效匹配：`python tools/weapon_effect_match.py --port 8769 --open`（或双击 `tools/start_weapon_effect_match.cmd`）。左栏按标签浏览 `fx/` 下的特效库，中间每张卡片是「当前武器模型 + 该特效」的合成预览，右栏按槽位人工指派并导出。预览为离线近似（混合模式、粒子发射、轨迹都是近似），不是渲染验收；导出写在 `server/reference/weapon_effect_match/weapon_effect_assignments.json`，不会改服务端武器定义。
+
+武器/机体复核：`python tools/weapon_review.py --port 8770 --open`。`--icons` 出图标候选、`--import-csv` 导入国服武器对照表、`--fill-icons` 按客户端号补图标、`--export` 导出扁平表；`python tools/unit_export.py` 生成机体级汇总（units.csv / units.json / unit_index.csv / completeness.json）。数据只写 `server/reference/` 下的 JSON，不改服务端武器定义。
+
+日服 wiki 数值：`python tools/extract_gow_swiki.py --html <各種検証存档.html>`，产出装填/连射/弹速派生表（日服 2022 年实测，未验证与国服一致）。
+
 ## 3. 独立服务与协议验证
 
 ```powershell

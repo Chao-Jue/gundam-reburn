@@ -60,7 +60,7 @@ class BattleCameraNativeTest(unittest.TestCase):
         self.assertEqual(u.reg_read(UC_X86_REG_EAX) & 255, 1,
                          'model column14=0 prevents owned-entity visibility refresh')
 
-    def test_gm_focus_height_matches_native_unconfigured_fallback(self):
+    def test_gm_focus_height_is_raised_for_clearer_battle_view(self):
         rows = csv.reader(io.StringIO(hangar_experiment.table_body('msma/msma_model.csv').decode()))
         row = next(r for r in rows if r and r[0] == str(hangar_experiment.MODEL_ID))
         image = (ROOT / 'server/img_dump/main_GundamOnline_CHINA.exe').read_bytes()
@@ -87,7 +87,7 @@ class BattleCameraNativeTest(unittest.TestCase):
         u.reg_write(UC_X86_REG_ESP, stack)
         u.reg_write(UC_X86_REG_ECX, actor)
         u.emu_start(0x477950, stop + 6, count=10000)
-        self.assertAlmostEqual(struct.unpack('<f', u.mem_read(result, 4))[0], 160.0)
+        self.assertAlmostEqual(struct.unpack('<f', u.mem_read(result, 4))[0], 220.0)
 
     def test_gm_model_uses_default_third_person_distance(self):
         rows = csv.reader(io.StringIO(hangar_experiment.table_body('msma/msma_model.csv').decode()))

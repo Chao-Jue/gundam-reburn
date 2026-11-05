@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "passed",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "紧急返回首轮功能与二轮修复完成；用户确认Z下蹲、移动取消站起、返回后直接选B出击及移动/瞄准均正常",
+  "changed_files": [
+    "server/hangar_experiment.py",
+    "server/local_battle.py",
+    "server/test_emergency_return.py",
+    "tools/test_emergency_return_native.py",
+    "tools/smoke_local_battle.py",
+    "docs/EMERGENCY_RETURN_2026-11-05.md"
+  ],
+  "acceptance": [
+    {
+      "criterion": "紧急返回流程与GM基准性能时间一致",
+      "status": "passed",
+      "evidence": "170项服务端、131项原生测试与直接800A重新出击加密TCP通过"
+    },
+    {
+      "criterion": "真实Z键下蹲返回、取消恢复及直接选B再次出击",
+      "status": "passed",
+      "evidence": "用户针对完整重启后的三项测试反馈：OK，一切正常。依据用户观察，无改后内存采样。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "current client7B52/FEBB/E5FC readers; local archive",
+      "exit_code": 0,
+      "evidence": "日志7B52已发但服务端未处理；原生确认请求4B、应答14B、完成2B；存档GM682对应10秒"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_emergency_return.py (修复前)",
+      "exit_code": 1,
+      "evidence": "4项中3个无应答/完成的预期断言失败，另缺return_at字段；非环境错误"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile 修改Python文件",
+      "exit_code": 0,
+      "evidence": "编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server全量与tools原生全量",
+      "exit_code": 0,
+      "evidence": "169项服务端、130项原生离线通过；包含5项返回服务测试与2项原生返回测试"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "failed",
+      "command": "python -u tools/smoke_local_battle.py (首轮)",
+      "exit_code": 1,
+      "evidence": "等待10秒返回时合成客户端socket默认5秒超时；不记通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "返回时局部允许15秒等待，实际10秒完成；开始/取消/返回/B重出击/退出以及既有双靶机DP均通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "auth restart and HTTP/auth checks",
+      "exit_code": 0,
+      "evidence": "认证PID46864；HTTP200，32字节认证握手"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "待用户重启验证Z读条、移动取消、返回选择及再次出击；不把离线原生执行称为实机完成"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": "用户首轮完整重启与原生请求日志",
+      "exit_code": null,
+      "evidence": "用户不能再出击且Z无蹲姿；实际返回后800A选择B，无E041/E650；首轮合成流程覆盖不足"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_emergency_return.py (800A修正前)",
+      "exit_code": 1,
+      "evidence": "6项中直接800A再出击用例因选中机体索引被清空、空回复失败"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s tools -p test_emergency_return_native.py (初次夹具)",
+      "exit_code": 1,
+      "evidence": "导入顺序导致ModuleNotFoundError；不作为Bug复现证据"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "同一原生测试修正导入但未改GM配置",
+      "exit_code": 1,
+      "evidence": "真实CSV44读取、model108写入和4CDC60门控产生0!=1，预期拒绝蹲下"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile 修改Python文件",
+      "exit_code": 0,
+      "evidence": "代码与最终TCP标签修改编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server全量与tools原生全量",
+      "exit_code": 0,
+      "evidence": "170项服务端、131项原生离线测试通过，含6项返回服务与3项原生返回测试"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "返回后仅直接800A选B，无补造E041/E650；7621、0120、靶机保留、退出通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "auth restart and HTTP/auth checks",
+      "exit_code": 0,
+      "evidence": "认证PID46356；HTTP200及认证32字节握手"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "二轮原生返回蹲姿、取消站起、800A再出击与瞄准待用户验收"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户完整重启后确认Z读条下蹲、移动取消站起、再次返回后选B出击及移动/瞄准均正常；仅验收这些请求场景"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "强化/部件减时及其他机体面板值换算尚未核对",
+    "自机完整伤害/弹药保留与再出击惩罚不在当前原型已实现范围"
+  ],
+  "next_steps": [
+    "保留当前已验收配置；本轮未提交Git，按用户下一步要求继续"
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "passed",
+  "repository": null,
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "空中靶机巡航已实机只读确认；因用户找不到靶机，将A点两靶机移到出生点15米附近，待重新进入验收",
+  "changed_files": [
+    "server/training_target.py",
+    "server/battle_entities.py",
+    "server/local_battle.py",
+    "server/reference/training_air_target.json",
+    "server/reference/training_dp.json",
+    "server/test_air_target.py",
+    "server/test_down_points.py",
+    "server/test_training_target.py",
+    "tools/test_down_points_native.py",
+    "tools/test_training_target_native.py",
+    "tools/smoke_local_battle.py",
+    "docs/AIR_DP_TARGET_2026-11-05.md",
+    "server/reference/training_target_positions.json"
+  ],
+  "acceptance": [
+    {
+      "criterion": "双靶机独立命中与空中DP翻倒落地恢复同步",
+      "status": "passed",
+      "evidence": "161项服务端、126项原生离线测试及隔离TCP"
+    },
+    {
+      "criterion": "用户可找到靶机并用枪械DP触发空中倒地",
+      "status": "passed",
+      "evidence": "用户反馈OK，可以正常倒地；新增枪口朝向回归另行调查"
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_down_points.py (修复前)",
+      "exit_code": 1,
+      "evidence": "9项中2项按预期失败：空中使用地面跪地规则，777108无DP"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile (本轮修改Python文件)",
+      "exit_code": 0,
+      "evidence": "含最终smoke修改编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py; python -m unittest discover -s tools -p *native*.py",
+      "exit_code": 0,
+      "evidence": "161项服务端、126项原生离线测试通过，含原失败测试"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "failed",
+      "command": "python tools/smoke_local_battle.py (初轮)",
+      "exit_code": null,
+      "evidence": "持续巡航报文叠加逐块OpenSSL开销导致等待阻塞，主动中止两次；不记为通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "整帧ECB且保留计数掩码后，双靶机、空中翻倒30/落地10/恢复0及既有地面流程通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "failed",
+      "command": "组合重启及HTTP健康检查",
+      "exit_code": null,
+      "evidence": "组合命令被策略拒绝；独立健康检查HTTP连接拒绝(exit1)"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "独立Start-Process启动服务与HTTP/认证检查",
+      "exit_code": 0,
+      "evidence": "HTTP200，认证32字节握手；PID41544/45664"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "等待用户完整重启并观察空中靶机"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "VM_READ sampler",
+      "exit_code": 0,
+      "evidence": "原A点201实际Y变化、ground0、bits32；自机仍距靶机约100米，不能推定渲染可见"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_air_target.py (摆放修正前)",
+      "exit_code": 1,
+      "evidence": "新增距离回归因旧A距出生点117.16米超过40米失败"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server全量测试与两个相关native模块",
+      "exit_code": 0,
+      "evidence": "162项服务端、13项相关原生测试通过"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile server/training_target.py server/test_air_target.py",
+      "exit_code": 0,
+      "evidence": "配置与测试修改后编译通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "摆放修正后隔离加密TCP再次通过；实机可见性待验收"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户确认新位置靶机可正常空中倒地；只读201落地state1/ground1/bits0。未扩大为所有起身边界验收"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "实验枪械DP/巡航/落地时长非原版平衡",
+    "暂不自动重新升空或死亡复活",
+    "枪口朝向回归单独记录于2026-11-05-aim-deployment-regression.json"
+  ],
+  "next_steps": [
+    "继续瞄准回归调查"
+  ]
+}

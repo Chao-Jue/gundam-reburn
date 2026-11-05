@@ -1,0 +1,201 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "Impact visual now appears but is at feet; native melee center80cm quantizes to0 under factor100. User requested full action/blade coverage; expanded timing window, retained blade geometry and per-swing dedup. Range retest pending.",
+  "changed_files": [
+    "server/training_target.py",
+    "server/hangar_experiment.py",
+    "tools/smoke_local_battle.py",
+    "tools/test_melee_hit_effect_native.py",
+    "server/格斗命中特效首轮-2026-11-04.md",
+    "docs/agent-results/2026-11-04-melee-impact.json",
+    "tools/test_melee_presentation_native.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "Melee feedback enters native body impact branch",
+      "status": "passed",
+      "evidence": "Before fix native branch test fails; after bit0 and effect setup passes."
+    },
+    {
+      "criterion": "Actual normal/dash impact visuals and cleanup",
+      "status": "not_run",
+      "evidence": "Awaiting user HTTP startup/restart test."
+    },
+    {
+      "criterion": "Full-action/full-blade practical reach",
+      "status": "passed",
+      "evidence": "User says 可以了范围合适 after restart; no independent quantitative range trace."
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "unittest test_melee_hit_effect_native.py before fix",
+      "exit_code": 1,
+      "evidence": "Generated flag0 skips body path; both melee configs lack body effect."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "py_compile changed modules",
+      "exit_code": 0,
+      "evidence": "Changed modules compile."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server/native unittest discovery",
+      "exit_code": 0,
+      "evidence": "142server/109native pass; same new test passes."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service and encrypted synthetic hit/HP flow passed."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "Start experimental auth22348; 16Bhello/32B handshake",
+      "exit_code": 0,
+      "evidence": "Authentication32B passed."
+    },
+    {
+      "level": "service_startup",
+      "status": "blocked",
+      "command": "Start-Process fake_http.py --host127.0.0.1 --port80",
+      "exit_code": null,
+      "evidence": "Automatic approval rejected command: blocked by policy. Read-only probe confirms80 refused."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "User asked to start HTTP manually and test impact visuals."
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "No database migration."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "User saw defense text on camera. Native4A5BC0 bit0 loads fx/09/PP_09_400_04.vra; earlier body semantic label was wrong."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "unittest test_melee_hit_effect_native.py corrected semantics before fix",
+      "exit_code": 1,
+      "evidence": "Generated flag1 enters shield rather than impact; both CSV39 absent."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "py_compile changed modules",
+      "exit_code": 0,
+      "evidence": "Passed after flag2/CSV39 change."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server/native unittest discovery",
+      "exit_code": 0,
+      "evidence": "142server/109native pass; shield bit0 remains off."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Encrypted synthetic melee feedback now expects flags2; passes."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "Verified auth22348->36200; health probes",
+      "exit_code": 0,
+      "evidence": "HTTP200/199B and auth32B passed; HTTP preserved."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "User sees impact visual but at victim feet, not actual contact point."
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "6338D0/634116 and6332E0 machine-code inspection; actual770D logs",
+      "exit_code": 0,
+      "evidence": "Normal melee uses target-center fallback80cm, integer-divided by pos_factor100 =>0; real reports XYZ0. No actual contact point supplied."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "unittest test_melee_presentation_native.py before full-window fix",
+      "exit_code": 1,
+      "evidence": "8 early/late dispatch failures across four attacks."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "py_compile changed modules",
+      "exit_code": 0,
+      "evidence": "Passed."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server/native discovery",
+      "exit_code": 0,
+      "evidence": "142server/110native pass including full-duration dispatch, blade core coverage and one-hit-per-swing tests."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service/encrypted synthetic flow passes."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "Verified auth36200->47056; health probes",
+      "exit_code": 0,
+      "evidence": "HTTP200/199B and auth32B passed."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Limited scope: user accepts melee range. Foot impact location explicitly deferred by user."
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "Foot impact location unresolved, deferred by user",
+    "Hit reactions/knockdown not implemented"
+  ],
+  "next_steps": [
+    "Investigate client reaction fields and historical damage/DP system changes."
+  ]
+}

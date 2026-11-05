@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "passed",
+  "repository": null,
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "归零通知后半秒自动出击修正完成；用户完整重启确认能进入战场、枪口可以随动。保留此前失败记录。",
+  "changed_files": [
+    "server/local_battle.py",
+    "server/test_deployment_selection.py",
+    "server/test_local_battle.py",
+    "tools/test_battle_room_native.py",
+    "tools/test_deployment_aim_native.py",
+    "tools/smoke_local_battle.py",
+    "docs/AIM_DEPLOYMENT_REGRESSION_2026-11-05.md"
+  ],
+  "acceptance": [
+    {
+      "criterion": "先归零、0.5秒后无第二请求也自动生成",
+      "status": "passed",
+      "evidence": "失败后通过的服务回归、原生阶段控制例及不补造E650的实际TCP"
+    },
+    {
+      "criterion": "真实客户端能正常出击且枪口跟随准星",
+      "status": "passed",
+      "evidence": "用户完整重启后反馈：可以了，能进入战场，并且枪口可以随动。无改后内存采样，不声称标志实读清零。"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "VM_READ+current native consumers",
+      "exit_code": 0,
+      "evidence": "实际枪械aim_category2、动作3101；joint+CD1与stage128=1阻塞跟随，原生门控控制例确认"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "python -m unittest discover -s server -p test_deployment_selection.py (修正前)",
+      "exit_code": 1,
+      "evidence": "新增顺序回归因1不小于0按预期失败；不冒充完整原生界面复现"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile (本轮修改Python文件)",
+      "exit_code": 0,
+      "evidence": "修改文件编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py",
+      "exit_code": 0,
+      "evidence": "163项通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p *native*.py",
+      "exit_code": 0,
+      "evidence": "127项通过；首次137项含导入类重复发现，修正模块导入后复跑"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离真实服务加密TCP正式预约、预览/出击、双靶机DP、退出通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "auth restart and HTTP/auth health checks",
+      "exit_code": 0,
+      "evidence": "认证PID18172；HTTP200，认证32字节握手"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "已取得修复前两枪不跟随证据；顺序候选改后需重启确认stage与joint门控，再射击"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": "VM_READ after first candidate restart",
+      "exit_code": null,
+      "evidence": "用户重启后实际stage1、controller24=1、jointCD1，未再要求开枪；首次候选未解决"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "server/test_deployment_selection.py (阶段交接前)",
+      "exit_code": 1,
+      "evidence": "到期仍返回成功/实体而非独立640D零秒，回归按预期失败"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "server/test_deployment_selection.py (晚到预览保护前)",
+      "exit_code": 1,
+      "evidence": "零秒后无地点请求仍返回result1，会重置原生阶段，新增断言失败"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile (本轮修改Python文件)",
+      "exit_code": 0,
+      "evidence": "阶段交接与测试修改后通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server全量与tools原生全量",
+      "exit_code": 0,
+      "evidence": "163项服务端、128项原生离线通过，含提前关闭/先归零阶段1与3对照"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "独立归零→合成客户端最终E650→成功与实体/双靶机DP/退出真实TCP通过；非原版客户端自动流程"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "restart auth and HTTP/auth checks",
+      "exit_code": 0,
+      "evidence": "认证PID44156；HTTP200，认证32字节握手"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "阶段交接改后需确认客户端自动最终E650、stage3与关节暂停解除；舰船演出未验收"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "failed",
+      "command": "用户重启反馈与只读现场",
+      "exit_code": null,
+      "evidence": "用户不能进入战场；stage3、remaining0、flags128、task20、spectator1，无自机；未出现所假设的最终E650"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "server/test_deployment_selection.py 无第二请求回归",
+      "exit_code": 1,
+      "evidence": "新断言因只发零秒不生成实体失败；自动恢复后再扩展先归零/宽限断言亦先失败后通过"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "python -m py_compile 本轮修改文件及只读watcher",
+      "exit_code": 0,
+      "evidence": "通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server全量与tools原生全量",
+      "exit_code": 0,
+      "evidence": "164项服务端、128项原生测试通过"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "已移除合成客户端补造最终E650；仅服务端计时自动生成/双靶机DP/退出通过"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "auth restart and HTTP/auth checks",
+      "exit_code": 0,
+      "evidence": "认证PID42184，HTTP200，认证32字节握手"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "failed",
+      "command": "Start-Process只读watcher -Verb RunAs",
+      "exit_code": 1,
+      "evidence": "Windows返回操作已被用户取消；未启动采样，不重试授权"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "0.5秒宽限自动生成改后真实出击与关节跟随待验收"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "用户完整重启后确认能进入战场、枪口可以随动；仅验收这两项，舰船演出与关节全部边界未验收"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "0.5秒处理宽限是实验值",
+    "舰船出击演出及全部关节边界未恢复或验收",
+    "改后只读watcher未运行，验收依据用户观察"
+  ],
+  "next_steps": [
+    "保留当前已验收配置，按用户下一项需求继续；尚未提交Git"
+  ]
+}

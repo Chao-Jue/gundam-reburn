@@ -1,0 +1,121 @@
+{
+  "schema_version": "1.0",
+  "operation": "review",
+  "status": "passed",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": "d88bb16c024470cc971c391063541137793f1c64",
+  "issue": null,
+  "pr": "https://github.com/CharJtx/gundam-reburn/pull/3",
+  "summary": "按用户授权准备合并PR3及完整分支：解决与main的换行冲突，保留双方逻辑，编译与回归通过。",
+  "changed_files": [
+    "server/fake_auth.py",
+    "tools/effect_render.py",
+    "docs/agent-results/2026-11-05-pr3-merge-review.json"
+  ],
+  "acceptance": [
+    {
+      "criterion": "main与训练分支逻辑均保留且无冲突",
+      "status": "passed",
+      "evidence": "隔离工作树三方合并，无强推或丢弃工作区"
+    },
+    {
+      "criterion": "合并后所需安全验证完成",
+      "status": "passed",
+      "evidence": "编译41文件、172服务端/131原生/35工具、隔离TCP通过"
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "normalized three-way merge; compare fake_auth against origin/main",
+      "exit_code": 0,
+      "evidence": "冲突由CRLF/LF差异放大；统一换行后自动三方合并无内容冲突。保留main物品硬上限与分支training_targets_enabled。"
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "py_compile changed tracked Python files plus main inventory tests",
+      "exit_code": 0,
+      "evidence": "41个Python文件编译通过；effect_render额外EOF空行移除后单独编译通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s server -p test_*.py",
+      "exit_code": 0,
+      "evidence": "172项服务端测试通过，含main物品数量上限测试"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "python -m unittest discover -s tools -p *native*.py",
+      "exit_code": 0,
+      "evidence": "131项原生离线测试通过"
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "weapon_review tests initial run",
+      "exit_code": 1,
+      "evidence": "缺少playwright导致导入失败；其他工具测试14+2+3通过。"
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "isolated playwright install; weapon_review tests",
+      "exit_code": 0,
+      "evidence": "Playwright1.64.1安装到忽略的hook_runs/pr3_verification_deps，仅临时PYTHONPATH使用；16项通过，工具合计35项。未安装浏览器或改全局包。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "failed",
+      "command": "git diff --check initial merge preparation",
+      "exit_code": 2,
+      "evidence": "上游CRLF被原默认空白检查视为尾部空白；分支effect_render另有真实EOF多余空行。"
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "git -c core.whitespace=cr-at-eol diff --check",
+      "exit_code": 0,
+      "evidence": "按CRLF规则检查并移除effect_render末尾多余空行，当前检查通过。上游文件语义与内容保留。"
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "隔离临时端口、临时存档真实服务启动通过，运行中的用户服务未重启。"
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "python -u tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "认证、出击、双靶机DP、返回取消/完成、直接800A再出击、自机显示、退出通过。"
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "无数据库迁移"
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "合并后未要求用户重复客户端验收；此前战斗、镜头、紧急返回验收记录保留，离线原生不冒充实机。"
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "未重复原版客户端E2E与浏览器渲染验证，沿用既有用户验收范围"
+  ],
+  "next_steps": [
+    "推送已解决冲突的分支，以merge commit方式合入main并验证远端祖先关系"
+  ]
+}

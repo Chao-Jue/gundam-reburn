@@ -1,0 +1,244 @@
+{
+  "schema_version": "1.0",
+  "operation": "implementation",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": null,
+  "issue": null,
+  "pr": null,
+  "summary": "User accepted directional speed, propellant gauge/consumption/recovery/overheat and normal thruster visuals with stop cleanup/overheat smoke. Reverse movement animation remains separately unverified.",
+  "changed_files": [
+    "server/冲刺推进与过热初查-2026-11-04.md",
+    "docs/agent-results/2026-11-04-boost-inspection.json",
+    "server/hangar_experiment.py",
+    "tools/test_boost_direction_native.py",
+    "tools/test_boost_thruster.py"
+  ],
+  "acceptance": [
+    {
+      "criterion": "Boost speed/capacity, exhaust effects, depletion/overheat and full-refill unlock",
+      "status": "not_run",
+      "evidence": "User requirements recorded; no client verification this round."
+    },
+    {
+      "criterion": "Generated directional boost multipliers do not collapse to zero",
+      "status": "passed",
+      "evidence": "Native arithmetic tails: zero controls and fractional controls pass; generated configuration failed before fix and passes after neutral experimental coefficients."
+    },
+    {
+      "criterion": "Actual directional/diagonal boost speed after reload",
+      "status": "passed",
+      "evidence": "User restarted and confirmed speed is now normal; no measured absolute speed recorded."
+    },
+    {
+      "criterion": "Native client boost gauge, consumption, overheat/recovery",
+      "status": "passed",
+      "evidence": "User confirms gauge decreases, overheat occurs, recovery/reboost normal and overheat smoke exists."
+    },
+    {
+      "criterion": "Normal boost thruster visuals, stop cleanup and overheat smoke",
+      "status": "passed",
+      "evidence": "User replied 完美运行 to the three-item visual test after restart."
+    }
+  ],
+  "verification": [
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_boost_direction_native.py -v",
+      "exit_code": 1,
+      "evidence": "After correcting directional-weight fixture, controls pass and both generated-curve cases fail with 0.0."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m py_compile server/hangar_experiment.py tools/test_boost_direction_native.py",
+      "exit_code": 0,
+      "evidence": "Changed Python modules compile."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_boost_direction_native.py -v",
+      "exit_code": 0,
+      "evidence": "Same two tests now pass."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s server -p test_*.py -q",
+      "exit_code": 0,
+      "evidence": "142 tests pass."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "C:/Python312/python.exe -m unittest discover -s tools -p test_*native*.py -q",
+      "exit_code": 0,
+      "evidence": "103 tests pass; partial-machine native tests, not client E2E."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service and encrypted synthetic protocol flow pass."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "C:/Python312/python.exe tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service starts; current user service unchanged."
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "Ghidra readOnly/noanalysis and Capstone",
+      "exit_code": 0,
+      "evidence": "MOVE speed path and native direction coefficients traced."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Existing running client not restarted; new config not loaded or verified."
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "No database migration."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "Verify process identity; replace GM experimental auth; HTTP GET and 16B hello/32B handshake",
+      "exit_code": 0,
+      "evidence": "Old auth19860 predated source change; replaced with36536 using same options. HTTP200/199B and auth32B passed; HTTP service preserved. Client retest pending."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Limited direction/diagonal boost-speed scope: user confirmed normal after full restart. Gauge, fuel, overheat, thruster effects and reverse animation not accepted."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "unittest test_boost_direction_native.py before consumption fix",
+      "exit_code": 1,
+      "evidence": "Consumption controls pass; both generated cost cases fail because cost0."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "py_compile server/hangar_experiment.py tools/test_boost_direction_native.py",
+      "exit_code": 0,
+      "evidence": "Passed after cost change."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "unittest server and tools native discovery",
+      "exit_code": 0,
+      "evidence": "142 server/105 native pass; same cost tests pass."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service/encrypted synthetic flow passed."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "Replace verified experimental auth36536 with43428; HTTP and handshake",
+      "exit_code": 0,
+      "evidence": "HTTP200/199B and auth32B passed."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Consumption100 configuration awaiting user restart and fuel/overheat test."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Limited fuel/overheat scope accepted by user; normal thruster visuals not yet accepted."
+    },
+    {
+      "level": "automated_tests",
+      "status": "failed",
+      "command": "unittest test_boost_thruster.py before fix",
+      "exit_code": 1,
+      "evidence": "16 generated slots fail category3 lookup because ID1 absent."
+    },
+    {
+      "level": "compile_build",
+      "status": "passed",
+      "command": "py_compile server/hangar_experiment.py tools/test_boost_thruster.py",
+      "exit_code": 0,
+      "evidence": "Passed after fixing UTF8 read in edit script."
+    },
+    {
+      "level": "automated_tests",
+      "status": "passed",
+      "command": "server/native discoveries and test_boost_thruster.py",
+      "exit_code": 0,
+      "evidence": "142 server,105 native,1 thruster reference/resource test pass."
+    },
+    {
+      "level": "runtime_integration",
+      "status": "passed",
+      "command": "tools/smoke_local_battle.py",
+      "exit_code": 0,
+      "evidence": "Isolated service/encrypted synthetic flow pass."
+    },
+    {
+      "level": "service_startup",
+      "status": "passed",
+      "command": "Verified auth replacement43428->42768 and health probes",
+      "exit_code": 0,
+      "evidence": "HTTP200/199B and authentication32B handshake passed; HTTP service preserved."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "not_run",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Normal thruster candidate effects await restart and visual verification."
+    },
+    {
+      "level": "native_client_e2e",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "User accepted blue boost exhaust, cleanup after release and preserved overheat smoke. No reverse-motion/absolute-speed claim."
+    },
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": "Ghidra readOnly; local motionlist/MRB inspection; read-only PID42100 sampling",
+      "exit_code": 0,
+      "evidence": "Reverse direction2 selected base216 and upper variants3316/31316; resource exists. Initial80s sample had no actor; repeated sample succeeded. No pose correctness or rendering fix established."
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "Reverse-direction body/leg orientation remains unresolved; native backward variant216 is selected",
+    "No independent absolute-speed or fuel-duration measurement; original GM balance not restored"
+  ],
+  "next_steps": [
+    "Compare model/world facing with root and upper-body blend before any reverse-animation change."
+  ]
+}

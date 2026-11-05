@@ -1,0 +1,20 @@
+{
+  "version": "late_life_reference_experiment_v1",
+  "scope": "Opt-in GM training target only; not a reconstruction of original server balance.",
+  "source_url": "https://wiki.biligame.com/gundam/高达OL吉姆",
+  "revision_id": 103423,
+  "gauge": {"flinch": 800, "break": 1600},
+  "weapon_overrides": {"777105": 800, "777108": 800},
+  "weapon_override_status": "Explicit DP test values for experimental guns, per accepted hit report, not per pellet and not recovered original balance. Two spaced hits break the current1600 gauge.",
+  "missing_weapon_dp": "No inferred DP: experimental weapons lacking 倒地值 do HP damage only.",
+  "timing_status": "Experimental pending original timing evidence and native client acceptance",
+  "recovery_delay_seconds": 2.0,
+  "recovery_per_second": 800,
+  "reactions": {
+    "flinch": {"opcode": 17916, "power": 0, "msec": 300},
+    "kneel": {"opcode": 58162, "power": 0, "msec": 1000},
+    "tumble": {"opcode": 43250, "power": 100, "msec": 1500}
+  },
+  "dash_melee_forces_tumble": true,
+  "dash_rule_status": "Late DP-era dash melee knockdown rule; special weapon exceptions not implemented."
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "operation": "handoff",
+  "status": "partial",
+  "repository": "CharJtx/gundam-reburn",
+  "branch": "codex/training-target-combat",
+  "commit": "eb837ee0114ca4c5bda2f1c4a7d417e769095b72",
+  "issue": null,
+  "pr": null,
+  "summary": "Recorded comprehensive handoff: user-accepted normal saber damage/reach, remaining dash/event/reaction work, uncommitted local state versus merged remote main9134948, live service snapshot, native evidence and diagnostic pitfalls. No code or running service changes in this handoff.",
+  "changed_files": [
+    "server/AGENT交接-打靶伤害与军刀判定-2026-11-04.md",
+    "docs/RESEARCH_INDEX.md",
+    "docs/agent-results/2026-11-04-battle-handoff.json"
+  ],
+  "acceptance": [
+    {
+      "criterion": "Handoff describes accepted scope, remaining work and preservation constraints",
+      "status": "passed",
+      "evidence": "Handoff file and research index saved; Git branch/HEAD/dirty tracked files and process command lines inspected."
+    }
+  ],
+  "verification": [
+    {
+      "level": "source_inspection",
+      "status": "passed",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Read actual Git/process state and recent research; preserved uncommitted work. Last code verification142 server/101 native/TCP and user acceptance are historical evidence linked in the source result, not rerun for docs."
+    },
+    {
+      "level": "compile_build",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "Documentation-only handoff; no Python changes."
+    },
+    {
+      "level": "database_migration",
+      "status": "not_applicable",
+      "command": null,
+      "exit_code": null,
+      "evidence": "No database migration."
+    }
+  ],
+  "findings": [],
+  "remaining": [
+    "Dash hit-window activation remains unresolved.",
+    "Impact visual and kneeling/knockdown remain unimplemented/unverified.",
+    "No independent quantitative blade range or per-hit HP measurement.",
+    "Native zero frame/fire counters cannot fully disambiguate delayed reports in a new swing; prototype is not authoritative combat validation."
+  ],
+  "next_steps": [
+    "Read the handoff before editing; preserve dirty local work and note remote main differs from local HEAD.",
+    "Investigate dash motion36 hit-window activation, then impact visuals and hit reactions."
+  ]
+}
