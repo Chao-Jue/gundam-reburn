@@ -1317,23 +1317,54 @@ def datafile_block(name, data, result=0):
     """0x5290，recv_datafile_download_r。
 
     u32 结果、文件名、hash、原始字节数、u16 压缩标记、u32 正文字节数、正文。
-    压缩标记 0。正文按文本读，并且会先丢掉前 2 字节。
+    正文按文本读，并且会先丢掉前 2 字节。
     短于 3 字节时丢掉之后是空的，这一项失败，队列停住，
     空闲掐线就是 L 2:0。没有原文的表回一行注释，丢掉 2 字节后仍以 # 开头。
+
+    压缩标记默认仍是 0（保持既有行为）。设置 MSGO_TABLE_COMPRESS=auto 或 1
+    时把正文用 zlib 压缩后下发（compress=1），用来突破客户端单帧 16366B 上限。
+    字段语义与客户端解压分支见 docs/TABLE_COMPRESS_0x5290_2026-11-06.md。
     """
+    import os as _os
     raw = name.encode('ascii', 'replace')
     if len(raw) >= 0x100:
         raw = raw[:0xFF]
     if not data:
         data = missing_body(name)
+
+    # ---- 可选表体压缩 -------------------------------------------------
+    # 客户端 recv_datafile_download_r (0xAF6080) 在 (short)compress == 1 时
+    # calloc(src_bytes) 当输出缓冲，调 0xBD2AB0 解压，再把解压出的实际长度
+    # 交给 0xA4FAC0。见 server/数据表下载-请求逻辑全解.md §11。
+    # 所以 src_bytes 必须是「解压后」长度，bin_len 是「压缩后」长度；
+    # src_bytes 填小了会被静默截断（客户端不检查 inflate 返回值）。
+    mode = _os.environ.get('MSGO_TABLE_COMPRESS', '0').strip().lower()
+    src_len = len(data)
+    payload = data
+    compress = 0
+    if mode in ('auto', '1') and data:
+        min_bytes = int(_os.environ.get('MSGO_TABLE_COMPRESS_MIN', '2048') or 2048)
+        if mode == '1' or src_len >= min_bytes:
+            import zlib as _zlib
+            packed = _zlib.compress(data, 9)
+            if mode == '1' or len(packed) < src_len * 0.8:
+                payload, compress = packed, 1
+    # ------------------------------------------------------------------
+
     body = (((result or 0) & 0xFFFFFFFF).to_bytes(4, 'little')
             + raw + b'\x00'
             + (0).to_bytes(4, 'little')
-            + len(data).to_bytes(4, 'little')
-            + (0).to_bytes(2, 'little')
-            + len(data).to_bytes(4, 'little')
-            + data)
-    return _align_message(_kind0((0x5290).to_bytes(2, 'little') + body)).hex()
+            + src_len.to_bytes(4, 'little')
+            + compress.to_bytes(2, 'little')
+            + len(payload).to_bytes(4, 'little')
+            + payload)
+    msg = _align_message(_kind0((0x5290).to_bytes(2, 'little') + body))
+    # 单帧硬上限 16366B（cap 0x4000 - 0x12）。超了客户端会报
+    # "[5:13] 服务器响应被切断" 并停住整轮表下载，提前给一条明确日志。
+    if len(msg) > 16366:
+        log('[table] %s frame %dB > 16366B, client will drop it; '
+            'set MSGO_TABLE_COMPRESS=auto' % (name, len(msg)))
+    return msg.hex()
 
 
 def overplay_ok_block(seconds=0):
