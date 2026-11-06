@@ -1,0 +1,57 @@
+{
+  "note": "机库相机注视点等长改写；dat_offset 是 0000.dat 内的绝对偏移",
+  "warning": "偏移与密文硬绑定于生成它的客户端 build；版本不同请勿复用",
+  "backup_name": "camera_20261105_165613",
+  "height": 63.3,
+  "entries": [
+    {
+      "name": "L03_WeaponWindow_Camera_01.nut",
+      "dat_offset": 30146044,
+      "size": 28,
+      "old_hex": "23E12AD612484918B106D984CADDA588417584D547CE952E23B55B20",
+      "new_hex": "23E12AD612484918B106D984CADDB88824759AD54ACE952E21B55B20"
+    },
+    {
+      "name": "L03_WeaponWindow_Camera_03.nut",
+      "dat_offset": 30147740,
+      "size": 30,
+      "old_hex": "244F73E9E7B7E78FB27422979F4C43FF42E3CDE81C3D33A524239E332086",
+      "new_hex": "244F73E9E7B7E78FB27422979F4C56FF25E3E3E81F3D33A5222399332086"
+    },
+    {
+      "name": "L03_HangarMenu_Camera_01.nut",
+      "dat_offset": 29959586,
+      "size": 30,
+      "old_hex": "95FFFE4B178ADDB7713FF34E3CF3E146D4643FFC4D887EB687D3534DC579",
+      "new_hex": "95FFFE4B178ADDB7713FF34E3CF3F446B76455FC50887EB685D34E4DC579"
+    },
+    {
+      "name": "L03_HangarMenu_04.nut",
+      "dat_offset": 29957904,
+      "size": 30,
+      "old_hex": "689E02378515EC6A230D1088A9069B10E24D78D3B24F378099876A98ED87",
+      "new_hex": "689E02378515EC6A230D1088A906AE10C54D8ED3B54F378097876598ED87"
+    },
+    {
+      "name": "Menu_Camera_Hangar_OverCustom_03.nut",
+      "dat_offset": 30432164,
+      "size": 30,
+      "old_hex": "7D2FDCFB433D096B3115E2D8D6BC65F88A0848A07E7CD2BBB228F372FF3B",
+      "new_hex": "7D2FDCFB433D096B3115E2D8D6BC78F86D085EA0817CD2BBB028EE72FF3B"
+    },
+    {
+      "name": "Menu_Camera_Hangar_OverHaul_03.nut",
+      "dat_offset": 30434350,
+      "size": 30,
+      "old_hex": "572766B28F9DA38813726EFBDE0D25C2C5374A332BE9E9C6F58D941E7578",
+      "new_hex": "572766B28F9DA38813726EFBDE0D38C2A83760332EE9E9C6F38D8F1E7578"
+    },
+    {
+      "name": "Menu_Camera_Hangar_BuildupMsma_03.nut",
+      "dat_offset": 30430006,
+      "size": 30,
+      "old_hex": "572766B28F9DA38813726EFBDE0D25C2C5374A332BE9E9C6F58D941E7578",
+      "new_hex": "572766B28F9DA38813726EFBDE0D38C2A83760332EE9E9C6F38D8F1E7578"
+    }
+  ]
+}
