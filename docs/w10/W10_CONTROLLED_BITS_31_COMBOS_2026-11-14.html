@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>W10 · 10 受控列位全图与 31 种强化位组合</title>
+<style>
+:root{--bg:#14161a;--card:#1c1f26;--line:#2a2e38;--tx:#d8dce4;--dim:#8a92a3;--acc:#4fb3ff;--on:#ffb454;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--tx);font:14px/1.55 "Segoe UI","Microsoft YaHei",sans-serif;margin:0;padding:28px 18px 60px}
+.wrap{max-width:1240px;margin:0 auto}
+h1{font-size:21px;margin:0 0 6px}
+h2{font-size:16px;margin:34px 0 10px;color:var(--acc)}
+.sub{color:var(--dim);font-size:12.5px;margin-bottom:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:14px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{color:var(--dim);text-align:left;font-weight:600;border-bottom:1px solid var(--line);padding:7px 10px;white-space:nowrap}
+td{border-bottom:1px solid var(--line);padding:7px 10px;vertical-align:top}
+tr:last-child td{border-bottom:none}
+.mono{font-family:Consolas,"Cascadia Mono",monospace}
+.sig{font-size:14px;color:var(--on);letter-spacing:1px}
+.num{text-align:right;font-family:Consolas,monospace}
+.dim{color:var(--dim);font-size:12.5px}
+.b{font-family:Consolas,monospace;font-size:11.5px;padding:5px 8px!important;text-align:center}
+.b.on{color:#10131a;background:var(--on);border-radius:5px;font-weight:700}
+.b.off{color:#525a6b}
+tr.hot td{background:rgba(255,180,84,.06)}
+.note{color:var(--dim);font-size:12.5px;margin-top:10px}
+.tag{display:inline-block;background:#232833;border:1px solid var(--line);border-radius:5px;padding:1px 8px;font-size:12px;color:var(--acc);margin-right:6px}
+</style></head><body><div class="wrap">
+<h1>W10 · 10 受控列位全图与 31 种强化位组合</h1>
+<div class="sub">数据口径：unit_catalog.sqlite → weapon_resource 全量 <b>5855</b> 行（每行=wiki 一把武器）按 attributes_json 键集重算 · 2026-11-14 · 真机 A/B 终判版</div>
+<div class="sub">机制链：attributes_json（逐把 wiki 录入）→ 服务端下发 <span class="mono">develop/buildup_weapon.csv</span>（每武器一行 21 列位表）→ 0x5290 → 客户端 0x53F080 解析（col1..col10→row+4..13 byte 布尔位）→ <span class="mono">0x7A2810</span> 生成 15 位 UI 掩码。<b>UI 只消费 col1..col10（col11-20 不读）</b>；<b>类型仅统计相关，非机制决定</b>（23 类无一单射）。</div>
+
+<h2>表一 · 10 受控列位全图（col=ptarget+1；2026-11-14 真机 A/B 终判）</h2>
+<div class="card"><table>
+<tr><th>CSV 列位（0-based）</th><th>强化选项（面板栏名）</th><th>客户端 UI 位（0x7A2810）</th><th>强化协议 ptarget</th><th>sr 界对（最大上升万分比）</th></tr>
+<tr><td class="mono">col1</td><td>威力</td><td class="mono dim">0x1</td><td class="mono">0</td><td class="mono">35</td></tr>
+<tr><td class="mono">col2</td><td>集弹性能</td><td class="mono dim">0x2</td><td class="mono">1</td><td class="mono">20</td></tr>
+<tr><td class="mono">col3</td><td>连射速度</td><td class="mono dim">0x4</td><td class="mono">2</td><td class="mono">—</td></tr>
+<tr><td class="mono">col4</td><td>装填性能</td><td class="mono dim">0x10</td><td class="mono">3</td><td class="mono">35</td></tr>
+<tr><td class="mono">col5</td><td>锁定</td><td class="mono dim">0x20</td><td class="mono">4</td><td class="mono">67</td></tr>
+<tr><td class="mono">col6</td><td>射程距离</td><td class="mono dim">0x8（WALL 弹变体 0x800）</td><td class="mono">5</td><td class="mono">35</td></tr>
+<tr><td class="mono">col7</td><td>锁定范围</td><td class="mono dim">0x1000</td><td class="mono">6</td><td class="mono">—</td></tr>
+<tr><td class="mono">col8</td><td>耐久度</td><td class="mono dim">0x400</td><td class="mono">7</td><td class="mono">—</td></tr>
+<tr><td class="mono">col9</td><td>运行时间</td><td class="mono dim">0x40/0x80（kind 双位）</td><td class="mono">8</td><td class="mono">34</td></tr>
+<tr><td class="mono">col10</td><td>效果范围</td><td class="mono dim">0x100/0x200（kind 双位）</td><td class="mono">9</td><td class="mono">75</td></tr>
+</table>
+<div class="note">col11-col20 共 10 列当前 UI 不消费（0x7A2810 不读）。变体规则：col6 射程位在 bullet 弹种=WALL（壁垒弹，枚举 idx9）时 UI 位切 0x800（标签另议）；col9/col10 按武器 kind 切双位（如 col9 运行时间：kind∈迫击炮/对空炮等→0x80）。回复力=col1 威力位的 REPAIR 类语义变体（POWER 数值=回复力//10），非独立列。<b>弹数/倒地不受位表控制、面板恒显</b>（位表缺行 ⇒ 数值栏全隐、只剩弹数/倒地）。</div></div>
+
+<h2>表二 · 31 种位向量组合全量（按行数降序；前 5 行高亮=Top5 占 86.9%）</h2>
+<div class="card"><table>
+<tr><th>位向量</th><th>威力</th><th>集弹</th><th>装填</th><th>锁定</th><th>射程</th><th>效果范围</th><th>可强化项</th><th>行数</th><th>占比</th><th>跨类型数</th><th>Top 类型（单一C图标组归属）</th><th>典型武器</th></tr>
+<tr class="hot"><td class="mono sig">111110</td><td class="b on">威力</td><td class="b on">集弹</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b off">·</td><td>威力＋集弹性能＋装填性能＋锁定＋射程距离</td><td class="num">2562</td><td class="num">43.8%</td><td class="num">8</td><td class="dim">MACHINEGUN 695、BEAM_RIFLE 379</td><td class="dim">GN剑Ⅱ(步枪模式)、GN剑Ⅱ(枪模式)2挺、GN剑Ⅱ(枪模式)2挺 4连爆发型</td></tr>
+<tr class="hot"><td class="mono sig">100100</td><td class="b on">威力</td><td class="b off">·</td><td class="b off">·</td><td class="b on">锁定</td><td class="b off">·</td><td class="b off">·</td><td>威力＋锁定</td><td class="num">955</td><td class="num">16.3%</td><td class="num">5</td><td class="dim">WRESTLE 675、BEAM_RIFLE 2</td><td class="dim">GN剑Ⅲ(剑模式)、GN光束军刀(二刀流)、GN光束军刀(二刀流)</td></tr>
+<tr class="hot"><td class="mono sig">111111</td><td class="b on">威力</td><td class="b on">集弹</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b on">效果范围</td><td>威力＋集弹性能＋装填性能＋锁定＋射程距离＋效果范围</td><td class="num">891</td><td class="num">15.2%</td><td class="num">10</td><td class="dim">MISSILE 353、CHARGE_RIFLE 95</td><td class="dim">GN剑Ⅱ(轰击弹)2挺、GN剑Ⅱ(轰击弹)2挺、GN剑Ⅱ爆裂步枪</td></tr>
+<tr class="hot"><td class="mono sig">101001</td><td class="b on">威力</td><td class="b off">·</td><td class="b on">装填</td><td class="b off">·</td><td class="b off">·</td><td class="b on">效果范围</td><td>威力＋装填性能＋效果范围</td><td class="num">350</td><td class="num">6.0%</td><td class="num">8</td><td class="dim">HAND_THROW 75、MISSILE 42</td><td class="dim">短距离导弹发射器、手雷、导弹舱[迎击弹]</td></tr>
+<tr class="hot"><td class="mono sig">101010</td><td class="b on">威力</td><td class="b off">·</td><td class="b on">装填</td><td class="b off">·</td><td class="b on">射程</td><td class="b off">·</td><td>威力＋装填性能＋射程距离</td><td class="num">328</td><td class="num">5.6%</td><td class="num">7</td><td class="dim">WRESTLE 19、BAZOOKA 15</td><td class="dim">Raiser Sword、GN剑Ⅱ爆裂步枪(照射)、飞翼浮游炮</td></tr>
+<tr><td class="mono sig">101011</td><td class="b on">威力</td><td class="b off">·</td><td class="b on">装填</td><td class="b off">·</td><td class="b on">射程</td><td class="b on">效果范围</td><td>威力＋装填性能＋射程距离＋效果范围</td><td class="num">255</td><td class="num">4.4%</td><td class="num">7</td><td class="dim">HOWITZER 71、CHARGE_RIFLE 17</td><td class="dim">GN微型导弹、脚部武器舱、喷射导弹发射器</td></tr>
+<tr><td class="mono sig">001110</td><td class="b off">·</td><td class="b off">·</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b off">·</td><td>装填性能＋锁定＋射程距离</td><td class="num">108</td><td class="num">1.8%</td><td class="num">3</td><td class="dim">HAND_THROW 8、BAZOOKA 6</td><td class="dim">修理喷枪、改良修理喷枪、热能标(投掷)</td></tr>
+<tr><td class="mono sig">101110</td><td class="b on">威力</td><td class="b off">·</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b off">·</td><td>威力＋装填性能＋锁定＋射程距离</td><td class="num">85</td><td class="num">1.5%</td><td class="num">5</td><td class="dim">BEAM_RIFLE 8、HAND_THROW 5</td><td class="dim">GN剑Ⅲ(步枪模式)、GN剑Ⅱ爆裂步枪(高输出)、大口径米加粒子炮</td></tr>
+<tr><td class="mono sig">000001</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b on">效果范围</td><td>效果范围</td><td class="num">62</td><td class="num">1.1%</td><td class="num">2</td><td class="dim">HAND_THROW 2、WRESTLE 1</td><td class="dim">改良雷达舱、雷达舱、改良雷达舱</td></tr>
+<tr><td class="mono sig">000000</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td>（无可强化数值栏，仅弹数/倒地）</td><td class="num">45</td><td class="num">0.8%</td><td class="num">3</td><td class="dim">WRESTLE 2、BAZOOKA 1</td><td class="dim">双动力炉系统、双动力炉系统、修理舱</td></tr>
+<tr><td class="mono sig">001000</td><td class="b off">·</td><td class="b off">·</td><td class="b on">装填</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td>装填性能</td><td class="num">43</td><td class="num">0.7%</td><td class="num">0</td><td class="dim">—</td><td class="dim">烟雾弹、修理包、修理包</td></tr>
+<tr><td class="mono sig">001001</td><td class="b off">·</td><td class="b off">·</td><td class="b on">装填</td><td class="b off">·</td><td class="b off">·</td><td class="b on">效果范围</td><td>装填性能＋效果范围</td><td class="num">39</td><td class="num">0.7%</td><td class="num">1</td><td class="dim">HAND_THROW 11</td><td class="dim">无人侦察机(RPV)、干扰手雷、干扰手雷</td></tr>
+<tr><td class="mono sig">110100</td><td class="b on">威力</td><td class="b on">集弹</td><td class="b off">·</td><td class="b on">锁定</td><td class="b off">·</td><td class="b off">·</td><td>威力＋集弹性能＋锁定</td><td class="num">25</td><td class="num">0.4%</td><td class="num">4</td><td class="dim">HAND_THROW 7、WRESTLE 7</td><td class="dim">GN拳刃(投掷)、GN拳刃(投掷)、烁刃2光束回旋镖</td></tr>
+<tr><td class="mono sig">011111</td><td class="b off">·</td><td class="b on">集弹</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b on">效果范围</td><td>集弹性能＋装填性能＋锁定＋射程距离＋效果范围</td><td class="num">24</td><td class="num">0.4%</td><td class="num">4</td><td class="dim">MISSILE 13、HAND_THROW 2</td><td class="dim">射网枪(俘获)、GN加农、GN加农</td></tr>
+<tr><td class="mono sig">110110</td><td class="b on">威力</td><td class="b on">集弹</td><td class="b off">·</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b off">·</td><td>威力＋集弹性能＋锁定＋射程距离</td><td class="num">15</td><td class="num">0.3%</td><td class="num">2</td><td class="dim">MACHINEGUN 3、HAND_THROW 1</td><td class="dim">光束机枪(收束射击)、蓄力村正狂刀、头部火神炮</td></tr>
+<tr><td class="mono sig">001010</td><td class="b off">·</td><td class="b off">·</td><td class="b on">装填</td><td class="b off">·</td><td class="b on">射程</td><td class="b off">·</td><td>装填性能＋射程距离</td><td class="num">13</td><td class="num">0.2%</td><td class="num">0</td><td class="dim">—</td><td class="dim">翻山摄像机、摄像单元、摄像枪</td></tr>
+<tr><td class="mono sig">101000</td><td class="b on">威力</td><td class="b off">·</td><td class="b on">装填</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td>威力＋装填性能</td><td class="num">10</td><td class="num">0.2%</td><td class="num">1</td><td class="dim">MACHINEGUN 1</td><td class="dim">光束喷枪(BS)、光束步枪(高输出型)、光束步枪(高输出型)</td></tr>
+<tr><td class="mono sig">100000</td><td class="b on">威力</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td>威力</td><td class="num">9</td><td class="num">0.2%</td><td class="num">2</td><td class="dim">WRESTLE 5、SHIELD 1</td><td class="dim">光束军刀、钉盾、手部锚</td></tr>
+<tr><td class="mono sig">001011</td><td class="b off">·</td><td class="b off">·</td><td class="b on">装填</td><td class="b off">·</td><td class="b on">射程</td><td class="b on">效果范围</td><td>装填性能＋射程距离＋效果范围</td><td class="num">6</td><td class="num">0.1%</td><td class="num">2</td><td class="dim">CHARGE_RIFLE 2、BEAM_RIFLE 1</td><td class="dim">索敌请求系统、680mm加农迫击炮(干扰弹)、300mm低后坐加农迫击炮(干扰弹)</td></tr>
+<tr><td class="mono sig">111010</td><td class="b on">威力</td><td class="b on">集弹</td><td class="b on">装填</td><td class="b off">·</td><td class="b on">射程</td><td class="b off">·</td><td>威力＋集弹性能＋装填性能＋射程距离</td><td class="num">6</td><td class="num">0.1%</td><td class="num">0</td><td class="dim">—</td><td class="dim">光束机枪(切换爆发型)(TYPE-A)、长距离光束步枪(切换爆发型)(TYPE-A)、MNG-110光束步枪(SB)(TYPE-A)</td></tr>
+<tr><td class="mono sig">110111</td><td class="b on">威力</td><td class="b on">集弹</td><td class="b off">·</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b on">效果范围</td><td>威力＋集弹性能＋锁定＋射程距离＋效果范围</td><td class="num">5</td><td class="num">0.1%</td><td class="num">1</td><td class="dim">MISSILE 3</td><td class="dim">甲拳弹(2挺)、甲拳弹、核弹头导弹</td></tr>
+<tr><td class="mono sig">100011</td><td class="b on">威力</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b on">射程</td><td class="b on">效果范围</td><td>威力＋射程距离＋效果范围</td><td class="num">3</td><td class="num">0.1%</td><td class="num">2</td><td class="dim">BEAM_RIFLE 1、MISSILE 1</td><td class="dim">超级米加火箭发射器(最大输出)、原子火箭炮、大型对舰导弹</td></tr>
+<tr><td class="mono sig">100001</td><td class="b on">威力</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b on">效果范围</td><td>威力＋效果范围</td><td class="num">3</td><td class="num">0.1%</td><td class="num">1</td><td class="dim">HAND_THROW 1</td><td class="dim">核弹头、小型MS地雷、爆雷链</td></tr>
+<tr><td class="mono sig">101100</td><td class="b on">威力</td><td class="b off">·</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b off">·</td><td class="b off">·</td><td>威力＋装填性能＋锁定</td><td class="num">3</td><td class="num">0.1%</td><td class="num">1</td><td class="dim">HOWITZER 1</td><td class="dim">GN獠牙Ⅱ、导弹舱、斩击碟</td></tr>
+<tr><td class="mono sig">100110</td><td class="b on">威力</td><td class="b off">·</td><td class="b off">·</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b off">·</td><td>威力＋锁定＋射程距离</td><td class="num">2</td><td class="num">0.0%</td><td class="num">2</td><td class="dim">HAND_THROW 1、WRESTLE 1</td><td class="dim">长光束军刀(投掷)★、光束长刀(投掷)</td></tr>
+<tr><td class="mono sig">011110</td><td class="b off">·</td><td class="b on">集弹</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b off">·</td><td>集弹性能＋装填性能＋锁定＋射程距离</td><td class="num">2</td><td class="num">0.0%</td><td class="num">1</td><td class="dim">MISSILE 1</td><td class="dim">缠绕网发射器、超级火箭炮后期型(网弹)</td></tr>
+<tr><td class="mono sig">001100</td><td class="b off">·</td><td class="b off">·</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b off">·</td><td class="b off">·</td><td>装填性能＋锁定</td><td class="num">2</td><td class="num">0.0%</td><td class="num">0</td><td class="dim">—</td><td class="dim">双修理喷枪、双修理喷枪</td></tr>
+<tr><td class="mono sig">111101</td><td class="b on">威力</td><td class="b on">集弹</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b off">·</td><td class="b on">效果范围</td><td>威力＋集弹性能＋装填性能＋锁定＋效果范围</td><td class="num">1</td><td class="num">0.0%</td><td class="num">0</td><td class="dim">—</td><td class="dim">鱼叉枪</td></tr>
+<tr><td class="mono sig">001111</td><td class="b off">·</td><td class="b off">·</td><td class="b on">装填</td><td class="b on">锁定</td><td class="b on">射程</td><td class="b on">效果范围</td><td>装填性能＋锁定＋射程距离＋效果范围</td><td class="num">1</td><td class="num">0.0%</td><td class="num">0</td><td class="dim">—</td><td class="dim">马克霰弹枪</td></tr>
+<tr><td class="mono sig">100010</td><td class="b on">威力</td><td class="b off">·</td><td class="b off">·</td><td class="b off">·</td><td class="b on">射程</td><td class="b off">·</td><td>威力＋射程距离</td><td class="num">1</td><td class="num">0.0%</td><td class="num">0</td><td class="dim">—</td><td class="dim">胸部超级米加粒子炮(照射型)(TYPE-B)</td></tr>
+<tr><td class="mono sig">111011</td><td class="b on">威力</td><td class="b on">集弹</td><td class="b on">装填</td><td class="b off">·</td><td class="b on">射程</td><td class="b on">效果范围</td><td>威力＋集弹性能＋装填性能＋射程距离＋效果范围</td><td class="num">1</td><td class="num">0.0%</td><td class="num">1</td><td class="dim">MISSILE 1</td><td class="dim">一齐射击(燃烧弹)</td></tr>
+</table>
+<div class="note">
+<span class="tag">31 种</span>满量程 2⁶=64（六基位组合），实际只用一半；长尾 26 种合计仅 13.1%。
+<span class="tag">17/31</span>种位向量被 ≥2 个类型共用；<span class="tag">106 组</span>同图标族内出现 ≥2 种位向量（8.7%）。
+「跨类型数」按单一 C 值图标组归属统计（覆盖 57.9% 资源行）；两表无共同主键（日文名 vs 中文 wiki 名），精确名 1:1 仅 93 把（2.3%），已交叉校验 96% 一致。
+位向量=attributes_json 键集投影：改某武器强化选项=改该武器档案 attributes 键集后重下发，勿按类型批量。
+真机 A/B 证据=shots/w10_probe/R1-R3（col3 连射速度 强化MAX 态 / col7 锁定范围+1 / col8 耐久度+1）。
+</div></div>
+</div></body></html>
